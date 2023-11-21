@@ -4,7 +4,9 @@
 ## Introducing the team
 
 Tools Lead: Zhuo Chen
+
 Engine Lead: Lizhuoyuan Wan
+
 Design Lead: Zexuan Li
 
 Coding Lead: Xing Zhong
