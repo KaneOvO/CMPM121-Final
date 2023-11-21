@@ -16,7 +16,7 @@ Coding Lead: Xing Zhong
 ## Tools and materials
 **Tell us about what engines, libraries, frameworks, and or platforms you intend to use, and give us a tiny bit of detail about why your team chose those.**
 
-We plan to use Unity for our game, and the engines we use include, but are not limited to, the Unity engine.
+We plan to use Unity for our game, and the engines we use include, but are not limited to, the Unity engine. The reason why we choose unity as our game engine is that we are learning to use the unity engine, so we need to use it more to verify the knowledge we have learned about unity. We believe that after the end of this project, our proficiency in using unity will be further improved.
 
 
 
