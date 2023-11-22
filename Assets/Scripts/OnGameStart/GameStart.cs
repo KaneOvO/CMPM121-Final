@@ -11,7 +11,8 @@ public class GameStart : MonoBehaviour
         {
             "Main Camera",
             "Global Light 2D",
-            "Game Manager"
+            "Game Manager",
+            "Grid"
         };
 
         foreach (string objName in createList)
@@ -29,7 +30,6 @@ public class GameStart : MonoBehaviour
         Type type = typeof(GameStart);
         System.Reflection.MethodInfo method = type.GetMethod(functionName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
 
-
         if (method != null)
         {
             method.Invoke(this, null);
@@ -43,7 +43,10 @@ public class GameStart : MonoBehaviour
     void CreateMainCamera()
     {
         GameObject mainCamera = new GameObject("Main Camera");
+        mainCamera.transform.position = new Vector3(0, 0, -10);
         mainCamera.AddComponent<Camera>();
+        mainCamera.tag = "MainCamera"; // Set the tag to MainCamera
+        mainCamera.AddComponent<AudioListener>(); // Add an AudioListener for audio
     }
 
     void CreateGlobalLight2D()
@@ -57,5 +60,20 @@ public class GameStart : MonoBehaviour
     {
         GameObject gameManager = new GameObject("Game Manager");
         gameManager.AddComponent<GameManager>();
+    }
+
+    void CreateGrid()
+    {
+        GameObject gridPrefab = Resources.Load<GameObject>("Prefabs/Grid");
+
+        if (gridPrefab != null)
+        {
+            // 实例化 Prefab
+            Instantiate(gridPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogError("Prefab 'Grid' not found in Resources folder.");
+        }
     }
 }
