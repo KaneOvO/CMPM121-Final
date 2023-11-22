@@ -19,7 +19,7 @@ public class GameStart : MonoBehaviour
 
     void CreateLight2D()
     {
-        GameObject light2D = new GameObject("Light2D");
+        GameObject light2D = new GameObject("Gloabl Light 2D");
         light2D.AddComponent<UnityEngine.Rendering.Universal.Light2D>();
         light2D.GetComponent<UnityEngine.Rendering.Universal.Light2D>().lightType = UnityEngine.Rendering.Universal.Light2D.LightType.Global;
     }
