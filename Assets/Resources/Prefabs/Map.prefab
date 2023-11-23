@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6579308118413218160}
   - component: {fileID: 8319053939901591578}
   - component: {fileID: 4785718853804817459}
+  - component: {fileID: 5992215577407824340}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -13817,6 +13818,22 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!114 &5992215577407824340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340649026686803679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 0
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &2557508529172750622
 GameObject:
   m_ObjectHideFlags: 0
@@ -13998,6 +14015,7 @@ GameObject:
   - component: {fileID: 2312470614382014910}
   - component: {fileID: 6618175664833220020}
   - component: {fileID: 188795172028365215}
+  - component: {fileID: 1462991608758597618}
   m_Layer: 0
   m_Name: Land
   m_TagString: Untagged
@@ -15595,6 +15613,22 @@ MonoBehaviour:
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!114 &1462991608758597618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4894561752187086439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 0
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &5138955320376982775
 GameObject:
   m_ObjectHideFlags: 0
@@ -15606,8 +15640,9 @@ GameObject:
   - component: {fileID: 7760129670793993597}
   - component: {fileID: 6403985797925835535}
   - component: {fileID: 3455555902961362879}
-  - component: {fileID: 8951696105478010622}
   - component: {fileID: 9208696682993009008}
+  - component: {fileID: 8922449061987032201}
+  - component: {fileID: 7695689295105306479}
   m_Layer: 0
   m_Name: Front1
   m_TagString: Untagged
@@ -17569,7 +17604,23 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!19719996 &8951696105478010622
+--- !u!114 &9208696682993009008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5138955320376982775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
+--- !u!19719996 &8922449061987032201
 TilemapCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -17605,7 +17656,7 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
---- !u!114 &9208696682993009008
+--- !u!114 &7695689295105306479
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -1,36 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PlayerController : MonoBehaviour
+public class Navigate : MonoBehaviour
 {
+    private NavMeshAgent agent;
 
-    private NavMeshAgent navMeshAgent;
     // Start is called before the first frame update
     void Start()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
+        agent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        PathFinding();
+        PathFingding();
     }
 
-    void PathFinding()
+    void PathFingding()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonUp(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitInfo;
-
-            if(Physics.Raycast(ray, out hitInfo))
-            {
-                navMeshAgent.SetDestination(hitInfo.point);
-            }
+            var target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            target.z = 0;
+            agent.destination = target;
         }
     }
+
+
 }

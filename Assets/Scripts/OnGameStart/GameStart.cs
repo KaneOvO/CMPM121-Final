@@ -43,7 +43,7 @@ public class GameStart : MonoBehaviour
     void CreateMainCamera()
     {
         GameObject mainCamera = new GameObject("Main Camera");
-        mainCamera.transform.position = new Vector3(0, 0, -10);
+        mainCamera.transform.position = new Vector3(0, 0, -50);
         mainCamera.AddComponent<Camera>();
         mainCamera.tag = "MainCamera"; // Set the tag to MainCamera
         mainCamera.AddComponent<AudioListener>(); // Add an AudioListener for audio
