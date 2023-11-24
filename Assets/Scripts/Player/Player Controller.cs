@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 public class Navigate : MonoBehaviour
 {
@@ -19,9 +20,14 @@ public class Navigate : MonoBehaviour
         PathFingding();
     }
 
-    void PathFingding()
+    private bool IsOverUI()
     {
-        if (Input.GetMouseButtonUp(0))
+        return EventSystem.current.IsPointerOverGameObject();
+    }
+
+    private void PathFingding()
+    {
+        if (Input.GetMouseButtonUp(0) && !IsOverUI())
         {
             var target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target.z = 0;
