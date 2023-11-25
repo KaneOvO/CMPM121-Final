@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class Navigate : MonoBehaviour
 {
     private NavMeshAgent agent;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,8 @@ public class Navigate : MonoBehaviour
     {
         return EventSystem.current.IsPointerOverGameObject();
     }
+
+    
 
     private void PathFingding()
     {
