@@ -2,13 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RandomResources : MonoBehaviour
+public class ForTest : MonoBehaviour
 {
+    public List<Cell> myCells = new List<Cell>(); // Initialize myCells as a list
 
-    public void GetWater(Cell cell)
+    // Start is called before the first frame update
+
+    void Start()
     {
-        cell.water += GetRandom();
+        Test();
     }
+    public void Test()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            myCells.Add(new Cell(new Vector3(1, 2, 3), 4, true, plantType.Grass, 1));
+        }
+
+        myCells.ForEach(cell =>
+        {
+            Debug.Log(GameManager.Instance.currentTurn);
+            Debug.Log(GetSun(cell));
+        });
+        myCells = new List<Cell>();
+    }
+
     public static float GetSun(Cell cell)
     {
         // Pseudo-random sun value based on the cell's position, water, and turn count
@@ -26,8 +44,4 @@ public class RandomResources : MonoBehaviour
         return Mathf.Clamp(sunValue, 0f, 100f);
     }
 
-    public static float GetRandom()
-    {
-        return Random.Range(0, 100f);
-    }
 }
