@@ -1009,8 +1009,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePools:
-  - prefab: {fileID: 0}
-    size: 0
+  - prefab: {fileID: 8949907063300919265, guid: d71a6e5029fca6d41838daaf8052498e, type: 3}
+    size: 30
+  - prefab: {fileID: 1440140042221010169, guid: d2a0fcbef1a9e284aa43ddde5922ee7e, type: 3}
+    size: 30
+  - prefab: {fileID: 1830038494180009499, guid: ae7060492a26b014abf78855a7e168be, type: 3}
+    size: 30
+  - prefab: {fileID: 4042463383171320809, guid: f66e589e93988e04aa09c3db5a1b58cf, type: 3}
+    size: 30
+  - prefab: {fileID: 5165100954796393803, guid: b35a13dce906e644e8191726d95150a4, type: 3}
+    size: 30
 --- !u!4 &2006901595
 Transform:
   m_ObjectHideFlags: 0
