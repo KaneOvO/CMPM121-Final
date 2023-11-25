@@ -7,12 +7,14 @@ using UnityEngine.EventSystems;
 public class Navigate : MonoBehaviour
 {
     private NavMeshAgent agent;
+    public bool isPathfindingEnabled = true;
     
 
     // Start is called before the first frame update
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        
     }
 
     // Update is called once per frame
@@ -30,7 +32,7 @@ public class Navigate : MonoBehaviour
 
     private void PathFingding()
     {
-        if (Input.GetMouseButtonUp(0) && !IsOverUI())
+        if (Input.GetMouseButtonUp(0) && !IsOverUI() && isPathfindingEnabled)
         {
             var target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target.z = 0;
@@ -38,5 +40,12 @@ public class Navigate : MonoBehaviour
         }
     }
 
+    public void EnablePathfinding() {
+        isPathfindingEnabled = true;
+    }
+
+    public void DisablePathfinding() {
+        isPathfindingEnabled = false;
+    }
 
 }
