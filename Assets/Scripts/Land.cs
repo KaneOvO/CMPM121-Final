@@ -5,11 +5,14 @@ using UnityEngine.PlayerLoop;
 public class Land : MonoBehaviour
 {
     public bool isPanted = false;
+    public GameObject panel;
+    public float water;
+    public float sun;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        panel = UIManager.Instance.GetPanel();
     }
 
     // Update is called once per frame
@@ -32,7 +35,18 @@ public class Land : MonoBehaviour
     void Planting(string seedType)
     {
         Instantiate(Resources.Load($"Prefabs/Plant/{seedType}"), transform.position, Quaternion.identity, transform);
-        transform.GetChild(0).GetComponent<Plant>().plantType = seedType;
         Debug.Log("Planting " + seedType);
+    }
+
+    private void OnMouseDown()
+    {
+        Debug.Log("Plant Selected");
+        if(PlantManager.Instance.packSelected)
+        {
+            return;
+        }
+        panel.SetActive(true);
+        UIManager.Instance.panel.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3((Input.mousePosition.y >= Screen.height * 2 / 3 ? -50 : 50), 0, 0);
+          
     }
 }

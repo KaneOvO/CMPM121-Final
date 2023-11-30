@@ -86,9 +86,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8121873114466408876, guid: f4c2344ca7ab3b34f9663ac046b72f83, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -4443733443861608102}
-    - targetCorrespondingSourceObject: {fileID: 8121873114466408876, guid: f4c2344ca7ab3b34f9663ac046b72f83, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 7679063874564366884}
   m_SourcePrefab: {fileID: 100100000, guid: f4c2344ca7ab3b34f9663ac046b72f83, type: 3}
 --- !u!1 &8949907063300919265 stripped
@@ -96,20 +93,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8121873114466408876, guid: f4c2344ca7ab3b34f9663ac046b72f83, type: 3}
   m_PrefabInstance: {fileID: 901500161486706253}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-4443733443861608102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8949907063300919265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de5eee1e14ff74f49b921113e4b40593, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  plantType: 
-  panel: {fileID: 0}
 --- !u!61 &7679063874564366884
 BoxCollider2D:
   m_ObjectHideFlags: 0

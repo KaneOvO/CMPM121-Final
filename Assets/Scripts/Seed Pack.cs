@@ -28,7 +28,7 @@ public class SeedPack : MonoBehaviour
         //Debug.Log("Seed Selected");
         isSelected = true;
 
-        //PlantManager.Instance.plantSelected = seedType;
+        PlantManager.Instance.packSelected = isSelected;
 
         navigateScript.DisablePathfinding();
 
@@ -39,7 +39,7 @@ public class SeedPack : MonoBehaviour
         //Debug.Log("Seed Deselected");
         isSelected = false;
 
-        //PlantManager.Instance.plantSelected = 0;
+        PlantManager.Instance.packSelected = isSelected;
 
         navigateScript.Invoke("EnablePathfinding", 0.1f);
 
