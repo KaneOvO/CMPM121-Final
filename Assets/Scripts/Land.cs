@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
+using UnityEngine.EventSystems;
 public class Land : MonoBehaviour
 {
     public bool isPanted = false;
@@ -41,12 +41,16 @@ public class Land : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if(PlantManager.Instance.packSelected)
+        if(PlantManager.Instance.packSelected && EventSystem.current.IsPointerOverGameObject())
         {
             return;
         }
         UIManager.Instance.panel.SetActive(true);
-        UIManager.Instance.panel.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0,(Input.mousePosition.y >= Screen.height * 2 / 3 ? -50 : 50), 0);
+        Vector3 gameObjectPosition = transform.position;
+        Vector3 screenPosition = Camera.main.WorldToScreenPoint(gameObjectPosition);
+        //float offsetY = (gameObjectPosition.y >= Screen.height * 2 / 3) ? -50f : 50f;
+        UIManager.Instance.panel.transform.position = screenPosition;
+        
           
     }
 
