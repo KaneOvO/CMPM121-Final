@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 858238137929549964}
   - component: {fileID: 3148913928125583241}
   - component: {fileID: 8180414367878656658}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Carrot Seed Pack
-  m_TagString: Untagged
+  m_TagString: SeedPack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,11 +111,11 @@ BoxCollider2D:
     m_Bits: 4294967295
   m_ContactCaptureLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.001609534, y: 0}
@@ -144,4 +144,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSelected: 0
-  seedType: 1
+  seedType: Carrot

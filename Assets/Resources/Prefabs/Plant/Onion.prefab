@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &7625485599942852535
+--- !u!1001 &2511492290524484554
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -15,22 +15,26 @@ PrefabInstance:
     - target: {fileID: 378655535548406347, guid: f4c2344ca7ab3b34f9663ac046b72f83, type: 3}
       propertyPath: sprites.Array.data[0]
       value: 
-      objectReference: {fileID: -435286908, guid: 5f5976bf5be772e4eb1efb492eb1824f, type: 3}
+      objectReference: {fileID: 1669821378, guid: 5f5976bf5be772e4eb1efb492eb1824f, type: 3}
     - target: {fileID: 378655535548406347, guid: f4c2344ca7ab3b34f9663ac046b72f83, type: 3}
       propertyPath: sprites.Array.data[1]
       value: 
-      objectReference: {fileID: -1221179812, guid: 5f5976bf5be772e4eb1efb492eb1824f, type: 3}
+      objectReference: {fileID: -1083885673, guid: 5f5976bf5be772e4eb1efb492eb1824f, type: 3}
     - target: {fileID: 378655535548406347, guid: f4c2344ca7ab3b34f9663ac046b72f83, type: 3}
       propertyPath: sprites.Array.data[2]
       value: 
-      objectReference: {fileID: -139105615, guid: 5f5976bf5be772e4eb1efb492eb1824f, type: 3}
+      objectReference: {fileID: -110604643, guid: 5f5976bf5be772e4eb1efb492eb1824f, type: 3}
+    - target: {fileID: 886229832717656266, guid: f4c2344ca7ab3b34f9663ac046b72f83, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3114762532564995793, guid: f4c2344ca7ab3b34f9663ac046b72f83, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -15.56
       objectReference: {fileID: 0}
     - target: {fileID: 3114762532564995793, guid: f4c2344ca7ab3b34f9663ac046b72f83, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 3.66
       objectReference: {fileID: 0}
     - target: {fileID: 3114762532564995793, guid: f4c2344ca7ab3b34f9663ac046b72f83, type: 3}
       propertyPath: m_LocalPosition.z
@@ -66,7 +70,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8121873114466408876, guid: f4c2344ca7ab3b34f9663ac046b72f83, type: 3}
       propertyPath: m_Name
-      value: Corn
+      value: Onion
+      objectReference: {fileID: 0}
+    - target: {fileID: 8121873114466408876, guid: f4c2344ca7ab3b34f9663ac046b72f83, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

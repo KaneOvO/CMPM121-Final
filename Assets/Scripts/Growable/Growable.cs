@@ -5,8 +5,8 @@ using UnityEngine;
 public class Growable : MonoBehaviour
 {
     int currentStage = 0;
-    public SpriteRenderer spriteRenderer; // 对SpriteRenderer的引用
-    public Sprite[] sprites; // 要切换的Sprites数组
+    private SpriteRenderer spriteRenderer; 
+    public Sprite[] sprites; 
     // Start is called before the first frame update
     void Start()
     {
@@ -17,11 +17,12 @@ public class Growable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        spriteRenderer.sprite = sprites[currentStage];
+        
     }
 
     public void setStage(int stage) {
         currentStage = stage;
+        spriteRenderer.sprite = sprites[currentStage];
     }
 
     public int getStage() {
