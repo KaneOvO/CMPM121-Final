@@ -31,7 +31,7 @@ public class Land : MonoBehaviour
 
     void Planting(string seedType)
     {
-        Instantiate(Resources.Load($"Prefabs/Plant/{seedType}"), transform.position, Quaternion.identity);
+        Instantiate(Resources.Load($"Prefabs/Plant/{seedType}"), transform.position, Quaternion.identity, transform);
         Debug.Log("Planting " + seedType);
     }
 }
