@@ -20,9 +20,4 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    public GameObject GetPanel()
-    {
-        return panel;
-    }
 }

@@ -5,14 +5,15 @@ using UnityEngine.PlayerLoop;
 public class Land : MonoBehaviour
 {
     public bool isPanted = false;
-    public GameObject panel;
     public float water;
     public float sun;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        panel = UIManager.Instance.GetPanel();
+        water = RandomResources.GetRandom();
+        sun = RandomResources.GetRandom();
     }
 
     // Update is called once per frame
@@ -40,13 +41,19 @@ public class Land : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("Plant Selected");
         if(PlantManager.Instance.packSelected)
         {
             return;
         }
-        panel.SetActive(true);
-        UIManager.Instance.panel.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3((Input.mousePosition.y >= Screen.height * 2 / 3 ? -50 : 50), 0, 0);
+        UIManager.Instance.panel.SetActive(true);
+        UIManager.Instance.panel.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0,(Input.mousePosition.y >= Screen.height * 2 / 3 ? -50 : 50), 0);
           
+    }
+
+    public void NextTurn()
+    {
+        water += RandomResources.GetRandom();
+        sun = RandomResources.GetRandom();
+        Debug.Log("Water: " + water + " Sun: " + sun);
     }
 }
