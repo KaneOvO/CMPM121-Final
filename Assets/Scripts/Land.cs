@@ -18,13 +18,13 @@ public class Land : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(isPanted) return;
-        if(other.gameObject.tag == "SeedPack")
+        if (isPanted) return;
+        if (other.gameObject.tag == "SeedPack")
         {
             string seedType = other.gameObject.GetComponent<SeedPack>().seedType;
             Planting(seedType);
@@ -40,13 +40,14 @@ public class Land : MonoBehaviour
 
     private void OnMouseDown()
     {
+        //
         Debug.Log("Plant Selected");
-        if(PlantManager.Instance.packSelected)
+        if (PlantManager.Instance.packSelected)
         {
             return;
         }
         panel.SetActive(true);
         UIManager.Instance.panel.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3((Input.mousePosition.y >= Screen.height * 2 / 3 ? -50 : 50), 0, 0);
-          
+
     }
 }
