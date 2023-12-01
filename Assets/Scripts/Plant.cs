@@ -10,7 +10,7 @@ public class Plant : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        panel = UIManager.Instance.GetPanel();
+        
     }
 
     // Update is called once per frame
@@ -19,23 +19,5 @@ public class Plant : MonoBehaviour
         
     }
 
-    private void OnMouseDown()
-    {
-        Debug.Log("Plant Selected");
-        if(PlantManager.Instance.packSelected)
-        {
-            return;
-        }
-        panel.SetActive(true);
-        isSelected = true;
-        
-        
-    }
-
-    private void OnMouseUp()
-    {
-        Debug.Log("Plant Deselected");
-        isSelected = false;
-        panel.SetActive(false);
-    }
+    
 }
