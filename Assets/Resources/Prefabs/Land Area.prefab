@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4390314734821944690}
+  - component: {fileID: 3851646617879874696}
   m_Layer: 0
   m_Name: Land Area
   m_TagString: Untagged
@@ -67,6 +68,18 @@ Transform:
   - {fileID: 7102894909695687417}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3851646617879874696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6174101184933781185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4a3b3f3416c41c439f6765395f36eff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &668614500730701267
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1129,6 +1142,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4390314734821944690}
     m_Modifications:
+    - target: {fileID: 3698953464556447692, guid: d315a66b86d4fb14abc3090ebd024cb8, type: 3}
+      propertyPath: m_Size.x
+      value: 0.6831188
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698953464556447692, guid: d315a66b86d4fb14abc3090ebd024cb8, type: 3}
+      propertyPath: m_Size.y
+      value: 0.6917424
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698953464556447692, guid: d315a66b86d4fb14abc3090ebd024cb8, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.027219772
+      objectReference: {fileID: 0}
+    - target: {fileID: 3698953464556447692, guid: d315a66b86d4fb14abc3090ebd024cb8, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.0510571
+      objectReference: {fileID: 0}
     - target: {fileID: 7591061109592299800, guid: d315a66b86d4fb14abc3090ebd024cb8, type: 3}
       propertyPath: m_Name
       value: Land

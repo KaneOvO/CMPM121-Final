@@ -185,4 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPanted: 0
-  panel: {fileID: 0}
+  water: 0
+  sun: 0
+  waterText: {fileID: 0}
+  sunText: {fileID: 0}

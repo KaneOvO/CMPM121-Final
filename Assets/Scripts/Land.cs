@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using TMPro;
 public class Land : MonoBehaviour
 {
     public bool isPanted = false;
     public float water;
     public float sun;
+
+    public TextMeshProUGUI waterText;
+    public TextMeshProUGUI sunText;
 
 
     // Start is called before the first frame update
@@ -46,6 +51,9 @@ public class Land : MonoBehaviour
             return;
         }
         UIManager.Instance.panel.SetActive(true);
+        waterText.text = "= " + water.ToString("0");
+        sunText.text = "= " + sun.ToString("0");    
+          
     }
 
     public void NextTurn()

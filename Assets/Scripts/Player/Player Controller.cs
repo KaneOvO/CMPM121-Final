@@ -38,6 +38,7 @@ public class Navigate : MonoBehaviour
             target.z = 0;
             agent.destination = target;
         }
+        
     }
 
     public void EnablePathfinding() {
