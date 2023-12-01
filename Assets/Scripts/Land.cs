@@ -41,16 +41,11 @@ public class Land : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if(PlantManager.Instance.packSelected && EventSystem.current.IsPointerOverGameObject())
+        if (PlantManager.Instance.packSelected && EventSystem.current.IsPointerOverGameObject())
         {
             return;
         }
         UIManager.Instance.panel.SetActive(true);
-        // Vector3 gameObjectPosition = transform.position;
-        // Vector3 screenPosition = Camera.main.WorldToScreenPoint(gameObjectPosition);
-        // UIManager.Instance.panel.transform.position = screenPosition + new Vector3(50f, 0, 0);
-        
-          
     }
 
     public void NextTurn()
