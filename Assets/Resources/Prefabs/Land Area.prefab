@@ -1160,7 +1160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7591061109592299800, guid: d315a66b86d4fb14abc3090ebd024cb8, type: 3}
       propertyPath: m_Name
-      value: Land
+      value: Land (0)
       objectReference: {fileID: 0}
     - target: {fileID: 8428152235127436297, guid: d315a66b86d4fb14abc3090ebd024cb8, type: 3}
       propertyPath: m_LocalPosition.x
