@@ -36,7 +36,7 @@ public class Land : MonoBehaviour
     void Planting(string seedType)
     {
         Instantiate(Resources.Load($"Prefabs/Plant/{seedType}"), transform.position, Quaternion.identity, transform);
-        Debug.Log("Planting " + seedType);
+        //Debug.Log("Planting " + seedType);
     }
 
     private void OnMouseDown()
@@ -46,10 +46,9 @@ public class Land : MonoBehaviour
             return;
         }
         UIManager.Instance.panel.SetActive(true);
-        Vector3 gameObjectPosition = transform.position;
-        Vector3 screenPosition = Camera.main.WorldToScreenPoint(gameObjectPosition);
-        //float offsetY = (gameObjectPosition.y >= Screen.height * 2 / 3) ? -50f : 50f;
-        UIManager.Instance.panel.transform.position = screenPosition;
+        // Vector3 gameObjectPosition = transform.position;
+        // Vector3 screenPosition = Camera.main.WorldToScreenPoint(gameObjectPosition);
+        // UIManager.Instance.panel.transform.position = screenPosition + new Vector3(50f, 0, 0);
         
           
     }
@@ -58,6 +57,6 @@ public class Land : MonoBehaviour
     {
         water += RandomResources.GetRandom();
         sun = RandomResources.GetRandom();
-        Debug.Log("Water: " + water + " Sun: " + sun);
+        //Debug.Log("Water: " + water + " Sun: " + sun);
     }
 }
