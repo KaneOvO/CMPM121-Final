@@ -7,6 +7,8 @@ using TMPro;
 public class Land : MonoBehaviour
 {
     public bool isPanted = false;
+    
+    public string landPantedType;
     public float water;
     public float sun;
 
@@ -33,6 +35,7 @@ public class Land : MonoBehaviour
         if(other.gameObject.tag == "SeedPack")
         {
             string seedType = other.gameObject.GetComponent<SeedPack>().seedType;
+            landPantedType = seedType;
             Planting(seedType);
             isPanted = true;
         }
