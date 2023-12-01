@@ -2,25 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using System.Text.RegularExpressions;
 using TMPro;
 public class Land : MonoBehaviour
 {
     public bool isPanted = false;
-    
+    public int landID;
     public string landPantedType;
     public float water;
     public float sun;
-
-    public TextMeshProUGUI waterText;
-    public TextMeshProUGUI sunText;
-
+    
 
     // Start is called before the first frame update
     void Start()
     {
         water = RandomResources.GetRandom();
         sun = RandomResources.GetRandom();
+        landID = FindID();
     }
 
     // Update is called once per frame
@@ -54,15 +52,26 @@ public class Land : MonoBehaviour
             return;
         }
         UIManager.Instance.panel.SetActive(true);
-        waterText.text = "= " + water.ToString("0");
-        sunText.text = "= " + sun.ToString("0");    
-          
+        UIManager.Instance.setLand(gameObject);
     }
 
     public void NextTurn()
     {
         water += RandomResources.GetRandom();
         sun = RandomResources.GetRandom();
-        //Debug.Log("Water: " + water + " Sun: " + sun);
+    }
+
+    public int FindID()
+    {
+        string gameObjectName = gameObject.name;
+        string pattern = @"\((\d+)\)";
+        Match match = Regex.Match(gameObjectName, pattern);
+        string number = "";
+        if (match.Success)
+        {
+            number = match.Groups[1].Value;
+        }
+
+        return int.Parse(number);
     }
 }

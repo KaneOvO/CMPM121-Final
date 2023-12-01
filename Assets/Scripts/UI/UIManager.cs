@@ -1,11 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEditor;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
+
     public GameObject panel;
+
+    public TextMeshProUGUI waterText;
+    public TextMeshProUGUI sunText;
+    public TextMeshProUGUI carrotText;
+    public TextMeshProUGUI cabbageText;
+    public TextMeshProUGUI OnionText;
+    private GameObject land;
 
     private void Awake()
     {
@@ -14,9 +24,49 @@ public class UIManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    public void Update(){
-        
+    private void Update()
+    {
+        if(land != null)
+        {
+            ChangeWaterText();
+            ChangeSunText();
+        }
     }
+
+    private void ChangeWaterText()
+    {
+        waterText.text = "= " + land.GetComponent<Land>().water.ToString("0");
+    }
+
+    private void ChangeSunText()
+    {
+        sunText.text = "= " + land.GetComponent<Land>().sun.ToString("0");
+    }
+
+    public void ChangeCarrotText(int carrot)
+    {
+        carrotText.text = "= " + carrot.ToString();
+    }
+
+    public void ChangeCabbageText(int cabbage)
+    {
+        cabbageText.text = "= " + cabbage.ToString();
+    }
+
+    public void ChangeOnionText(int onion)
+    {
+        OnionText.text = "= " + onion.ToString();
+    }
+     
+    public void setLand(GameObject land)
+    {
+        this.land = land;
+    }
+
 }

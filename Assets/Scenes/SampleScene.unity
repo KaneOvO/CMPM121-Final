@@ -1982,6 +1982,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panel: {fileID: 391633263}
+  waterText: {fileID: 964624026}
+  sunText: {fileID: 1462633225}
+  carrotText: {fileID: 1823862638}
+  cabbageText: {fileID: 830290848}
+  OnionText: {fileID: 148866438}
 --- !u!4 &1592051889
 Transform:
   m_ObjectHideFlags: 0
