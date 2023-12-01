@@ -12,6 +12,7 @@ public class Growable : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         currentStage = 0;
+        spriteRenderer.sprite = sprites[currentStage];
     }
 
     // Update is called once per frame

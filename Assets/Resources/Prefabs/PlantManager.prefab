@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3887935307103375433}
   - component: {fileID: 3370072487343542781}
-  - component: {fileID: 6215097696094640538}
   m_Layer: 0
   m_Name: PlantManager
   m_TagString: Untagged
@@ -49,16 +48,3 @@ MonoBehaviour:
   numOfCarrot: 0
   numOfCabbage: 0
   numOfOnion: 0
---- !u!114 &6215097696094640538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 203970286966523760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a346b0966892e8a46a66d9e9152cd6a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panel: {fileID: 0}
