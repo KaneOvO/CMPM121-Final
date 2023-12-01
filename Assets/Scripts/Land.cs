@@ -58,6 +58,19 @@ public class Land : MonoBehaviour
 
     public void NextTurn()
     {
+        Growable growable = GetComponentInChildren<Growable>();
+        if (growable != null)
+        {
+            Debug.Log("Water: " + water + " Sun: " + sun);
+            int stage=growable.getStage()+1;
+            if(stage<3 && sun>stage*25 && water>stage*25){
+                
+                sun -= stage*25;
+                water -= stage*25;
+                growable.setStage(stage);
+            }
+                
+        }
         water += RandomResources.GetRandom();
         sun = RandomResources.GetRandom();
     }
