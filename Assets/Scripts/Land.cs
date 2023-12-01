@@ -24,13 +24,13 @@ public class Land : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if(isPanted) return;
-        if(other.gameObject.tag == "SeedPack")
+        if (isPanted) return;
+        if (other.gameObject.tag == "SeedPack")
         {
             string seedType = other.gameObject.GetComponent<SeedPack>().seedType;
             landPantedType = seedType;
@@ -47,7 +47,7 @@ public class Land : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if(PlantManager.Instance.packSelected && EventSystem.current.IsPointerOverGameObject())
+        if (PlantManager.Instance.packSelected && EventSystem.current.IsPointerOverGameObject())
         {
             return;
         }
