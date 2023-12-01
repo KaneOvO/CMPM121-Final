@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
+using UnityEngine.EventSystems;
 public class Land : MonoBehaviour
 {
     public bool isPanted = false;
@@ -36,17 +36,20 @@ public class Land : MonoBehaviour
     void Planting(string seedType)
     {
         Instantiate(Resources.Load($"Prefabs/Plant/{seedType}"), transform.position, Quaternion.identity, transform);
-        Debug.Log("Planting " + seedType);
+        //Debug.Log("Planting " + seedType);
     }
 
     private void OnMouseDown()
     {
-        if(PlantManager.Instance.packSelected)
+        if(PlantManager.Instance.packSelected && EventSystem.current.IsPointerOverGameObject())
         {
             return;
         }
         UIManager.Instance.panel.SetActive(true);
-        UIManager.Instance.panel.transform.position = Camera.main.ScreenToWorldPoint(Input.mousePosition) + new Vector3(0,(Input.mousePosition.y >= Screen.height * 2 / 3 ? -50 : 50), 0);
+        // Vector3 gameObjectPosition = transform.position;
+        // Vector3 screenPosition = Camera.main.WorldToScreenPoint(gameObjectPosition);
+        // UIManager.Instance.panel.transform.position = screenPosition + new Vector3(50f, 0, 0);
+        
           
     }
 
@@ -54,6 +57,6 @@ public class Land : MonoBehaviour
     {
         water += RandomResources.GetRandom();
         sun = RandomResources.GetRandom();
-        Debug.Log("Water: " + water + " Sun: " + sun);
+        //Debug.Log("Water: " + water + " Sun: " + sun);
     }
 }
