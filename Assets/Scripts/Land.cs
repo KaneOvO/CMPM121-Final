@@ -53,6 +53,7 @@ public class Land : MonoBehaviour
         }
         UIManager.Instance.panel.SetActive(true);
         UIManager.Instance.setLand(gameObject);
+        PlantManager.Instance.setLand(gameObject);
     }
 
     public void NextTurn()

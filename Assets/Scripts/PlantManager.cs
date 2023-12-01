@@ -11,6 +11,7 @@ public class PlantManager : MonoBehaviour
     public int numOfCarrot;
     public int numOfCabbage;
     public int numOfOnion;
+    private GameObject land;
 
     void Awake()
     {
@@ -40,5 +41,12 @@ public class PlantManager : MonoBehaviour
     {
         
     }
+
+    public void setLand(GameObject land)
+    {
+        this.land = land;
+    }
+
+    
 
 }
