@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI carrotText;
     public TextMeshProUGUI cabbageText;
     public TextMeshProUGUI OnionText;
+    public GameObject endText;
     private GameObject land;
 
     private void Awake()
@@ -36,6 +37,11 @@ public class UIManager : MonoBehaviour
         {
             ChangeWaterText();
             ChangeSunText();
+        }
+        
+        if(PlantManager.Instance.numOfCarrot == 5 && PlantManager.Instance.numOfCabbage == 5 && PlantManager.Instance.numOfOnion == 5)
+        {
+            endText.SetActive(true);
         }
     }
 
