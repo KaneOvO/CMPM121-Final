@@ -65,3 +65,6 @@ We hope to use this project to practice the various design patterns we learned i
   - When the player has 5 of all three types of plants, the Game over text is displayed.
 
 ## Reflection
+
+  During the production process of F0, the biggest problem we encountered was the problem of the unity engine. First of all, when submitting through git, because Unity is set to compile every time the script is edited, this resulted in many merge errors when we submitted. We later tried to use the .gitignore file to reduce the occurrence of this error.   
+  Additionally, we initially used tilemaps to edit our maps, but then we discovered that the tilemap was treated as a whole.  In order to treat farmable land as a separate gameobject, we had to restructure our scene and create each farmable land as a separate gameobject. This problem occurs because we are not familiar with the unity engine, so we failed to choose the appropriate development method according to the project needs at the beginning. But as we develop further, this will get better and better.
