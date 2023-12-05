@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
             ChangeSunText();
         }
         
-        if(PlantManager.Instance.numOfCarrot == 5 && PlantManager.Instance.numOfCabbage == 5 && PlantManager.Instance.numOfOnion == 5)
+        if(PlantManager.Instance.numOfCarrot >= 5 && PlantManager.Instance.numOfCabbage >= 5 && PlantManager.Instance.numOfOnion >= 5)
         {
             endText.SetActive(true);
         }
