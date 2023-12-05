@@ -45,5 +45,23 @@ We hope to use this project to practice the various design patterns we learned i
 
 
 
+# Devlog Entry - [F0]
 
+## How we satisfied the software requirements
 
+- [F0.a] You control a character moving on a 2D grid.
+  - Made using a pathfinding algorithm, when the player clicks on a movable target on the map, the player will move to the target location.
+- [F0.b] You advance time in the turn-based simulation manually.
+  - Click the button in the lower left corner to advance the number of rounds.
+- [F0.c] You can reap (gather) or sow (plant) plants on the grid when your character is near them.
+  - Drag the seed package onto the land to plant the corresponding plant. After the plants mature, click on a piece of land and then click the sow button in the lower right corner to harvest the plants grown on the current land.
+- [F0.d] Grid cells have sun and water levels. The incoming sun and water for each cell is somehow randomly generated each turn. Sun energy cannot be stored in a cell (it is used immediately or lost) while water moisture can be slowly accumulated over several turns.
+  - Click on a piece of land to view the sunlight value and water value on the current land. The water value will accumulate, and the sunlight value will be refreshed every round.
+- [F0.e] Each plant on the grid has a type (e.g. one of 3 species) and a growth level (e.g. “level 1”, “level 2”, “level 3”).
+  - There are three types of plants in the game, carrots, cabbage and onions. Each plant has three stages and corresponding different textures.
+- [F0.f] Simple spatial rules govern plant growth based on sun, water, and nearby plants (growth is unlocked by satisfying conditions).
+  - A simple condition detection, when the set conditions are met, the plant grows to the next stage.
+- [F0.g] A play scenario is completed when some condition is satisfied (e.g. at least X plants at growth level Y or above).
+  - When the player has 5 of all three types of plants, the Game over text is displayed.
+
+## Reflection

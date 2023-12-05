@@ -11,7 +11,7 @@ public class Land : MonoBehaviour
     public string landPantedType;
     public float water;
     public float sun;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -62,14 +62,14 @@ public class Land : MonoBehaviour
         if (growable != null)
         {
             Debug.Log("Water: " + water + " Sun: " + sun);
-            int stage=growable.getStage()+1;
-            if(stage<3 && sun>stage*25 && water>stage*25){
-                
-                sun -= stage*25;
-                water -= stage*25;
+            int stage = growable.getStage() + 1;
+            if (stage < 3 && sun > stage * 25 && water > stage * 25)
+            {
+                sun -= stage * 25;
+                water -= stage * 25;
                 growable.setStage(stage);
             }
-                
+
         }
         water += RandomResources.GetRandom();
         sun = RandomResources.GetRandom();
