@@ -13,6 +13,10 @@ public class PlantManager : MonoBehaviour
     public int numOfOnion;
     private GameObject land;
 
+    public static LandArea landArea = new LandArea();
+
+    private int INITIAL_QUANTITY = 0;
+
     void Awake()
     {
 
@@ -25,21 +29,23 @@ public class PlantManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        CreatLandAOS();
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        numOfCarrot = 0;
-        numOfCabbage = 0;
-        numOfOnion = 0;
+        numOfCarrot = INITIAL_QUANTITY;
+        numOfCabbage = INITIAL_QUANTITY;
+        numOfOnion = INITIAL_QUANTITY;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void setLand(GameObject land)
@@ -47,36 +53,68 @@ public class PlantManager : MonoBehaviour
         this.land = land;
     }
 
-    public void Cow(){
+    public void Sow()
+    {
+        Land landComponent = land.GetComponent<Land>();
         Growable growable = land.GetComponentInChildren<Growable>();
-       if (growable != null)
+
+        if (growable == null && growable.getStage() != 2) return;
+        
+        GameObject plantObject = growable.gameObject;
+        PlantType plantedType = landArea.GetLandCell(landComponent.FindID()).landPlantedType;
+
+
+        Dictionary<PlantType, System.Action> updateActions = new Dictionary<PlantType, System.Action>()
         {
-            // Debug.Log(land.GetComponent<Land>().landPantedType);
-            // Debug.Log(growable.getStage());
-            if(growable.getStage() == 2){
-                // Debug.Log(land.GetComponent<Land>().landPantedType);
-                // Debug.Log(growable.getStage());
-                GameObject plantObject = growable.gameObject;
-                
-                
-                if(land.GetComponent<Land>().landPantedType == "Carrot"){
-                    numOfCarrot+=1;
-                    UIManager.Instance.ChangeCarrotText(numOfCarrot);
-                }else if(land.GetComponent<Land>().landPantedType == "Cabbage"){
-                    numOfCabbage+=1;
-                    UIManager.Instance.ChangeCabbageText(numOfCabbage);
-                }else if(land.GetComponent<Land>().landPantedType == "Onion"){
-                    numOfOnion+=1;
-                    UIManager.Instance.ChangeOnionText(numOfOnion);
-                }
-                // Debug.Log(numOfCarrot);
-                Destroy(plantObject);
-                land.GetComponent<Land>().isPanted=false;
-                
-            }
+            {PlantType.CARROT, () => {numOfCarrot += 1; UIManager.Instance.ChangeCarrotText(numOfCarrot);}},
+            {PlantType.CABBAGE, () => {numOfCabbage += 1; UIManager.Instance.ChangeCabbageText(numOfCabbage);}},
+            {PlantType.ONION, () => {numOfOnion += 1; UIManager.Instance.ChangeOnionText(numOfOnion);}},
+        };
+
+
+        if (updateActions.ContainsKey(plantedType))
+        {
+            updateActions[plantedType].Invoke();
+        }
+
+        Destroy(plantObject);
+        landArea.GetLandCell(landComponent.FindID()).isPanted = false;
+        landArea.GetLandCell(landComponent.FindID()).landPlantedType = PlantType.EMPTY;
+        landArea.GetLandCell(landComponent.FindID()).currentStage = 0;
+    }
+
+    public void CreatLandAOS()
+    {
+        int lands = GlobalValue.LAND_NUM;
+        byte[] landBuffer = new byte[lands * LandCell.NumBytes];
+
+        //landCells = new LandCell[lands];
+        for (int i = 0; i < lands; i++)
+        {
+            landArea.addCell(new LandCell(landBuffer, i * LandCell.NumBytes)
+            {
+                isPanted = false,
+                landPlantedType = PlantType.EMPTY,
+                currentStage = 0,
+                water = RandomResources.GetRandom(),
+            });
+            
+            // landCells[i] = new LandCell(landBuffer, i * LandCell.NumBytes)
+            // {
+            //     isPanted = false,
+            //     landPlantedType = PlantType.EMPTY,
+            //     currentStage = 0,
+            //     water = RandomResources.GetRandom(),
+            // };
         }
     }
 
-    
+}
 
+public enum PlantType
+{
+    EMPTY,
+    CABBAGE,
+    CARROT,
+    ONION
 }

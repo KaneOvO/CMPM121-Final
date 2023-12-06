@@ -6,7 +6,7 @@ using UnityEngine;
 public class SeedPack : MonoBehaviour
 {
     public bool isSelected = false;
-    public string seedType;
+    public PlantType seedType; //0 = none; 1 = carrot; 2 = cabbage; 3 = onion;
     private Vector3 originPos;
     private Navigate navigateScript;
 
@@ -58,3 +58,4 @@ public class SeedPack : MonoBehaviour
         }
     }
 }
+

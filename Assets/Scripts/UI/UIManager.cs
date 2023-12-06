@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour
 
     private void ChangeWaterText()
     {
-        waterText.text = "= " + land.GetComponent<Land>().water.ToString("0");
+        waterText.text = "= " + PlantManager.landArea.GetLandCell(land.GetComponent<Land>().FindID()).water.ToString("0");
     }
 
     private void ChangeSunText()

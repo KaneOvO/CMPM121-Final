@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
-
+    
     public static GameManager Instance
     {
         get
@@ -33,8 +33,10 @@ public class GameManager : MonoBehaviour
         currentTurn = 1;
     }
 
-    public void moveToNextTurn()
+    public void MoveToNextTurn()
     {
         currentTurn++;
     }
+
+    
 }

@@ -6,19 +6,13 @@ using System.Text.RegularExpressions;
 using TMPro;
 public class Land : MonoBehaviour
 {
-    public bool isPanted = false;
-    public int landID;
-    public string landPantedType;
-    public float water;
     public float sun;
-
 
     // Start is called before the first frame update
     void Start()
     {
-        water = RandomResources.GetRandom();
-        sun = RandomResources.GetRandom();
-        landID = FindID();
+        sun = GetSun();
+
     }
 
     // Update is called once per frame
@@ -29,20 +23,30 @@ public class Land : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (isPanted) return;
+        if (PlantManager.landArea.GetLandCell(FindID()).isPanted) return;
         if (other.gameObject.tag == "SeedPack")
         {
-            string seedType = other.gameObject.GetComponent<SeedPack>().seedType;
-            landPantedType = seedType;
+            PlantType seedType = other.gameObject.GetComponent<SeedPack>().seedType;
+            PlantManager.landArea.GetLandCell(FindID()).landPlantedType = seedType;
             Planting(seedType);
-            isPanted = true;
+            PlantManager.landArea.GetLandCell(FindID()).isPanted = true;
         }
     }
 
-    void Planting(string seedType)
+    void Planting(PlantType seedType)
     {
-        Instantiate(Resources.Load($"Prefabs/Plant/{seedType}"), transform.position, Quaternion.identity, transform);
-        //Debug.Log("Planting " + seedType);
+        string plantType = seedType switch
+        {
+            PlantType.CARROT => "Carrot",
+            PlantType.CABBAGE => "Cabbage",
+            PlantType.ONION => "Onion",
+            PlantType.EMPTY => "",
+            _ => ""
+            
+        };
+        Debug.Log(seedType);
+        if (plantType == "") return;
+        Instantiate(Resources.Load($"Prefabs/Plant/{plantType}"), transform.position, Quaternion.identity, transform);
     }
 
     private void OnMouseDown()
@@ -61,18 +65,19 @@ public class Land : MonoBehaviour
         Growable growable = GetComponentInChildren<Growable>();
         if (growable != null)
         {
-            Debug.Log("Water: " + water + " Sun: " + sun);
-            int stage = growable.getStage() + 1;
-            if (stage < 3 && sun > stage * 25 && water > stage * 25)
+            //Debug.Log("Water: " + PlantManager.landCells[FindID()].water + " Sun: " + sun);
+            int stage = PlantManager.landArea.GetLandCell(FindID()).currentStage + 1;
+            if (stage < 3 && sun > stage * 10f && PlantManager.landArea.GetLandCell(FindID()).water > stage * 25f)
             {
-                sun -= stage * 25;
-                water -= stage * 25;
+                PlantManager.landArea.GetLandCell(FindID()).water -= PlantManager.landArea.GetLandCell(FindID()).currentStage * 25;
+                PlantManager.landArea.GetLandCell(FindID()).currentStage++;
                 growable.setStage(stage);
             }
 
         }
-        water += RandomResources.GetRandom();
-        sun = RandomResources.GetRandom();
+
+        PlantManager.landArea.GetLandCell(FindID()).water += RandomResources.GetRandom();
+        sun = GetSun();
     }
 
     public int FindID()
@@ -87,5 +92,28 @@ public class Land : MonoBehaviour
         }
 
         return int.Parse(number);
+    }
+
+    public int FindID(GameObject gameObject)
+    {
+        string gameObjectName = gameObject.name;
+        string pattern = @"\((\d+)\)";
+        Match match = Regex.Match(gameObjectName, pattern);
+        string number = "";
+        if (match.Success)
+        {
+            number = match.Groups[1].Value;
+        }
+
+        return int.Parse(number);
+    }
+    public float GetSun()
+    {
+        int index = FindID();
+        float water = PlantManager.landArea.GetLandCell(index).water;
+        int currentTurn = GameManager.Instance.currentTurn;
+        float sunValue = Mathf.PerlinNoise(index * 0.5f, currentTurn * 0.1f) * 50f +
+            Mathf.PerlinNoise(water * 0.1f, currentTurn * 0.2f) * 50f;
+        return Mathf.Clamp(sunValue, 0f, 100f);
     }
 }
