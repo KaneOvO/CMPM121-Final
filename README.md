@@ -71,7 +71,7 @@ We hope to use this project to practice the various design patterns we learned i
 
 
 
-  # Devlog Entry - [F0]
+  # Devlog Entry - [F1]
 
 ## How we satisfied the software requirements
 
@@ -89,17 +89,16 @@ We hope to use this project to practice the various design patterns we learned i
   - same as last week.
 - [F0.g] A play scenario is completed when some condition is satisfied (e.g. at least X plants at growth level Y or above).
   - same as last week.
- 
 - [F1.a] The important state of each cell of your game’s grid must be backed by a single contiguous byte array in AoS or SoA format. Your team must statically allocate memory usage for the whole grid.
-      - A LandCell class is defined to encapsulate the attributes of each piece of land, and a LandArea class is defined to encapsulate the AOS byte array.
-  ![微信图片_20231206141449](https://github.com/KaneOvO/CMPM121-Final/assets/121581341/da6e9c0f-f118-4d4c-ae68-ab0c49993d6d)
+  - A LandCell class is defined to encapsulate the attributes of each piece of land, and a LandArea class is defined to encapsulate the AOS byte array.
+    ![微信图片_20231206141449](https://github.com/KaneOvO/CMPM121-Final/assets/121581341/da6e9c0f-f118-4d4c-ae68-ab0c49993d6d)
 - [F1.b] The player must be able to undo every major choice (all the way back to the start of play), even from a saved game. They should be able to redo (undo of undo operations) multiple times.
-      - Undo and redo buttons are added to the UI, and the current scene information is stored in a stack named undo when the player performs key actions. If the player clicks the undo button, the data at the top of the current stack will be popped out and copied to the stack named redo. Then use the pop-up data to replace the current scene data and update the scene. redo logic is similar.  
+  - Undo and redo buttons are added to the UI, and the current scene information is stored in a stack named undo when the player performs key actions. If the player clicks the undo button, the data at the top of the current stack will be popped out and copied to the stack named redo. Then use the pop-up data to replace the current scene data and update the scene. redo logic is similar.  
 - [F1.c] The player must be able to manually save their progress in the game in a way that allows them to load that save and continue play another day. The player must be able to manage multiple save files (allowing save scumming).
-      - We added a 'Save Data' button and a 'Save Data' panel. When the player clicks it, the panel is activated. If there is no saved data, it shows a 'No Data' prompt; if there is saved data, it displays according to the corresponding save slot location. There are three save slots: one for auto-save, and two for manual saves - Save Slot 1 and Save Slot 2. The manual save slots can be used for both saving and loading. When the player clicks to save, each land's data in the memory is converted into the SerializableLandCell class. Then, global variables are read, and all the land data arrays, combined with these global variables, are encapsulated into the SerializableLandCellArray class, which is then serialized into JSON data. The deserialization process involves converting these data back into the SerializableLandCellArray class, reading the data, and using it to replace and update the scene data in the game.
+  - We added a 'Save Data' button and a 'Save Data' panel. When the player clicks it, the panel is activated. If there is no saved data, it shows a 'No Data' prompt; if there is saved data, it displays according to the corresponding save slot location. There are three save slots: one for auto-save, and two for manual saves - Save Slot 1 and Save Slot 2. The manual save slots can be used for both saving and loading. When the player clicks to save, each land's data in the memory is converted into the SerializableLandCell class. Then, global variables are read, and all the land data arrays, combined with these global variables, are encapsulated into the SerializableLandCellArray class, which is then serialized into JSON data. The deserialization process involves converting these data back into the SerializableLandCellArray class, reading the data, and using it to replace and update the scene data in the game.
 - [F1.d] The game must implement an implicit auto-save system to support recovery from unexpected quits.
-      - The implementation of the auto-save feature is similar to the manual save described above, but it is not operable by the player. The SaveDataManager automatically saves the game every 10 seconds. At the start of the game, if there is auto-saved data available, the player is prompted whether to start the game using this data.
+  - The implementation of the auto-save feature is similar to the manual save described above, but it is not operable by the player. The SaveDataManager automatically saves the game every 10 seconds. At the start of the game, if there is auto-saved data available, the player is prompted whether to start the game using this data.
 
 ## Reflection
 
-  We encountered difficulties while creating savadata because we were unsure how to extract and store the cache in a JSON file. This has posed a challenge for us. Additionally, during our development process, we encountered some bugs. Due to calling a null pointer in the game, it resulted in runtime errors during gameplay.Unfortunately, we didn't have more time to dedicate to optimizing the player's gaming experience, so our UI retains the style of F0 and continues as is. Overall, our game development hasn't been very smooth as we spent a significant amount of time on refactoring and adding new features.
+  We encountered difficulties while creating savadata because we were unsure how to extract and store the cache in a JSON file. This has posed a challenge for us. Additionally, during our development process, we encountered some bugs. Due to calling a null pointer in the game, it resulted in runtime errors during gameplay. Unfortunately, we didn't have more time to dedicate to optimizing the player's gaming experience, so our UI retains the style of F0 and continues as is. Overall, our game development hasn't been very smooth as we spent a significant amount of time on refactoring and adding new features.
