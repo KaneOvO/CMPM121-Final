@@ -20,7 +20,6 @@ public class LandAreaSaver : MonoBehaviour
             return;
         }
 
-        //filePath = Application.persistentDataPath + "/landAreaSave.json";
         SerializableLandCellArray serializableArray = new SerializableLandCellArray
         {
             cells = new SerializableLandCell[landArea.landCells.Length]
