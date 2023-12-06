@@ -7,13 +7,13 @@ public class LandAreaOperation : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void CallNextTurnOnChildren()
@@ -30,7 +30,7 @@ public class LandAreaOperation : MonoBehaviour
 
     public void CallUndoTurnOnChildren()
     {
-        if(GameManager.Instance.Undo() == false)
+        if (GameManager.Instance.Undo() == false)
         {
             return;
         }
@@ -49,7 +49,7 @@ public class LandAreaOperation : MonoBehaviour
         }
 
         UIManager.Instance.ChangeText();
-        
+
     }
 
     public void CallRedoTurnOnChildren()
@@ -73,5 +73,17 @@ public class LandAreaOperation : MonoBehaviour
         }
 
         UIManager.Instance.ChangeText();
+    }
+
+    public void loadSavedLandArea()
+    {
+        foreach (Transform child in transform)
+        {
+            Land land = child.GetComponent<Land>();
+            if (land != null)
+            {
+                land.loadThisLand();
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Text.RegularExpressions;
 using TMPro;
+using System;
 public class Land : MonoBehaviour
 {
     public float sun;
@@ -197,5 +198,46 @@ public class Land : MonoBehaviour
         float sunValue = Mathf.PerlinNoise(index * GlobalValue.RANDOM_FACTOR3, currentTurn * GlobalValue.RANDOM_FACTOR1) * GlobalValue.RANDOM_FACTOR_FIFTY +
             Mathf.PerlinNoise(water * GlobalValue.RANDOM_FACTOR1, currentTurn * GlobalValue.RANDOM_FACTOR2) * GlobalValue.RANDOM_FACTOR_FIFTY;
         return Mathf.Clamp(sunValue, GlobalValue.RANDOM_FLOOR, GlobalValue.RANDOM_CEIL);
+    }
+
+    public void loadThisLand()
+    {
+        sun = GetSun();
+
+        Growable growable = GetComponentInChildren<Growable>();
+
+        if (PlantManager.landArea.GetLandCell(FindID()).isPanted == false)
+        {
+            if (growable != null)
+            {
+                Destroy(GetComponentInChildren<Growable>().gameObject);
+            }
+
+        }
+        else
+        {
+            if (growable != null)
+            {
+
+                growable.setStage(PlantManager.landArea.GetLandCell(FindID()).currentStage);
+
+            }
+            else
+            {
+                Planting(PlantManager.landArea.GetLandCell(FindID()).landPlantedType);
+                growable = GetComponentInChildren<Growable>();
+                if (growable != null)
+                {
+                    growable.setStage(PlantManager.landArea.GetLandCell(FindID()).currentStage);
+
+                }
+                else
+                {
+                    Debug.Log("Growable is null");
+                };
+
+            }
+
+        }
     }
 }

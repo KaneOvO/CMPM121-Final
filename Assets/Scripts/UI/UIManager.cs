@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using TMPro;
 using UnityEditor;
+using UnityEngine.UI;
+
 
 public class UIManager : MonoBehaviour
 {
@@ -15,6 +18,9 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI carrotText;
     public TextMeshProUGUI cabbageText;
     public TextMeshProUGUI OnionText;
+    public TextMeshProUGUI SaveDataAutoText;
+    public TextMeshProUGUI SaveData1Text;
+    public TextMeshProUGUI SaveData2Text;
     public GameObject endText;
     private GameObject land;
     public GameObject saveDataPanal;
@@ -32,6 +38,14 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        if(File.Exists(Application.persistentDataPath + "/landAreaSaveAuto.json"))
+        {
+            saveDataPanal.SetActive(true);
+        }
+    }
+
     private void Update()
     {
         if (land != null)
@@ -46,6 +60,25 @@ public class UIManager : MonoBehaviour
         {
             endText.SetActive(true);
         }
+
+        if(File.Exists(Application.persistentDataPath + "/landAreaSaveAuto.json"))
+        {
+            SaveDataAutoText.text = "Auto Save Data";
+        }
+
+
+        if (File.Exists(Application.persistentDataPath + "/landAreaSave1.json"))
+        {
+            SaveData1Text.text = "Save Data 1";
+        }
+        
+
+        if (File.Exists(Application.persistentDataPath + "/landAreaSave2.json"))
+        {
+            SaveData2Text.text = "Save Data 2";
+        }
+        
+
     }
 
     private void ChangeWaterText()
@@ -100,4 +133,6 @@ public class UIManager : MonoBehaviour
         //SaveDataManager.Instance.SaveSaveData();
         saveDataPanal.SetActive(false);
     }
+
+
 }

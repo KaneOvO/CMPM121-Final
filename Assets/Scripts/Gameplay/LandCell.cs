@@ -20,6 +20,11 @@ public class LandCell
         this.offset = offset;
     }
 
+    public LandCell()
+    {
+        
+    }
+
     public LandCell(LandCell other)
     {
         offset = other.offset;
