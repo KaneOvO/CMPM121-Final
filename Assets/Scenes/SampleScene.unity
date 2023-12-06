@@ -957,7 +957,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1582490692}
         m_TargetAssemblyTypeName: PlantManager, Assembly-CSharp
-        m_MethodName: Cow
+        m_MethodName: Sow
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
