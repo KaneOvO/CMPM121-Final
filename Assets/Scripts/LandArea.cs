@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LandArea : MonoBehaviour
+public class LandArea
 {
     public LandCell[] landCells = new LandCell[GlobalValue.LAND_NUM];
-    private int index = 0;
+    private int index = GlobalValue.FIRST_INDEX;
 
     public LandCell GetLandCell(int i) {
         LandCell landCell = landCells[i];
@@ -16,14 +16,31 @@ public class LandArea : MonoBehaviour
             {
                 isPanted = false,
                 landPlantedType = PlantType.EMPTY,
-                currentStage = 0,
+                currentStage = GlobalValue.INITIAL_STAGE,
                 water = RandomResources.GetRandom(),
             };
     }
 
+    public LandArea(LandArea other) {
+        this.landCells = new LandCell[GlobalValue.LAND_NUM];
+        for (int i = 0; i < GlobalValue.LAND_NUM; i++)
+        {
+            if (other.landCells[i] != null)
+            {
+                this.landCells[i] = new LandCell(other.landCells[i]);
+            }
+        }
+        this.index = other.index;
+    }
+
+    public LandArea()
+    {
+
+    }
+
     public void addCell(LandCell landCell) {
-        Debug.Log(landCell);
-        Debug.Log(index);
+        // Debug.Log(landCell);
+        // Debug.Log(index);
         landCells[index] = landCell;
         if (index < GlobalValue.LAND_NUM) {
             index++;
@@ -36,10 +53,10 @@ public class LandArea : MonoBehaviour
             {
                 isPanted = false,
                 landPlantedType = PlantType.EMPTY,
-                currentStage = 0,
+                currentStage = GlobalValue.INITIAL_STAGE,
                 water = RandomResources.GetRandom(),
             };
-        if (index != 0) {
+        if (index != GlobalValue.FIRST_INDEX) {
             index --;
         }
     }
@@ -50,21 +67,9 @@ public class LandArea : MonoBehaviour
             {
                 isPanted = false,
                 landPlantedType = PlantType.EMPTY,
-                currentStage = 0,
+                currentStage = GlobalValue.INITIAL_STAGE,
                 water = RandomResources.GetRandom(),
             };
-    }
-
-    public void CallNextTurnOnChildren()
-    {
-        foreach (Transform child in transform)
-        {
-            Land land = child.GetComponent<Land>();
-            if (land != null)
-            {
-                land.NextTurn();
-            }
-        }
     }
     
 }

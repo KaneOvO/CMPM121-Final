@@ -30,7 +30,9 @@ public class Land : MonoBehaviour
             PlantManager.landArea.GetLandCell(FindID()).landPlantedType = seedType;
             Planting(seedType);
             PlantManager.landArea.GetLandCell(FindID()).isPanted = true;
+            GameManager.Instance.SaveCureentSituations();
         }
+
     }
 
     void Planting(PlantType seedType)
@@ -42,9 +44,9 @@ public class Land : MonoBehaviour
             PlantType.ONION => "Onion",
             PlantType.EMPTY => "",
             _ => ""
-            
+
         };
-        Debug.Log(seedType);
+        //Debug.Log(seedType);
         if (plantType == "") return;
         Instantiate(Resources.Load($"Prefabs/Plant/{plantType}"), transform.position, Quaternion.identity, transform);
     }
@@ -67,9 +69,11 @@ public class Land : MonoBehaviour
         {
             //Debug.Log("Water: " + PlantManager.landCells[FindID()].water + " Sun: " + sun);
             int stage = PlantManager.landArea.GetLandCell(FindID()).currentStage + 1;
-            if (stage < 3 && sun > stage * 10f && PlantManager.landArea.GetLandCell(FindID()).water > stage * 25f)
+            if (stage <= GlobalValue.MAX_STAGE &&
+                sun > stage * GlobalValue.SUNSHINE_LEVEL_RANGE &&
+                PlantManager.landArea.GetLandCell(FindID()).water > stage * GlobalValue.WATER_LEVEL_RANGE)
             {
-                PlantManager.landArea.GetLandCell(FindID()).water -= PlantManager.landArea.GetLandCell(FindID()).currentStage * 25;
+                PlantManager.landArea.GetLandCell(FindID()).water -= PlantManager.landArea.GetLandCell(FindID()).currentStage * GlobalValue.WATER_LEVEL_RANGE;
                 PlantManager.landArea.GetLandCell(FindID()).currentStage++;
                 growable.setStage(stage);
             }
@@ -78,6 +82,84 @@ public class Land : MonoBehaviour
 
         PlantManager.landArea.GetLandCell(FindID()).water += RandomResources.GetRandom();
         sun = GetSun();
+    }
+
+    public void undoThisLand()
+    {
+        PlantManager.landArea.landCells[FindID()] = GameManager.undoData.landArea.landCells[FindID()];
+        sun = GetSun();
+
+        Growable growable = GetComponentInChildren<Growable>();
+
+        if (PlantManager.landArea.GetLandCell(FindID()).isPanted == false)
+        {
+            if (growable != null)
+            {
+                Debug.Log(growable);
+                Destroy(GetComponentInChildren<Growable>().gameObject);
+            }
+
+        }
+        else
+        {
+            if (growable != null)
+            {
+                growable.setStage(PlantManager.landArea.GetLandCell(FindID()).currentStage);
+
+            }
+            else
+            {
+                Planting(PlantManager.landArea.GetLandCell(FindID()).landPlantedType);
+                growable = GetComponentInChildren<Growable>();
+                growable.setStage(PlantManager.landArea.GetLandCell(FindID()).currentStage);
+            }
+        }
+
+
+
+    }
+
+    public void redoThisLand()
+    {
+        PlantManager.landArea.landCells[FindID()] = GameManager.redoData.landArea.landCells[FindID()];
+        sun = GetSun();
+
+        Growable growable = GetComponentInChildren<Growable>();
+
+        if (PlantManager.landArea.GetLandCell(FindID()).isPanted == false)
+        {
+            if (growable != null)
+            {
+                Destroy(GetComponentInChildren<Growable>().gameObject);
+            }
+
+        }
+        else
+        {
+            if (growable != null)
+            {
+
+                growable.setStage(PlantManager.landArea.GetLandCell(FindID()).currentStage);
+
+            }
+            else
+            {
+                Planting(PlantManager.landArea.GetLandCell(FindID()).landPlantedType);
+                growable = GetComponentInChildren<Growable>();
+                if (growable != null)
+                {
+                    growable.setStage(PlantManager.landArea.GetLandCell(FindID()).currentStage);
+
+                }
+                else
+                {
+                    Debug.Log("Growable is null");
+                };
+
+            }
+        }
+
+
     }
 
     public int FindID()
@@ -112,8 +194,8 @@ public class Land : MonoBehaviour
         int index = FindID();
         float water = PlantManager.landArea.GetLandCell(index).water;
         int currentTurn = GameManager.Instance.currentTurn;
-        float sunValue = Mathf.PerlinNoise(index * 0.5f, currentTurn * 0.1f) * 50f +
-            Mathf.PerlinNoise(water * 0.1f, currentTurn * 0.2f) * 50f;
-        return Mathf.Clamp(sunValue, 0f, 100f);
+        float sunValue = Mathf.PerlinNoise(index * GlobalValue.RANDOM_FACTOR3, currentTurn * GlobalValue.RANDOM_FACTOR1) * GlobalValue.RANDOM_FACTOR_FIFTY +
+            Mathf.PerlinNoise(water * GlobalValue.RANDOM_FACTOR1, currentTurn * GlobalValue.RANDOM_FACTOR2) * GlobalValue.RANDOM_FACTOR_FIFTY;
+        return Mathf.Clamp(sunValue, GlobalValue.RANDOM_FLOOR, GlobalValue.RANDOM_CEIL);
     }
 }

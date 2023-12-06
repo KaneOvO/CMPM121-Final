@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI OnionText;
     public GameObject endText;
     private GameObject land;
+    public GameObject saveDataPanal;
 
     private void Awake()
     {
@@ -33,13 +34,15 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if(land != null)
+        if (land != null)
         {
             ChangeWaterText();
             ChangeSunText();
         }
-        
-        if(PlantManager.Instance.numOfCarrot >= 5 && PlantManager.Instance.numOfCabbage >= 5 && PlantManager.Instance.numOfOnion >= 5)
+
+        if (PlantManager.Instance.numOfCarrot >= GlobalValue.END_GAME_CONDITION &&
+         PlantManager.Instance.numOfCabbage >= GlobalValue.END_GAME_CONDITION &&
+          PlantManager.Instance.numOfOnion >= GlobalValue.END_GAME_CONDITION)
         {
             endText.SetActive(true);
         }
@@ -55,24 +58,46 @@ public class UIManager : MonoBehaviour
         sunText.text = "= " + land.GetComponent<Land>().sun.ToString("0");
     }
 
-    public void ChangeCarrotText(int carrot)
+    public void ChangeCarrotText()
     {
-        carrotText.text = "= " + carrot.ToString();
+        carrotText.text = "= " + PlantManager.Instance.numOfCarrot.ToString();
     }
 
-    public void ChangeCabbageText(int cabbage)
+    public void ChangeCabbageText()
     {
-        cabbageText.text = "= " + cabbage.ToString();
+        cabbageText.text = "= " + PlantManager.Instance.numOfCabbage.ToString();
     }
 
-    public void ChangeOnionText(int onion)
+    public void ChangeOnionText()
     {
-        OnionText.text = "= " + onion.ToString();
+        OnionText.text = "= " + PlantManager.Instance.numOfOnion.ToString();
     }
-     
+
+    
+
     public void setLand(GameObject land)
     {
         this.land = land;
     }
 
+    public void ChangeText(){
+        ChangeCabbageText();
+        ChangeCarrotText();
+        ChangeOnionText();
+    }
+    public void TurnOnSaveDataPanal(){
+        saveDataPanal.SetActive(true);
+    }
+    public void LoadSaveDataClick(){
+        //SavaDataManager.Instance.LoadSaveData();
+        saveDataPanal.SetActive(false);
+    }
+
+    public void QuitSaveDataClick(){
+        saveDataPanal.SetActive(false);
+    }
+    public void SaveSaveDataClick(){
+        //SaveDataManager.Instance.SaveSaveData();
+        saveDataPanal.SetActive(false);
+    }
 }

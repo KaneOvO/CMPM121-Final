@@ -40,6 +40,7 @@ public class PlantManager : MonoBehaviour
         numOfCarrot = INITIAL_QUANTITY;
         numOfCabbage = INITIAL_QUANTITY;
         numOfOnion = INITIAL_QUANTITY;
+        GameManager.Instance.SaveCureentSituations();
     }
 
     // Update is called once per frame
@@ -58,7 +59,7 @@ public class PlantManager : MonoBehaviour
         Land landComponent = land.GetComponent<Land>();
         Growable growable = land.GetComponentInChildren<Growable>();
 
-        if (growable == null && growable.getStage() != 2) return;
+        if (growable == null && growable.getStage() != GlobalValue.MAX_STAGE) return;
         
         GameObject plantObject = growable.gameObject;
         PlantType plantedType = landArea.GetLandCell(landComponent.FindID()).landPlantedType;
@@ -66,10 +67,12 @@ public class PlantManager : MonoBehaviour
 
         Dictionary<PlantType, System.Action> updateActions = new Dictionary<PlantType, System.Action>()
         {
-            {PlantType.CARROT, () => {numOfCarrot += 1; UIManager.Instance.ChangeCarrotText(numOfCarrot);}},
-            {PlantType.CABBAGE, () => {numOfCabbage += 1; UIManager.Instance.ChangeCabbageText(numOfCabbage);}},
-            {PlantType.ONION, () => {numOfOnion += 1; UIManager.Instance.ChangeOnionText(numOfOnion);}},
+            {PlantType.CARROT, () => {numOfCarrot += 1;}},
+            {PlantType.CABBAGE, () => {numOfCabbage += 1;}},
+            {PlantType.ONION, () => {numOfOnion += 1;}},
         };
+
+        UIManager.Instance.ChangeText();
 
 
         if (updateActions.ContainsKey(plantedType))
@@ -80,7 +83,9 @@ public class PlantManager : MonoBehaviour
         Destroy(plantObject);
         landArea.GetLandCell(landComponent.FindID()).isPanted = false;
         landArea.GetLandCell(landComponent.FindID()).landPlantedType = PlantType.EMPTY;
-        landArea.GetLandCell(landComponent.FindID()).currentStage = 0;
+        landArea.GetLandCell(landComponent.FindID()).currentStage = GlobalValue.INITIAL_STAGE;
+        GameManager.Instance.SaveCureentSituations();
+        Debug.Log(GameManager.undoStack);
     }
 
     public void CreatLandAOS()
@@ -95,7 +100,7 @@ public class PlantManager : MonoBehaviour
             {
                 isPanted = false,
                 landPlantedType = PlantType.EMPTY,
-                currentStage = 0,
+                currentStage = GlobalValue.INITIAL_STAGE,
                 water = RandomResources.GetRandom(),
             });
             

@@ -7,7 +7,7 @@ public class RandomResources : MonoBehaviour
 
     public static float GetRandom()
     {
-        return Random.Range(0, 100f);
+        return Random.Range(GlobalValue.RANDOM_FLOOR, GlobalValue.RANDOM_CEIL);
     }
 
 }
