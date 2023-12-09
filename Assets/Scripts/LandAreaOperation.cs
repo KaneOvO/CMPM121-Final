@@ -26,6 +26,7 @@ public class LandAreaOperation : MonoBehaviour
                 land.NextTurn();
             }
         }
+        // gameObject.Instance.SaveCureentSituations();
     }
 
     public void CallUndoTurnOnChildren()

@@ -50,6 +50,7 @@ public class Land : MonoBehaviour
         //Debug.Log(seedType);
         if (plantType == "") return;
         Instantiate(Resources.Load($"Prefabs/Plant/{plantType}"), transform.position, Quaternion.identity, transform);
+        
     }
 
     private void OnMouseDown()
@@ -216,6 +217,7 @@ public class Land : MonoBehaviour
         }
         else
         {
+            Debug.Log(PlantManager.landArea.GetLandCell(FindID()).currentStage);
             if (growable != null)
             {
 

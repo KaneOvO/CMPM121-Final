@@ -100,4 +100,10 @@ public class SerializableLandCellArray
     public int numOfOnion;
 }
 
+[System.Serializable]
+public class SerializableDataWrapper
+{
+    public List<SerializableLandCellArray> data;
+}
+
 

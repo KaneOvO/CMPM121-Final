@@ -116,6 +116,7 @@ public class PlantManager : MonoBehaviour
 
 }
 
+[System.Serializable]
 public enum PlantType
 {
     EMPTY,

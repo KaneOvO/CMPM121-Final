@@ -40,8 +40,11 @@ public class GameManager : MonoBehaviour
 
     public void MoveToNextTurn()
     {
-        currentTurn++;
+        
         SaveCureentSituations();
+        currentTurn++;
+        
+        
     }
 
     public void SaveCureentSituations()
@@ -57,10 +60,10 @@ public class GameManager : MonoBehaviour
         if (undoStack.Count == 0) return false;
         redoData = new Savedata(PlantManager.landArea, currentTurn, PlantManager.Instance.numOfCarrot,
             PlantManager.Instance.numOfCabbage, PlantManager.Instance.numOfOnion);
-
+        redoStack.Push(redoData);
         undoData = undoStack.Pop();
         redoData = new Savedata(undoData);
-        redoStack.Push(redoData);
+        
 
         return true;
     }
@@ -70,10 +73,10 @@ public class GameManager : MonoBehaviour
         if (redoStack.Count == 0) return false;
         undoData = new Savedata(PlantManager.landArea, currentTurn, PlantManager.Instance.numOfCarrot,
             PlantManager.Instance.numOfCabbage, PlantManager.Instance.numOfOnion);
-
+        undoStack.Push(undoData);
         redoData = redoStack.Pop();
         undoData = new Savedata(redoData);
-        undoStack.Push(undoData);
+        
 
         return true;
     }
