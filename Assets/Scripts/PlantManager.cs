@@ -118,12 +118,3 @@ public class PlantManager : MonoBehaviour
     }
 
 }
-
-[System.Serializable]
-public enum PlantType
-{
-    EMPTY,
-    CABBAGE,
-    CARROT,
-    ONION
-}

@@ -51,7 +51,7 @@ public class Land : MonoBehaviour
         //Debug.Log(seedType);
         if (plantType == "") return;
         Instantiate(Resources.Load($"Prefabs/Plant/{plantType}"), transform.position, Quaternion.identity, transform);
-        
+
     }
 
     private void OnMouseDown()
@@ -65,24 +65,54 @@ public class Land : MonoBehaviour
         PlantManager.Instance.setLand(gameObject);
     }
 
+    // public void NextTurn()
+    // {
+    //     Growable growable = GetComponentInChildren<Growable>();
+    //     if (growable != null)
+    //     {
+    //         //Debug.Log("Water: " + PlantManager.landCells[FindID()].water + " Sun: " + sun);
+    //         int stage = PlantManager.landArea.GetLandCell(FindID()).currentStage + 1;
+    //         if (stage <= GlobalValue.MAX_STAGE &&
+    //             sun > stage * GlobalValue.SUNSHINE_LEVEL_RANGE &&
+    //             PlantManager.landArea.GetLandCell(FindID()).water > stage * GlobalValue.WATER_LEVEL_RANGE)
+    //         {
+    //             PlantManager.landArea.GetLandCell(FindID()).water -= PlantManager.landArea.GetLandCell(FindID()).currentStage * GlobalValue.WATER_LEVEL_RANGE;
+    //             PlantManager.landArea.GetLandCell(FindID()).currentStage++;
+    //             growable.setStage(stage);
+    //         }
+
+    //     }
+
+    //     PlantManager.landArea.GetLandCell(FindID()).water += RandomResources.GetRandom();
+    //     sun = GetSun();
+    // }
+
     public void NextTurn()
     {
         Growable growable = GetComponentInChildren<Growable>();
         if (growable != null)
         {
-            //Debug.Log("Water: " + PlantManager.landCells[FindID()].water + " Sun: " + sun);
-            int stage = PlantManager.landArea.GetLandCell(FindID()).currentStage + 1;
-            if (stage <= GlobalValue.MAX_STAGE &&
-                sun > stage * GlobalValue.SUNSHINE_LEVEL_RANGE &&
-                PlantManager.landArea.GetLandCell(FindID()).water > stage * GlobalValue.WATER_LEVEL_RANGE)
+            LandCell currentCell = PlantManager.landArea.GetLandCell(FindID());
+            PlantType plantType = currentCell.landPlantedType;
+            int currentStage = currentCell.currentStage;
+
+            if (PlantDefinition.Plants.TryGetValue(plantType, out var plantStages) &&
+            currentStage < plantStages.Count)
             {
-                PlantManager.landArea.GetLandCell(FindID()).water -= PlantManager.landArea.GetLandCell(FindID()).currentStage * GlobalValue.WATER_LEVEL_RANGE;
-                PlantManager.landArea.GetLandCell(FindID()).currentStage++;
-                growable.setStage(stage);
+                Plant currentPlant = plantStages[currentStage];
+                GrowthContext context = new GrowthContext(currentStage, currentCell.water, sun);
+
+
+                if (currentPlant.CheckGrowth(context))
+                {
+                    currentCell.water -= currentPlant.consumingWater;
+                    currentCell.currentStage++;
+                    PlantManager.landArea.GetLandCell(FindID()).currentStage = currentCell.currentStage;
+                    growable.setStage(currentCell.currentStage);
+                }
             }
 
         }
-
         PlantManager.landArea.GetLandCell(FindID()).water += RandomResources.GetRandom();
         sun = GetSun();
     }
@@ -230,7 +260,7 @@ public class Land : MonoBehaviour
             {
                 Planting(PlantManager.landArea.GetLandCell(FindID()).landPlantedType);
                 growable = GetComponentInChildren<Growable>();
-                
+
                 if (growable != null)
                 {
                     //Debug.Log("Current Stage " + PlantManager.landArea.GetLandCell(FindID()).currentStage);

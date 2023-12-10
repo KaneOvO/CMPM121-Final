@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
         currentData = new Savedata(PlantManager.landArea, currentTurn, PlantManager.Instance.numOfCarrot,
             PlantManager.Instance.numOfCabbage, PlantManager.Instance.numOfOnion);
         undoStack.Push(currentData);
-        Debug.Log("Save"+ ++temp);
+        //Debug.Log("Save"+ ++temp);
     }
 
 
