@@ -25,13 +25,14 @@ public class Land : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (PlantManager.landArea.GetLandCell(FindID()).isPanted) return;
+        GameManager.Instance.SaveCureentSituations();
         if (other.gameObject.tag == "SeedPack")
         {
             PlantType seedType = other.gameObject.GetComponent<SeedPack>().seedType;
             PlantManager.landArea.GetLandCell(FindID()).landPlantedType = seedType;
             Planting(seedType);
             PlantManager.landArea.GetLandCell(FindID()).isPanted = true;
-            GameManager.Instance.SaveCureentSituations();
+            GameManager.Instance.ClearRedoStack();
         }
 
     }
@@ -217,25 +218,28 @@ public class Land : MonoBehaviour
         }
         else
         {
-            Debug.Log(PlantManager.landArea.GetLandCell(FindID()).currentStage);
+            //Debug.Log(PlantManager.landArea.GetLandCell(FindID()).currentStage);
             if (growable != null)
             {
 
                 growable.setStage(PlantManager.landArea.GetLandCell(FindID()).currentStage);
+                //Debug.Log("growable != null" + growable.currentStage);
 
             }
             else
             {
                 Planting(PlantManager.landArea.GetLandCell(FindID()).landPlantedType);
                 growable = GetComponentInChildren<Growable>();
+                
                 if (growable != null)
                 {
+                    //Debug.Log("Current Stage " + PlantManager.landArea.GetLandCell(FindID()).currentStage);
                     growable.setStage(PlantManager.landArea.GetLandCell(FindID()).currentStage);
-
+                    //Debug.Log("growable == null " + growable.currentStage);
                 }
                 else
                 {
-                    Debug.Log("Growable is null");
+                    //Debug.Log("Growable is null");
                 };
 
             }

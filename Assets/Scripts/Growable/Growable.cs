@@ -4,21 +4,20 @@ using UnityEngine;
 
 public class Growable : MonoBehaviour
 {
-    int currentStage = GlobalValue.INITIAL_STAGE;
+    public int currentStage = GlobalValue.INITIAL_STAGE;
     private SpriteRenderer spriteRenderer; 
+     
     public Sprite[] sprites; 
     // Start is called before the first frame update
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        currentStage = GlobalValue.INITIAL_STAGE;
         spriteRenderer.sprite = sprites[currentStage];
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     public void setStage(int stage) {

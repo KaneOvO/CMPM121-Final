@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public static Savedata redoData;
     public static Savedata currentData;
 
+    public static int temp = 0;
+
     public static GameManager Instance
     {
         get
@@ -40,7 +42,7 @@ public class GameManager : MonoBehaviour
 
     public void MoveToNextTurn()
     {
-        
+        ClearRedoStack();
         SaveCureentSituations();
         currentTurn++;
         
@@ -52,6 +54,7 @@ public class GameManager : MonoBehaviour
         currentData = new Savedata(PlantManager.landArea, currentTurn, PlantManager.Instance.numOfCarrot,
             PlantManager.Instance.numOfCabbage, PlantManager.Instance.numOfOnion);
         undoStack.Push(currentData);
+        Debug.Log("Save"+ ++temp);
     }
 
 
@@ -79,6 +82,11 @@ public class GameManager : MonoBehaviour
         
 
         return true;
+    }
+
+    public void ClearRedoStack()
+    {
+        redoStack.Clear();
     }
 
 }

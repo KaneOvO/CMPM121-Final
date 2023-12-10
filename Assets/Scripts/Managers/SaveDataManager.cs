@@ -9,8 +9,8 @@ public class LandAreaSaver : MonoBehaviour
 {
     public LandArea landArea;
 
-    private float timer = 0f;
-    private float interval = 10f;
+    // private float timer = 0f;
+    // private float interval = 10f;
     
     public void SaveLandArea(string filePath, Stack<Savedata> stack)
     {
@@ -62,7 +62,7 @@ public class LandAreaSaver : MonoBehaviour
             Savedata savedata = ConvertToSavedata(serializableArray);
             redostack.Push(savedata);
         }
-        Savedata latest = undostack.Peek();
+        Savedata latest = undostack.Pop();
         LandArea landArea = latest.landArea;
         GameManager.Instance.currentTurn = latest.currentTurn;
         PlantManager.Instance.numOfCarrot = latest.numberOfCarrot;
@@ -105,7 +105,7 @@ public class LandAreaSaver : MonoBehaviour
         int count=0;
         if (stack == null || stack.Count == 0)
         {
-            Debug.Log("The stack is empty. No data to serialize.");
+            //Debug.Log("The stack is empty. No data to serialize.");
             return;
         }
         
@@ -115,7 +115,7 @@ public class LandAreaSaver : MonoBehaviour
             count+=1;
             if (savedata == null || savedata.landArea == null || savedata.landArea.landCells == null)
             {
-                Debug.Log("Found null or invalid data in the stack. Skipping an item.");
+                //Debug.Log("Found null or invalid data in the stack. Skipping an item.");
                 continue; // Skip this item
             }
 
@@ -163,30 +163,31 @@ public class LandAreaSaver : MonoBehaviour
 
     private void Update()
     {
-        timer += Time.deltaTime;
 
-        if (timer >= interval)
-        {
-            SavedataAuto();
-            timer = 0f;
-        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        SavedataAuto();
     }
 
     public void SavedataAuto()
     {
-        Debug.Log("Auto Save");
+        GameManager.Instance.SaveCureentSituations();
         SaveLandArea("/landAreaSaveAuto_undo.json", GameManager.undoStack);
         SaveLandArea("/landAreaSaveAuto_redo.json", GameManager.redoStack);
     }
 
     public void Savedata1()
     {
+        GameManager.Instance.SaveCureentSituations();
         SaveLandArea("/landAreaSave1_undo.json", GameManager.undoStack);
         SaveLandArea("/landAreaSave1_redo.json", GameManager.redoStack);
     }
 
     public void Savedata2()
-    {
+    { 
+        GameManager.Instance.SaveCureentSituations();
         SaveLandArea("/landAreaSave2_undo.json", GameManager.undoStack);
         SaveLandArea("/landAreaSave2_redo.json", GameManager.redoStack);
     }

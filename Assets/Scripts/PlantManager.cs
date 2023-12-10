@@ -59,7 +59,10 @@ public class PlantManager : MonoBehaviour
         Land landComponent = land.GetComponent<Land>();
         Growable growable = land.GetComponentInChildren<Growable>();
 
-        if (growable == null && growable.getStage() != GlobalValue.MAX_STAGE) return;
+        //Debug.Log(growable);
+        if (growable == null || growable.getStage() != GlobalValue.MAX_STAGE) return;
+
+        GameManager.Instance.SaveCureentSituations();
         
         GameObject plantObject = growable.gameObject;
         PlantType plantedType = landArea.GetLandCell(landComponent.FindID()).landPlantedType;
@@ -84,8 +87,8 @@ public class PlantManager : MonoBehaviour
         landArea.GetLandCell(landComponent.FindID()).isPanted = false;
         landArea.GetLandCell(landComponent.FindID()).landPlantedType = PlantType.EMPTY;
         landArea.GetLandCell(landComponent.FindID()).currentStage = GlobalValue.INITIAL_STAGE;
-        GameManager.Instance.SaveCureentSituations();
-        Debug.Log(GameManager.undoStack);
+        
+        GameManager.Instance.ClearRedoStack();
     }
 
     public void CreatLandAOS()

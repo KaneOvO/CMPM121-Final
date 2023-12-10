@@ -33,8 +33,10 @@ public class LandAreaOperation : MonoBehaviour
     {
         if (GameManager.Instance.Undo() == false)
         {
+            Debug.Log("No more undo");
             return;
         }
+        Debug.Log("Undo");
         GameManager.Instance.currentTurn = GameManager.undoData.currentTurn;
         PlantManager.Instance.numOfCarrot = GameManager.undoData.numberOfCarrot;
         PlantManager.Instance.numOfCabbage = GameManager.undoData.numberOfCabbage;
