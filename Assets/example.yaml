@@ -1,0 +1,4 @@
+maxTurns: 10
+humanInstructions: "grow at least 5 weeds"
+winConditions:
+    - [Carrot,5]
