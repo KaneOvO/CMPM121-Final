@@ -108,6 +108,10 @@ We hope to use this project to practice the various design patterns we learned i
 
 # Devlog Entry - [F2]
 
+## How we satisfied the software requirements
+
+### F0+F1
+
 - [F0.a] You control a character moving on a 2D grid.
   - same as last week.
 - [F0.b] You advance time in the turn-based simulation manually.
@@ -130,3 +134,169 @@ We hope to use this project to practice the various design patterns we learned i
   - Modify stored content to accommodate external DSL.
 - [F1.d] Grid cells have sun and water levels. The incoming sun and water for each cell is somehow randomly generated each turn. Sun energy cannot be stored in a cell (it is used immediately or lost) while water moisture can be slowly accumulated over several turns.
   - The timing of saving has been modified and will now be automatically saved before closing the game.
+
+
+
+### **External DSL for Scenario Design**
+
+We use the JSON file format to store our external DSL, which defines the game's victory conditions, round limit, and command prompts when the game starts.
+
+```
+{
+  "scenarios": [
+    {
+      "name": "intro",
+      "settings": {
+        "maxTurns": 10,               //
+        "humanInstructions": "Grow at least 5 carrots, 8 cabbage, and 1 onion in 10 turns",
+        "winConditions": [
+          {
+            "condition": "Carrot",
+            "number": 5
+          },
+          {
+            "condition": "Cabbage",
+            "number": 8
+          },
+          {
+            "condition": "Onion",
+            "number": 1
+          }
+        ]
+      }
+    }
+  ]
+}
+
+```
+
+In the above JSON code, Settings contains the settings of the current scene of the game. The meaning of maxTurns is the maximum number of rounds limit of the game. If the player still does not complete the victory conditions after exceeding this number of rounds, the game will display a text of "you lose". The meaning of humanInstructions is the prompt at the beginning of the game. It will be called at the beginning of the game and displayed at the top of the player's screen to tell the player the victory conditions. winConditions contains the victory conditions of the game, where each list represents the quantity requirements of a plant. If the player completes all requirements before the turn limit is reached, the game will display a "you win" text.
+
+
+
+### **Internal DSL for Plants and Growth** **Conditions**
+
+```
+public enum PlantType
+{
+    EMPTY,
+    CABBAGE,
+    CARROT,
+    ONION
+}
+
+public class Plant
+{
+    public PlantType plantType { get; set; }
+    public int level { get; set; }
+    public int consumingWater { get; set; }
+    public Func<GrowthContext, bool> GrowthCondition { get; set; }
+
+    public Plant(PlantType plantType, int level, int consumingWater, Func<GrowthContext, bool> growthCondition)
+    {
+        this.plantType = plantType;
+        this.level = level;
+        this.consumingWater = consumingWater;
+        GrowthCondition = growthCondition;
+
+        PlantDefinition.RegisterPlant(this);
+    }
+
+    public bool CheckGrowth(GrowthContext context)
+    {
+        return GrowthCondition(context) && (context.water > this.consumingWater);
+    }
+}
+
+public class GrowthContext
+{
+    public float water { get; set; }
+    public float sunlight { get; set; }
+
+    public GrowthContext(float water, float sunlight)
+    {
+        this.water = water;
+        this.sunlight = sunlight;
+    }
+}
+
+public static class PlantDefinition
+{
+    public static void RegisterPlant(Plant plant)
+    {
+        if (!Plants.ContainsKey(plant.plantType))
+        {
+            Plants[plant.plantType] = new List<Plant>();
+        }
+        Plants[plant.plantType].Add(plant);
+    }
+
+    public static Dictionary<PlantType, List<Plant>> Plants = new Dictionary<PlantType, List<Plant>>();
+
+    public static Plant CarrotLevel0 = new Plant(
+        PlantType.CARROT,
+        0,
+        20,
+        ctx => ctx.water >= 20 && ctx.sunlight >= 10
+    );
+
+    public static Plant CarrotLevel1 = new Plant(
+        PlantType.CARROT,
+        1,
+        40,
+        ctx => ctx.water >= 40 && ctx.sunlight >= 20
+    );
+
+    public static Plant CabbageLevel0 = new Plant(
+        PlantType.CABBAGE,
+        0,
+        10,
+        ctx => ctx.water >= 10 && ctx.sunlight >= 30
+    );
+
+    public static Plant CabbageLevel1 = new Plant(
+        PlantType.CABBAGE,
+        1,
+        30,
+        ctx => ctx.water >= 30 && ctx.sunlight >= 40
+    );
+
+
+    public static Plant OnionLevel0 = new Plant(
+        PlantType.ONION,
+        0,
+        25,
+        ctx => ctx.water >= 25 && ctx.sunlight >= 50
+    );
+
+    public static Plant OnionLevel1 = new Plant(
+        PlantType.ONION,
+        1,
+        50,
+        ctx => ctx.water >= 50 && ctx.sunlight >= 60
+    );
+
+}
+```
+
+Our internal DSL is based on the C# language. When the player needs to define a new plant, he first needs to add a new plant in the plantType enum above, and then add the new plant's growth conditions at different stages in PlantDefinition. Currently we have two growing conditions, namely water and sunlight.
+
+```
+public static Plant OnionLevel1 = new Plant(
+        PlantType.ONION,
+        1,
+        50,
+        ctx => ctx.water >= 50 && ctx.sunlight >= 60
+    );
+//What this code means is that the conditions for updating onion level 1 to the next level are 50 water and 60 sunlight.
+```
+
+The benefit of the internal DSL is that you can use some language features, such as because of the design of our game, we have to use a dictionary to add these defined conditions for reading. Here we use automatic registration, which allows the plant's growth conditions to be automatically registered in the dictionary after being defined, which saves the manual registration process.
+
+
+
+## Reflection
+
+During the development of F2, we encountered some troubles. The first is that during the development of the internal DSL, because we used enum when initially defining plant types, this forced us to define the definition of plants separately from the growth conditions. In addition, we found that if we want to write an automated growth code, we need to put the plant's growth conditions in a dictionary, but this dictionary must be added manually by the developer, which does not meet the original idea of our DSL. Finally we found the method of automatic registration, through which the growth conditions will be automatically added to the dictionary after being defined.
+
+During the development of the external DSL, we initially used YAML, but later discovered that C# could not natively support reading YAML files and had to import a third-party library. This forces us to return our attention to JSON. Additionally, new parameters such as victory conditions and turn limits are defined due to external DSLs. We had to reconstruct the parts of our archive again. This is to avoid the bug of using old saves but using new victory conditions.

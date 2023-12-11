@@ -26,6 +26,8 @@ public class Plant
         this.level = level;
         this.consumingWater = consumingWater;
         GrowthCondition = growthCondition;
+
+        PlantDefinition.RegisterPlant(this);
     }
 
     public bool CheckGrowth(GrowthContext context)
@@ -36,13 +38,11 @@ public class Plant
 
 public class GrowthContext
 {
-    public int level { get; set; }
     public float water { get; set; }
     public float sunlight { get; set; }
 
-    public GrowthContext(int level, float water, float sunlight)
+    public GrowthContext(float water, float sunlight)
     {
-        this.level = level;
         this.water = water;
         this.sunlight = sunlight;
     }
@@ -50,32 +50,43 @@ public class GrowthContext
 
 public static class PlantDefinition
 {
+    public static void RegisterPlant(Plant plant)
+    {
+        if (!Plants.ContainsKey(plant.plantType))
+        {
+            Plants[plant.plantType] = new List<Plant>();
+        }
+        Plants[plant.plantType].Add(plant);
+    }
+
+    public static Dictionary<PlantType, List<Plant>> Plants = new Dictionary<PlantType, List<Plant>>();
+
     public static Plant CarrotLevel0 = new Plant(
         PlantType.CARROT,
         0,
         20,
-        ctx => ctx.water >= 20 && ctx.sunlight >= 30 + 10 * ctx.level
+        ctx => ctx.water >= 20 && ctx.sunlight >= 10
     );
 
     public static Plant CarrotLevel1 = new Plant(
         PlantType.CARROT,
         1,
         40,
-        ctx => ctx.level == 1 && ctx.water >= 40 && ctx.sunlight >= 40
+        ctx => ctx.water >= 40 && ctx.sunlight >= 20
     );
 
     public static Plant CabbageLevel0 = new Plant(
         PlantType.CABBAGE,
         0,
         10,
-        ctx => ctx.level == 0 && ctx.water >= 10 && ctx.sunlight >= 30
+        ctx => ctx.water >= 10 && ctx.sunlight >= 30
     );
 
     public static Plant CabbageLevel1 = new Plant(
         PlantType.CABBAGE,
         1,
         30,
-        ctx => ctx.level == 1 && ctx.water >= 30 && ctx.sunlight >= 40
+        ctx => ctx.water >= 30 && ctx.sunlight >= 40
     );
 
 
@@ -83,22 +94,16 @@ public static class PlantDefinition
         PlantType.ONION,
         0,
         25,
-        ctx => ctx.level == 0 && ctx.water >= 25 && ctx.sunlight >= 30
+        ctx => ctx.water >= 25 && ctx.sunlight >= 50
     );
 
     public static Plant OnionLevel1 = new Plant(
         PlantType.ONION,
         1,
         50,
-        ctx => ctx.level == 1 && ctx.water >= 50 && ctx.sunlight >= 40
+        ctx => ctx.water >= 50 && ctx.sunlight >= 60
     );
 
-    public static Dictionary<PlantType, List<Plant>> Plants = new Dictionary<PlantType, List<Plant>>
-    {
-        {PlantType.CARROT, new List<Plant> {CarrotLevel0, CarrotLevel1} },
-        {PlantType.CABBAGE, new List<Plant> {CabbageLevel0, CabbageLevel1} },
-        {PlantType.ONION, new List<Plant> {OnionLevel0, OnionLevel1} }
-    };
-
 }
+
 

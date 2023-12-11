@@ -65,28 +65,6 @@ public class Land : MonoBehaviour
         PlantManager.Instance.setLand(gameObject);
     }
 
-    // public void NextTurn()
-    // {
-    //     Growable growable = GetComponentInChildren<Growable>();
-    //     if (growable != null)
-    //     {
-    //         //Debug.Log("Water: " + PlantManager.landCells[FindID()].water + " Sun: " + sun);
-    //         int stage = PlantManager.landArea.GetLandCell(FindID()).currentStage + 1;
-    //         if (stage <= GlobalValue.MAX_STAGE &&
-    //             sun > stage * GlobalValue.SUNSHINE_LEVEL_RANGE &&
-    //             PlantManager.landArea.GetLandCell(FindID()).water > stage * GlobalValue.WATER_LEVEL_RANGE)
-    //         {
-    //             PlantManager.landArea.GetLandCell(FindID()).water -= PlantManager.landArea.GetLandCell(FindID()).currentStage * GlobalValue.WATER_LEVEL_RANGE;
-    //             PlantManager.landArea.GetLandCell(FindID()).currentStage++;
-    //             growable.setStage(stage);
-    //         }
-
-    //     }
-
-    //     PlantManager.landArea.GetLandCell(FindID()).water += RandomResources.GetRandom();
-    //     sun = GetSun();
-    // }
-
     public void NextTurn()
     {
         Growable growable = GetComponentInChildren<Growable>();
@@ -100,7 +78,7 @@ public class Land : MonoBehaviour
             currentStage < plantStages.Count)
             {
                 Plant currentPlant = plantStages[currentStage];
-                GrowthContext context = new GrowthContext(currentStage, currentCell.water, sun);
+                GrowthContext context = new GrowthContext(currentCell.water, sun);
 
 
                 if (currentPlant.CheckGrowth(context))
