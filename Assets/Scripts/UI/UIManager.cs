@@ -64,19 +64,19 @@ public class UIManager : MonoBehaviour
             endText.SetActive(true);
         }
 
-        if(File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") && File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))
+        if(File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") || File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))
         {
             SaveDataAutoText.text = "Auto Save Data";
         }
 
 
-        if (File.Exists(Application.persistentDataPath + "/landAreaSave1_undo.json") && File.Exists(Application.persistentDataPath + "/landAreaSave1_redo.json"))
+        if (File.Exists(Application.persistentDataPath + "/landAreaSave1_undo.json") || File.Exists(Application.persistentDataPath + "/landAreaSave1_redo.json"))
         {
             SaveData1Text.text = "Save Data 1";
         }
         
 
-        if (File.Exists(Application.persistentDataPath + "/landAreaSave2_undo.json") && File.Exists(Application.persistentDataPath + "/landAreaSave2_undo.json"))
+        if (File.Exists(Application.persistentDataPath + "/landAreaSave2_undo.json") || File.Exists(Application.persistentDataPath + "/landAreaSave2_undo.json"))
         {
             SaveData2Text.text = "Save Data 2";
         }

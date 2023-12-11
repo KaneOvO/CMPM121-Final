@@ -110,7 +110,7 @@ public class LandAreaSaver : MonoBehaviour
         int count=0;
         if (stack == null || stack.Count == 0)
         {
-            //Debug.Log("The stack is empty. No data to serialize.");
+            File.WriteAllText(filePath, "{}");
             return;
         }
         
@@ -194,8 +194,8 @@ public class LandAreaSaver : MonoBehaviour
     {
         if(GameManager.Instance.currentTurn <= GameManager.Instance.maxTurns){
             GameManager.Instance.SaveCureentSituations();
-            SaveLandArea("/landAreaSaveAuto_undo.json", GameManager.undoStack);
-            SaveLandArea("/landAreaSaveAuto_redo.json", GameManager.redoStack);
+            SaveLandArea("/landAreaSave1_undo.json", GameManager.undoStack);
+            SaveLandArea("/landAreaSave1_redo.json", GameManager.redoStack);
         }
     }
 
@@ -203,8 +203,8 @@ public class LandAreaSaver : MonoBehaviour
     { 
         if(GameManager.Instance.currentTurn <= GameManager.Instance.maxTurns){
             GameManager.Instance.SaveCureentSituations();
-            SaveLandArea("/landAreaSaveAuto_undo.json", GameManager.undoStack);
-            SaveLandArea("/landAreaSaveAuto_redo.json", GameManager.redoStack);
+            SaveLandArea("/landAreaSave2_undo.json", GameManager.undoStack);
+            SaveLandArea("/landAreaSave2_redo.json", GameManager.redoStack);
         }
     }
 
