@@ -65,42 +65,12 @@ public class Land : MonoBehaviour
         PlantManager.Instance.setLand(gameObject);
     }
 
-    // public void NextTurn()
-    // {
-    //     Growable growable = GetComponentInChildren<Growable>();
-    //     if (growable != null)
-    //     {
-    //         LandCell currentCell = PlantManager.landArea.GetLandCell(FindID());
-    //         PlantType plantType = currentCell.landPlantedType;
-    //         int currentStage = currentCell.currentStage;
-
-    //         if (PlantDefinition.Plants.TryGetValue(plantType, out var plantStages) &&
-    //         currentStage < plantStages.Count)
-    //         {
-    //             Plant currentPlant = plantStages[currentStage];
-    //             GrowthContext context = new GrowthContext(currentCell.water, sun, PlantManager.landArea.GetLandCell(FindID() - 1).isPanted , PlantManager.landArea.GetLandCell(FindID() + 1).isPanted);
-
-
-    //             if (currentPlant.CheckGrowth(context))
-    //             {
-    //                 currentCell.water -= currentPlant.consumingWater;
-    //                 currentCell.currentStage++;
-    //                 PlantManager.landArea.GetLandCell(FindID()).currentStage = currentCell.currentStage;
-    //                 growable.setStage(currentCell.currentStage);
-    //             }
-    //         }
-
-    //     }
-    //     PlantManager.landArea.GetLandCell(FindID()).water += RandomResources.GetRandom();
-    //     sun = GetSun();
-    // }
-
     public void NextTurn()
     {
         Growable growable = GetComponentInChildren<Growable>();
         if (growable != null)
         {
-            int totalColumns = 9;
+            int totalColumns = GlobalValue.COLUMN;
             int index = FindID();
             int row = index / totalColumns;
             int column = index % totalColumns; 
@@ -117,7 +87,7 @@ public class Land : MonoBehaviour
                 leftIsPlanted = PlantManager.landArea.GetLandCell(index - 1).isPanted;
             }
 
-            if (column < totalColumns - 1)
+            if (column < totalColumns - GlobalValue.Last_COLUMN_OFFSET)
             {
                 rightIsPlanted = PlantManager.landArea.GetLandCell(index + 1).isPanted;
             }
