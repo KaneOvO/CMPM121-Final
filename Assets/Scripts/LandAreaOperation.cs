@@ -27,7 +27,7 @@ public class LandAreaOperation : MonoBehaviour
             }
         }
         if(GameManager.Instance.currentTurn > GameManager.Instance.maxTurns){
-            UIManager.Instance.endText.SetActive(true);
+            UIManager.Instance.loseText.SetActive(true);
             return;//需要结束画面
         }
     }

@@ -7,14 +7,13 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public int currentTurn;
     public int maxTurns;
+    public string humanInstructions;
     public static Stack<Savedata> undoStack = new Stack<Savedata>();
     public static Stack<Savedata> redoStack = new Stack<Savedata>();
 
     public static Savedata undoData;
     public static Savedata redoData;
     public static Savedata currentData;
-
-    public static int temp = 0;
 
     public static GameManager Instance
     {

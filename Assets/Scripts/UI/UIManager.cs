@@ -21,7 +21,9 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI SaveDataAutoText;
     public TextMeshProUGUI SaveData1Text;
     public TextMeshProUGUI SaveData2Text;
-    public GameObject endText;
+    public TextMeshProUGUI instructionText;
+    public GameObject winText;
+    public GameObject loseText;
     private GameObject land;
     public GameObject saveDataPanal;
     public int carrotNeeded;
@@ -47,6 +49,8 @@ public class UIManager : MonoBehaviour
         {
             saveDataPanal.SetActive(true);
         }
+
+        instructionText.text = GameManager.Instance.humanInstructions;
     }
 
     private void Update()
@@ -61,7 +65,7 @@ public class UIManager : MonoBehaviour
          PlantManager.Instance.numOfCabbage >= cabbageNeeded &&
           PlantManager.Instance.numOfOnion >= onionNeeded)
         {
-            endText.SetActive(true);
+            winText.SetActive(true);
         }
 
         if(File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") || File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))

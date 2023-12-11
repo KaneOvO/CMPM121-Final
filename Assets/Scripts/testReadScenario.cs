@@ -59,27 +59,22 @@ public class testReadScenario : MonoBehaviour
 
             foreach (Scenario scenario in gameSettings.scenarios)
             {
-                // Debug.Log($"Scenario: {scenario.name}");
-                // Debug.Log($"Max Turns: {scenario.settings.maxTurns}, Instructions: {scenario.settings.humanInstructions}");
+                
                 GameManager.Instance.maxTurns = scenario.settings.maxTurns;
-                // Debug.Log($"Max Turns: {GameManager.Instance.maxTurns}");
-
+                GameManager.Instance.humanInstructions = scenario.settings.humanInstructions;
                 foreach (WinCondition winCondition in scenario.settings.winConditions)
                 {
-                    // Debug.Log($"Win Condition: {winCondition.condition}, Number: {winCondition.number}");
+                    ;
                     switch (winCondition.condition)
                     {
                         case "Carrot":
                             UIManager.Instance.carrotNeeded = winCondition.number;
-                            // Do something with carrotsNeeded
                             break;
                         case "Cabbage":
                             UIManager.Instance.cabbageNeeded = winCondition.number;
-                            // Do something with carrotsNeeded
                             break;
                         case "Onion":
                             UIManager.Instance.onionNeeded = winCondition.number;
-                            // Do something with carrotsNeeded
                             break;
                         default:
                             Debug.LogError($"No match found for condition: {winCondition.condition}");
