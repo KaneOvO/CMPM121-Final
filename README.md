@@ -351,7 +351,9 @@ Let say if I want to add a special condition that check if left and right land p
                         #......more
     ```
 
-summary for internal
+Overall, our internal DSL is created based on the C# language, designed for quickly defining plants and their growing conditions. When using it, developers first need to add the name of the new plant in "plantType", and then define the growth conditions of the new plant at different stages in "plantDefinition". Currently, the definable growth conditions include the need for water and sunlight, as well as whether there are plants planted on the left or right side of the plant.
+
+During the development process, we noticed that a benefit of using an internal DSL is that developers can utilize certain language features. For example, due to the design of our game, we need to use a dictionary to add these growth conditions so that they can be automatically read by the program internally. Here, we adopted an automatic registration method, which allows the defined growth conditions of a plant to be automatically registered in the dictionary. This eliminates the manual process of adding the defined conditions to the dictionary, thereby increasing the automation level of the program.
 
 ## Reflection
 
