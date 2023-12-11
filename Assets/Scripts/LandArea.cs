@@ -107,6 +107,7 @@ public class SerializableDataWrapper
     public int cabbageNeeded;
     public int onionNeeded;
     public int maxTurns;
+    public string humanInstructions;
     public List<SerializableLandCellArray> data;
 }
 
