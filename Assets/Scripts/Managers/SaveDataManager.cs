@@ -35,7 +35,7 @@ public class LandAreaSaver : MonoBehaviour
         SerializableDataWrapper un_wrapper = JsonUtility.FromJson<SerializableDataWrapper>(un_json);
         if (un_wrapper == null || un_wrapper.data == null)
         {
-            Debug.LogError("Failed to deserialize JSON or no data present.");
+            // Debug.LogError("Failed to deserialize JSON or no data present.");
             return new LandArea(); // Or handle the error as appropriate
         }
         undostack.Clear();
@@ -43,6 +43,10 @@ public class LandAreaSaver : MonoBehaviour
             Savedata savedata = ConvertToSavedata(serializableArray);
             undostack.Push(savedata);
         }
+        UIManager.Instance.carrotNeeded = un_wrapper.carrotNeeded;
+        UIManager.Instance.cabbageNeeded = un_wrapper.cabbageNeeded;
+        UIManager.Instance.onionNeeded = un_wrapper.onionNeeded;
+        GameManager.Instance.maxTurns = un_wrapper.maxTurns;
 
 
         string redo_filePath=Application.persistentDataPath+filePath+"_redo.json";
@@ -54,7 +58,7 @@ public class LandAreaSaver : MonoBehaviour
         SerializableDataWrapper re_wrapper = JsonUtility.FromJson<SerializableDataWrapper>(re_json);
         if (re_wrapper == null || re_wrapper.data == null)
         {
-            Debug.LogError("Failed to deserialize JSON or no data present.");
+            // Debug.LogError("Failed to deserialize JSON or no data present.");
             return new LandArea(); // Or handle the error as appropriate
         }
         redostack.Clear();
@@ -62,6 +66,7 @@ public class LandAreaSaver : MonoBehaviour
             Savedata savedata = ConvertToSavedata(serializableArray);
             redostack.Push(savedata);
         }
+        
         Savedata latest = undostack.Pop();
         LandArea landArea = latest.landArea;
         GameManager.Instance.currentTurn = latest.currentTurn;
@@ -144,6 +149,10 @@ public class LandAreaSaver : MonoBehaviour
         serializedDataList.Reverse();
         SerializableDataWrapper wrapper = new SerializableDataWrapper
         {
+            carrotNeeded = UIManager.Instance.carrotNeeded,
+            cabbageNeeded = UIManager.Instance.cabbageNeeded,
+            onionNeeded = UIManager.Instance.onionNeeded,
+            maxTurns = GameManager.Instance.maxTurns,
             data = serializedDataList
         };
         string jsonArray = JsonUtility.ToJson(wrapper, true);
@@ -173,23 +182,30 @@ public class LandAreaSaver : MonoBehaviour
 
     public void SavedataAuto()
     {
-        GameManager.Instance.SaveCureentSituations();
-        SaveLandArea("/landAreaSaveAuto_undo.json", GameManager.undoStack);
-        SaveLandArea("/landAreaSaveAuto_redo.json", GameManager.redoStack);
+        if(GameManager.Instance.currentTurn <= GameManager.Instance.maxTurns){
+            GameManager.Instance.SaveCureentSituations();
+            SaveLandArea("/landAreaSaveAuto_undo.json", GameManager.undoStack);
+            SaveLandArea("/landAreaSaveAuto_redo.json", GameManager.redoStack);
+        }
+        
     }
 
     public void Savedata1()
     {
-        GameManager.Instance.SaveCureentSituations();
-        SaveLandArea("/landAreaSave1_undo.json", GameManager.undoStack);
-        SaveLandArea("/landAreaSave1_redo.json", GameManager.redoStack);
+        if(GameManager.Instance.currentTurn <= GameManager.Instance.maxTurns){
+            GameManager.Instance.SaveCureentSituations();
+            SaveLandArea("/landAreaSaveAuto_undo.json", GameManager.undoStack);
+            SaveLandArea("/landAreaSaveAuto_redo.json", GameManager.redoStack);
+        }
     }
 
     public void Savedata2()
     { 
-        GameManager.Instance.SaveCureentSituations();
-        SaveLandArea("/landAreaSave2_undo.json", GameManager.undoStack);
-        SaveLandArea("/landAreaSave2_redo.json", GameManager.redoStack);
+        if(GameManager.Instance.currentTurn <= GameManager.Instance.maxTurns){
+            GameManager.Instance.SaveCureentSituations();
+            SaveLandArea("/landAreaSaveAuto_undo.json", GameManager.undoStack);
+            SaveLandArea("/landAreaSaveAuto_redo.json", GameManager.redoStack);
+        }
     }
 
     public void LoaddataAuto()

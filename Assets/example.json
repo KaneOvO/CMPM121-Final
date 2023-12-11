@@ -1,0 +1,18 @@
+{
+    "scenarios": [
+      {
+        "name": "intro",
+        "settings": {
+          "maxTurns": 10,
+          "humanInstructions": "Grow at least 5 carrots, 5 cabbage, and 5 onion in 50 turns",
+          "winConditions": [
+            {
+              "condition": "Carrot",
+              "number": 5
+            }
+          ]
+        }
+      }
+    ]
+  }
+  

@@ -103,6 +103,10 @@ public class SerializableLandCellArray
 [System.Serializable]
 public class SerializableDataWrapper
 {
+    public int carrotNeeded;
+    public int cabbageNeeded;
+    public int onionNeeded;
+    public int maxTurns;
     public List<SerializableLandCellArray> data;
 }
 

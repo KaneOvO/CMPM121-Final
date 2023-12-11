@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
     public int currentTurn;
+    public int maxTurns;
     public static Stack<Savedata> undoStack = new Stack<Savedata>();
     public static Stack<Savedata> redoStack = new Stack<Savedata>();
 
@@ -45,8 +46,6 @@ public class GameManager : MonoBehaviour
         ClearRedoStack();
         SaveCureentSituations();
         currentTurn++;
-        
-        
     }
 
     public void SaveCureentSituations()

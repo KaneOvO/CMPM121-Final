@@ -26,7 +26,10 @@ public class LandAreaOperation : MonoBehaviour
                 land.NextTurn();
             }
         }
-        // gameObject.Instance.SaveCureentSituations();
+        if(GameManager.Instance.currentTurn > GameManager.Instance.maxTurns){
+            UIManager.Instance.endText.SetActive(true);
+            return;//需要结束画面
+        }
     }
 
     public void CallUndoTurnOnChildren()

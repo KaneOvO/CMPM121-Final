@@ -24,6 +24,9 @@ public class UIManager : MonoBehaviour
     public GameObject endText;
     private GameObject land;
     public GameObject saveDataPanal;
+    public int carrotNeeded;
+    public int cabbageNeeded;
+    public int onionNeeded;
 
     private void Awake()
     {
@@ -40,7 +43,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        if(File.Exists(Application.persistentDataPath + "/landAreaSaveAuto.json"))
+        if(File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") && File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))
         {
             saveDataPanal.SetActive(true);
         }
@@ -54,26 +57,26 @@ public class UIManager : MonoBehaviour
             ChangeSunText();
         }
 
-        if (PlantManager.Instance.numOfCarrot >= GlobalValue.END_GAME_CONDITION &&
-         PlantManager.Instance.numOfCabbage >= GlobalValue.END_GAME_CONDITION &&
-          PlantManager.Instance.numOfOnion >= GlobalValue.END_GAME_CONDITION)
+        if (PlantManager.Instance.numOfCarrot >= carrotNeeded &&
+         PlantManager.Instance.numOfCabbage >= cabbageNeeded &&
+          PlantManager.Instance.numOfOnion >= onionNeeded)
         {
             endText.SetActive(true);
         }
 
-        if(File.Exists(Application.persistentDataPath + "/landAreaSaveAuto.json"))
+        if(File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") && File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))
         {
             SaveDataAutoText.text = "Auto Save Data";
         }
 
 
-        if (File.Exists(Application.persistentDataPath + "/landAreaSave1.json"))
+        if (File.Exists(Application.persistentDataPath + "/landAreaSave1_undo.json") && File.Exists(Application.persistentDataPath + "/landAreaSave1_redo.json"))
         {
             SaveData1Text.text = "Save Data 1";
         }
         
 
-        if (File.Exists(Application.persistentDataPath + "/landAreaSave2.json"))
+        if (File.Exists(Application.persistentDataPath + "/landAreaSave2_undo.json") && File.Exists(Application.persistentDataPath + "/landAreaSave2_undo.json"))
         {
             SaveData2Text.text = "Save Data 2";
         }

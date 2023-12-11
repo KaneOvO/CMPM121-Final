@@ -21,5 +21,4 @@ public static class GlobalValue
     public const float RANDOM_FACTOR1 = 0.1f;
     public const float RANDOM_FACTOR2 = 0.2f;
     public const float RANDOM_FACTOR3 = 0.5f;
-    public const int END_GAME_CONDITION = 5;
 }

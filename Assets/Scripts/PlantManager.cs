@@ -74,14 +74,13 @@ public class PlantManager : MonoBehaviour
             {PlantType.CABBAGE, () => {numOfCabbage += 1;}},
             {PlantType.ONION, () => {numOfOnion += 1;}},
         };
-
-        UIManager.Instance.ChangeText();
-
-
+    
         if (updateActions.ContainsKey(plantedType))
         {
             updateActions[plantedType].Invoke();
         }
+
+        UIManager.Instance.ChangeText();
 
         Destroy(plantObject);
         landArea.GetLandCell(landComponent.FindID()).isPanted = false;
