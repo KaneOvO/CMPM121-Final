@@ -47,6 +47,8 @@ public class LandAreaSaver : MonoBehaviour
         UIManager.Instance.cabbageNeeded = un_wrapper.cabbageNeeded;
         UIManager.Instance.onionNeeded = un_wrapper.onionNeeded;
         GameManager.Instance.maxTurns = un_wrapper.maxTurns;
+        GameManager.Instance.humanInstructions = un_wrapper.humanInstructions;
+        UIManager.Instance.instructionText.text = GameManager.Instance.humanInstructions;
 
 
         string redo_filePath=Application.persistentDataPath+filePath+"_redo.json";
@@ -153,6 +155,7 @@ public class LandAreaSaver : MonoBehaviour
             cabbageNeeded = UIManager.Instance.cabbageNeeded,
             onionNeeded = UIManager.Instance.onionNeeded,
             maxTurns = GameManager.Instance.maxTurns,
+            humanInstructions = GameManager.Instance.humanInstructions,
             data = serializedDataList
         };
         string jsonArray = JsonUtility.ToJson(wrapper, true);
