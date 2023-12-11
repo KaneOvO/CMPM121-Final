@@ -175,125 +175,183 @@ In the above JSON code, Settings contains the settings of the current scene of t
 
 
 ### **Internal DSL for Plants and Growth** **Conditions**
-
-```
-public enum PlantType
-{
-    EMPTY,
-    CABBAGE,
-    CARROT,
-    ONION
-}
-
-public class Plant
-{
-    public PlantType plantType { get; set; }
-    public int level { get; set; }
-    public int consumingWater { get; set; }
-    public Func<GrowthContext, bool> GrowthCondition { get; set; }
-
-    public Plant(PlantType plantType, int level, int consumingWater, Func<GrowthContext, bool> growthCondition)
+- Codes for defines a new PlantType in enum and add assets into editor.
+--
+    ```
+    public enum PlantType
     {
-        this.plantType = plantType;
-        this.level = level;
-        this.consumingWater = consumingWater;
-        GrowthCondition = growthCondition;
-
-        PlantDefinition.RegisterPlant(this);
+        EMPTY,
+        CABBAGE,
+        CARROT,
+        ONION
     }
+    ```
 
-    public bool CheckGrowth(GrowthContext context)
+- Main Plant class that have the skeleton of our plants.
+--
+    ```
+    public class Plant
     {
-        return GrowthCondition(context) && (context.water > this.consumingWater);
-    }
-}
-
-public class GrowthContext
-{
-    public float water { get; set; }
-    public float sunlight { get; set; }
-
-    public GrowthContext(float water, float sunlight)
-    {
-        this.water = water;
-        this.sunlight = sunlight;
-    }
-}
-
-public static class PlantDefinition
-{
-    public static void RegisterPlant(Plant plant)
-    {
-        if (!Plants.ContainsKey(plant.plantType))
+        public PlantType plantType { get; set; }
+        public int level { get; set; }
+        public int consumingWater { get; set; }
+        public Func<GrowthContext, bool> GrowthCondition { get; set; }
+    
+        public Plant(PlantType plantType, int level, int consumingWater, Func<GrowthContext, bool> growthCondition)
         {
-            Plants[plant.plantType] = new List<Plant>();
+            this.plantType = plantType;
+            this.level = level;
+            this.consumingWater = consumingWater;
+            GrowthCondition = growthCondition;
+    
+            PlantDefinition.RegisterPlant(this);
         }
-        Plants[plant.plantType].Add(plant);
+    
+        public bool CheckGrowth(GrowthContext context)
+        {
+            return GrowthCondition(context) && (context.water > this.consumingWater);
+        }
     }
+    ```
 
-    public static Dictionary<PlantType, List<Plant>> Plants = new Dictionary<PlantType, List<Plant>>();
+- Codes that defines the growth condition of your plants in each level, you are able to define any special growth condition you like.
+-- 
+    ```
+    public class GrowthContext
+    {
+        public float water { get; set; }
+        public float sunlight { get; set; }
+        public bool leftIsPlanted { get; set; }
+        public bool rightIsPlanted { get; set; }
+    
+        public GrowthContext(float water, float sunlight, bool leftIsPlanted, bool rightIsPlanted)
+        {
+            this.water = water;
+            this.sunlight = sunlight;
+            this.leftIsPlanted = leftIsPlanted;
+            this.rightIsPlanted = rightIsPlanted;
+        }
+    }
+    
+    public static class PlantDefinition
+    {
+        public static void RegisterPlant(Plant plant)
+        {
+            if (!Plants.ContainsKey(plant.plantType))
+            {
+                Plants[plant.plantType] = new List<Plant>();
+            }
+            Plants[plant.plantType].Add(plant);
+        }
+    
+        public static Dictionary<PlantType, List<Plant>> Plants = new Dictionary<PlantType, List<Plant>>();
+    
+        public static Plant CarrotLevel0 = new Plant(
+            PlantType.CARROT,
+            0,
+            20,
+            ctx => ctx.water >= 20 && ctx.sunlight >= 10
+        );
+    
+        public static Plant CarrotLevel1 = new Plant(
+            PlantType.CARROT,
+            1,
+            40,
+            ctx => ctx.water >= 40 && ctx.sunlight >= 20
+        );
+        #......more
+    }
+    ```
 
-    public static Plant CarrotLevel0 = new Plant(
-        PlantType.CARROT,
-        0,
-        20,
-        ctx => ctx.water >= 20 && ctx.sunlight >= 10
-    );
+Here is a example:<br />
+Let say if I want to add a special condition that check if left and right land plant the same plant:
+- 1st: I will define these growth condition:
+--
+    ```
+    public class GrowthContext
+    {
+        public float water { get; set; }
+        public float sunlight { get; set; }
+        public bool leftIsPlanted { get; set; }
+        public bool rightIsPlanted { get; set; }
+        #Define the variable
+        public bool leftPlantedSame { get; set; }
+        public bool rightPlantedSame { get; set; }
+    
+        #Added into the constructor
+        public GrowthContext(float water, float sunlight, bool leftIsPlanted, bool rightIsPlanted, bool leftPlantedSame, bool rightPlantedSame)
+        {
+            this.water = water;
+            this.sunlight = sunlight;
+            this.leftIsPlanted = leftIsPlanted;
+            this.rightIsPlanted = rightIsPlanted;
+            #Set it into the variable
+            this.leftPlantedSame = leftPlantedSame;
+            this.rightPlantedSame = rightPlantedSame;
+        }
+    }
+    ``` 
 
-    public static Plant CarrotLevel1 = new Plant(
-        PlantType.CARROT,
-        1,
-        40,
-        ctx => ctx.water >= 40 && ctx.sunlight >= 20
-    );
-
-    public static Plant CabbageLevel0 = new Plant(
-        PlantType.CABBAGE,
-        0,
-        10,
-        ctx => ctx.water >= 10 && ctx.sunlight >= 30
-    );
-
+- 2nd: Change the defination of the plant I want to apply:
+-- 
+    ```
     public static Plant CabbageLevel1 = new Plant(
-        PlantType.CABBAGE,
-        1,
-        30,
-        ctx => ctx.water >= 30 && ctx.sunlight >= 40
-    );
+            PlantType.CABBAGE,
+            1,
+            30,
+            ##Change the win condition context
+            ctx => ctx.leftPlantedSame && ctx.rightPlantedSame
+        );
+    ```
 
+- 3rd: Finally, when you try to check growth pressing "Next Turn", you passed the information needed into growthContext to check
+--
+    ```
+    public void NextTurn()
+        {
+            Growable growable = GetComponentInChildren<Growable>();
+            if (growable != null)
+            {
+                int totalColumns = GlobalValue.COLUMN;
+                int index = FindID();
+                int row = index / totalColumns;
+                int column = index % totalColumns; 
+    
+                LandCell currentCell = PlantManager.landArea.GetLandCell(index);
+                PlantType plantType = currentCell.landPlantedType;
+                int currentStage = currentCell.currentStage;
+    
+                bool leftIsPlanted = false;
+                bool rightIsPlanted = false;
+    
+                bool leftPlantedSame = true;
+                bool rightPlantedSame = true;
+    
+                if (column > 0)
+                {
+                    leftIsPlanted = PlantManager.landArea.GetLandCell(index - 1).isPanted;
+                    #Check if the left cell have the same PlantedType
+                    leftPlantedSame = PlantManager.landArea.GetLandCell(index - 1).landPlantedType == PlantManager.landArea.GetLandCell(index).landPlantedType;
+                }
+    
+                if (column < totalColumns - GlobalValue.Last_COLUMN_OFFSET)
+                {
+                    rightIsPlanted = PlantManager.landArea.GetLandCell(index + 1).isPanted;
+                    #Check if the right cell have the same PlantedType
+                    rightPlantedSame = PlantManager.landArea.GetLandCell(index + 1).landPlantedType == PlantManager.landArea.GetLandCell(index).landPlantedType;
+                }
+    
+                if (PlantDefinition.Plants.TryGetValue(plantType, out var plantStages) && currentStage < plantStages.Count)
+                {
+                    Plant currentPlant = plantStages[currentStage];
+                    #Add the new variable into context to be able to check growth.
+                    GrowthContext context = new GrowthContext(currentCell.water, sun, leftIsPlanted, rightIsPlanted, leftPlantedSame, rightPlantedSame);
+    
+                    if (currentPlant.CheckGrowth(context))
+                        #......more
+    ```
 
-    public static Plant OnionLevel0 = new Plant(
-        PlantType.ONION,
-        0,
-        25,
-        ctx => ctx.water >= 25 && ctx.sunlight >= 50
-    );
-
-    public static Plant OnionLevel1 = new Plant(
-        PlantType.ONION,
-        1,
-        50,
-        ctx => ctx.water >= 50 && ctx.sunlight >= 60
-    );
-
-}
-```
-
-Our internal DSL is based on the C# language. When the player needs to define a new plant, he first needs to add a new plant in the plantType enum above, and then add the new plant's growth conditions at different stages in PlantDefinition. Currently we have two growing conditions, namely water and sunlight.
-
-```
-public static Plant OnionLevel1 = new Plant(
-        PlantType.ONION,
-        1,
-        50,
-        ctx => ctx.water >= 50 && ctx.sunlight >= 60
-    );
-//What this code means is that the conditions for updating onion level 1 to the next level are 50 water and 60 sunlight.
-```
-
-The benefit of the internal DSL is that you can use some language features, such as because of the design of our game, we have to use a dictionary to add these defined conditions for reading. Here we use automatic registration, which allows the plant's growth conditions to be automatically registered in the dictionary after being defined, which saves the manual registration process.
-
-
+summary for internal
 
 ## Reflection
 

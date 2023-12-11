@@ -48,7 +48,6 @@ public class Land : MonoBehaviour
             _ => ""
 
         };
-        //Debug.Log(seedType);
         if (plantType == "") return;
         Instantiate(Resources.Load($"Prefabs/Plant/{plantType}"), transform.position, Quaternion.identity, transform);
 
@@ -82,20 +81,26 @@ public class Land : MonoBehaviour
             bool leftIsPlanted = false;
             bool rightIsPlanted = false;
 
+            bool leftPlantedSame = true;
+            bool rightPlantedSame = true;
+
             if (column > 0)
             {
                 leftIsPlanted = PlantManager.landArea.GetLandCell(index - 1).isPanted;
+                leftPlantedSame = PlantManager.landArea.GetLandCell(index - 1).landPlantedType == PlantManager.landArea.GetLandCell(index).landPlantedType;
             }
 
             if (column < totalColumns - GlobalValue.Last_COLUMN_OFFSET)
             {
                 rightIsPlanted = PlantManager.landArea.GetLandCell(index + 1).isPanted;
+                rightPlantedSame = PlantManager.landArea.GetLandCell(index + 1).landPlantedType == PlantManager.landArea.GetLandCell(index).landPlantedType;
             }
 
             if (PlantDefinition.Plants.TryGetValue(plantType, out var plantStages) && currentStage < plantStages.Count)
             {
                 Plant currentPlant = plantStages[currentStage];
-                GrowthContext context = new GrowthContext(currentCell.water, sun, leftIsPlanted, rightIsPlanted);
+                // GrowthContext context = new GrowthContext(currentCell.water, sun, leftIsPlanted, rightIsPlanted);
+                GrowthContext context = new GrowthContext(currentCell.water, sun, leftIsPlanted, rightIsPlanted, leftPlantedSame, rightPlantedSame);
 
                 if (currentPlant.CheckGrowth(context))
                 {

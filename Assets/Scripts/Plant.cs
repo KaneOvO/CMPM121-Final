@@ -42,13 +42,18 @@ public class GrowthContext
     public float sunlight { get; set; }
     public bool leftIsPlanted { get; set; }
     public bool rightIsPlanted { get; set; }
+    public bool leftPlantedSame { get; set; }
+    public bool rightPlantedSame { get; set; }
 
-    public GrowthContext(float water, float sunlight, bool leftIsPlanted, bool rightIsPlanted)
+    // public GrowthContext(float water, float sunlight, bool leftIsPlanted, bool rightIsPlanted)
+    public GrowthContext(float water, float sunlight, bool leftIsPlanted, bool rightIsPlanted, bool leftPlantedSame, bool rightPlantedSame)
     {
         this.water = water;
         this.sunlight = sunlight;
         this.leftIsPlanted = leftIsPlanted;
         this.rightIsPlanted = rightIsPlanted;
+        this.leftPlantedSame = leftPlantedSame;
+        this.rightPlantedSame = rightPlantedSame;
     }
 }
 
@@ -90,7 +95,8 @@ public static class PlantDefinition
         PlantType.CABBAGE,
         1,
         30,
-        ctx => ctx.water >= 30 && ctx.sunlight >= 40
+        // ctx => ctx.water >= 30 && ctx.sunlight >= 40
+        ctx => ctx.leftPlantedSame && ctx.rightPlantedSame
     );
 
 
