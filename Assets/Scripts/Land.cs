@@ -65,34 +65,80 @@ public class Land : MonoBehaviour
         PlantManager.Instance.setLand(gameObject);
     }
 
+    // public void NextTurn()
+    // {
+    //     Growable growable = GetComponentInChildren<Growable>();
+    //     if (growable != null)
+    //     {
+    //         LandCell currentCell = PlantManager.landArea.GetLandCell(FindID());
+    //         PlantType plantType = currentCell.landPlantedType;
+    //         int currentStage = currentCell.currentStage;
+
+    //         if (PlantDefinition.Plants.TryGetValue(plantType, out var plantStages) &&
+    //         currentStage < plantStages.Count)
+    //         {
+    //             Plant currentPlant = plantStages[currentStage];
+    //             GrowthContext context = new GrowthContext(currentCell.water, sun, PlantManager.landArea.GetLandCell(FindID() - 1).isPanted , PlantManager.landArea.GetLandCell(FindID() + 1).isPanted);
+
+
+    //             if (currentPlant.CheckGrowth(context))
+    //             {
+    //                 currentCell.water -= currentPlant.consumingWater;
+    //                 currentCell.currentStage++;
+    //                 PlantManager.landArea.GetLandCell(FindID()).currentStage = currentCell.currentStage;
+    //                 growable.setStage(currentCell.currentStage);
+    //             }
+    //         }
+
+    //     }
+    //     PlantManager.landArea.GetLandCell(FindID()).water += RandomResources.GetRandom();
+    //     sun = GetSun();
+    // }
+
     public void NextTurn()
     {
         Growable growable = GetComponentInChildren<Growable>();
         if (growable != null)
         {
-            LandCell currentCell = PlantManager.landArea.GetLandCell(FindID());
+            int totalColumns = 9;
+            int index = FindID();
+            int row = index / totalColumns;
+            int column = index % totalColumns; 
+
+            LandCell currentCell = PlantManager.landArea.GetLandCell(index);
             PlantType plantType = currentCell.landPlantedType;
             int currentStage = currentCell.currentStage;
 
-            if (PlantDefinition.Plants.TryGetValue(plantType, out var plantStages) &&
-            currentStage < plantStages.Count)
+            bool leftIsPlanted = false;
+            bool rightIsPlanted = false;
+
+            if (column > 0)
+            {
+                leftIsPlanted = PlantManager.landArea.GetLandCell(index - 1).isPanted;
+            }
+
+            if (column < totalColumns - 1)
+            {
+                rightIsPlanted = PlantManager.landArea.GetLandCell(index + 1).isPanted;
+            }
+
+            if (PlantDefinition.Plants.TryGetValue(plantType, out var plantStages) && currentStage < plantStages.Count)
             {
                 Plant currentPlant = plantStages[currentStage];
-                GrowthContext context = new GrowthContext(currentCell.water, sun);
-
+                GrowthContext context = new GrowthContext(currentCell.water, sun, leftIsPlanted, rightIsPlanted);
 
                 if (currentPlant.CheckGrowth(context))
                 {
                     currentCell.water -= currentPlant.consumingWater;
                     currentCell.currentStage++;
-                    PlantManager.landArea.GetLandCell(FindID()).currentStage = currentCell.currentStage;
+                    PlantManager.landArea.GetLandCell(index).currentStage = currentCell.currentStage;
                     growable.setStage(currentCell.currentStage);
                 }
             }
 
+            PlantManager.landArea.GetLandCell(index).water += RandomResources.GetRandom();
+            sun = GetSun();
         }
-        PlantManager.landArea.GetLandCell(FindID()).water += RandomResources.GetRandom();
-        sun = GetSun();
     }
 
     public void undoThisLand()

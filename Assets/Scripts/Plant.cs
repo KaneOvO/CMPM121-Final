@@ -40,11 +40,15 @@ public class GrowthContext
 {
     public float water { get; set; }
     public float sunlight { get; set; }
+    public bool leftIsPlanted { get; set; }
+    public bool rightIsPlanted { get; set; }
 
-    public GrowthContext(float water, float sunlight)
+    public GrowthContext(float water, float sunlight, bool leftIsPlanted, bool rightIsPlanted)
     {
         this.water = water;
         this.sunlight = sunlight;
+        this.leftIsPlanted = leftIsPlanted;
+        this.rightIsPlanted = rightIsPlanted;
     }
 }
 
@@ -93,15 +97,15 @@ public static class PlantDefinition
     public static Plant OnionLevel0 = new Plant(
         PlantType.ONION,
         0,
-        25,
-        ctx => ctx.water >= 25 && ctx.sunlight >= 50
+        0,
+        ctx => !ctx.leftIsPlanted && !ctx.rightIsPlanted
     );
 
     public static Plant OnionLevel1 = new Plant(
         PlantType.ONION,
         1,
-        50,
-        ctx => ctx.water >= 50 && ctx.sunlight >= 60
+        0,
+        ctx => !ctx.leftIsPlanted && !ctx.rightIsPlanted
     );
 
 }
