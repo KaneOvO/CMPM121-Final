@@ -13,10 +13,9 @@
 //         List<string> createList = new List<string>
 //         {
 //             "Main Camera",
-//             "Global Light 2D",
+//             "Event System",
 //             "Managers",
 //             "Game Manager",
-//             "Pool Manager",
 //             "Map"
 //         };
 
@@ -53,14 +52,6 @@
 //         mainCamera.tag = "MainCamera"; // Set the tag to MainCamera
 //         mainCamera.AddComponent<AudioListener>(); // Add an AudioListener for audio
 //         gameObjectList.Add(mainCamera);
-//     }
-
-//     void CreateGlobalLight2D()
-//     {
-//         GameObject globalLight2D = new GameObject("Global Light 2D");
-//         globalLight2D.AddComponent<UnityEngine.Rendering.Universal.Light2D>();
-//         globalLight2D.GetComponent<UnityEngine.Rendering.Universal.Light2D>().lightType = UnityEngine.Rendering.Universal.Light2D.LightType.Global;
-//         gameObjectList.Add(globalLight2D);
 //     }
 
 //     void CreateManagers()

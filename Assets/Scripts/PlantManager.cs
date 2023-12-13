@@ -55,6 +55,7 @@ public class PlantManager : MonoBehaviour
 
     public void Sow()
     {
+        if(land == null) return;
         Land landComponent = land.GetComponent<Land>();
         Growable growable = land.GetComponentInChildren<Growable>();
 
@@ -104,14 +105,6 @@ public class PlantManager : MonoBehaviour
                 currentStage = GlobalValue.INITIAL_STAGE,
                 water = RandomResources.GetRandom(),
             });
-            
-            // landCells[i] = new LandCell(landBuffer, i * LandCell.NumBytes)
-            // {
-            //     isPanted = false,
-            //     landPlantedType = PlantType.EMPTY,
-            //     currentStage = 0,
-            //     water = RandomResources.GetRandom(),
-            // };
         }
     }
 
