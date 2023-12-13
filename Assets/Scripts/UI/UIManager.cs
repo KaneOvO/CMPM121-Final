@@ -21,7 +21,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI SaveDataAutoText;
     public TextMeshProUGUI SaveData1Text;
     public TextMeshProUGUI SaveData2Text;
-    public TextMeshProUGUI instructionText;
+    public TextMeshProUGUI InstructionText;
     public GameObject winText;
     public GameObject loseText;
     private GameObject land;
@@ -45,6 +45,11 @@ public class UIManager : MonoBehaviour
     {
         if (File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") && File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))
         {
+            string un_json = File.ReadAllText(Application.persistentDataPath + "/landAreaSaveAuto_undo.json");
+            SerializableDataWrapper un_wrapper = JsonUtility.FromJson<SerializableDataWrapper>(un_json);
+            if(un_wrapper.language != FindObjectOfType<SetLanguage>().currentLanguage){
+                FindObjectOfType<SetLanguage>().updateLanguage(un_wrapper.language);
+            }
             saveDataPanal.SetActive(true);
         }
 
@@ -71,30 +76,30 @@ public class UIManager : MonoBehaviour
                 winText.SetActive(true);
             }
 
-            if (!isShowInstruction)
-            {
-                instructionText.text = GameManager.Instance.humanInstructions;
-                isShowInstruction = true;
-            }
+            // if (!isShowInstruction)
+            // {
+            //     Debug.Log(InstructionText);
+            //     isShowInstruction = true;
+            // }
 
         }
 
 
         if (File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") || File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))
         {
-            SaveDataAutoText.text = "Auto Save Data";
+            SaveDataAutoText.text = FindObjectOfType<SetLanguage>().loadedData.SavedataAuto_on[FindObjectOfType<SetLanguage>().currentLanguage];
         }
 
 
         if (File.Exists(Application.persistentDataPath + "/landAreaSave1_undo.json") || File.Exists(Application.persistentDataPath + "/landAreaSave1_redo.json"))
         {
-            SaveData1Text.text = "Save Data 1";
+            SaveData1Text.text = FindObjectOfType<SetLanguage>().loadedData.Savedata1_on[FindObjectOfType<SetLanguage>().currentLanguage];
         }
 
 
         if (File.Exists(Application.persistentDataPath + "/landAreaSave2_undo.json") || File.Exists(Application.persistentDataPath + "/landAreaSave2_undo.json"))
         {
-            SaveData2Text.text = "Save Data 2";
+            SaveData2Text.text = FindObjectOfType<SetLanguage>().loadedData.Savedata2_on[FindObjectOfType<SetLanguage>().currentLanguage];
         }
 
 
@@ -145,6 +150,7 @@ public class UIManager : MonoBehaviour
     public void LoadSaveDataClick()
     {
         //SavaDataManager.Instance.LoadSaveData();
+        
         saveDataPanal.SetActive(false);
     }
 

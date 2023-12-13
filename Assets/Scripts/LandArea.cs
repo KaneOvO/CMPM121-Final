@@ -145,6 +145,7 @@ public class SerializableDataWrapper
     public int onionNeeded;
     public int maxTurns;
     public string humanInstructions;
+    public int language;
     public List<SerializableLandCellArray> data;
 }
 

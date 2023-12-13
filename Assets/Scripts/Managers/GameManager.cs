@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
         ClearRedoStack();
         SaveCureentSituations();
         currentTurn++;
+        FindObjectOfType<SetLanguage>().updateDate();
     }
 
     public void SaveCureentSituations()

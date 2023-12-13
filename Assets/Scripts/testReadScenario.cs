@@ -72,7 +72,7 @@ public class testReadScenario : MonoBehaviour
         foreach (Scenario scenario in gameSettings.scenarios)
         {
             GameManager.Instance.maxTurns = scenario.settings.maxTurns;
-            GameManager.Instance.humanInstructions = scenario.settings.humanInstructions;
+            // GameManager.Instance.humanInstructions = scenario.settings.humanInstructions;
             foreach (WinCondition winCondition in scenario.settings.winConditions)
             {
                 switch (winCondition.condition)

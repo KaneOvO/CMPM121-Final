@@ -24,4 +24,7 @@ public static class GlobalValue
     public const int COLUMN = 9;
     public const int ROW = 4;
     public const int Last_COLUMN_OFFSET = 1;
+    public const int ENGLISH_LANGUAGE_INDEX = 0;
+    public const int CHINESE_LANGUAGE_INDEX = 1;
+    public const int ARABIC_LANGUAGE_INDEX = 2;
 }

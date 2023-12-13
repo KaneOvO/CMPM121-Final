@@ -3,7 +3,6 @@
     {
       "settings": {
         "maxTurns": 10,
-        "humanInstructions": "Grow at least 5 carrots, 8 cabbage, and 1 onion in 10 turns",
         "winConditions": [
           {
             "condition": "Carrot",
