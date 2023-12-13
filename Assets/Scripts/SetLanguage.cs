@@ -80,6 +80,8 @@ public class SetLanguage : MonoBehaviour
             if (child.name == "Text (TMP)")
             {
                 TextMeshProUGUI tmpComponent = child.GetComponent<TextMeshProUGUI>();
+                ArabicFixerTMPRO arabicFixerTMPRO = child.GetComponent<ArabicFixerTMPRO>() ?? child.gameObject.AddComponent<ArabicFixerTMPRO>();
+                arabicFixerTMPRO.enabled = currentLanguage == GlobalValue.ARABIC_LANGUAGE_INDEX ? true : false;
                 if (tmpComponent != null)
                 {
 
@@ -88,6 +90,11 @@ public class SetLanguage : MonoBehaviour
                     if (languageList != null)
                     {
                         tmpComponent.text = GetListByName(loadedData, child.parent.name)[currentLanguage];
+                        if (currentLanguage == GlobalValue.ARABIC_LANGUAGE_INDEX)
+                        {
+                            arabicFixerTMPRO.fixedText = GetListByName(loadedData, child.parent.name)[currentLanguage];
+                        }
+
                     }
                 }
             }

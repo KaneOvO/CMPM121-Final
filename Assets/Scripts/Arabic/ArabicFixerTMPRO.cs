@@ -3,12 +3,12 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 using System.Collections;
-
+[ExecuteInEditMode]
 public class ArabicFixerTMPRO : MonoBehaviour
 {
     public string fixedText;
-    public bool ShowTashkeel;
-    public bool UseHinduNumbers;
+    public bool ShowTashkeel = true;
+    public bool UseHinduNumbers = true;
 
     TextMeshProUGUI tmpTextComponent;
 
