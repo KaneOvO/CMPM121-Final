@@ -11,7 +11,7 @@ public class LandAreaSaver : MonoBehaviour
 
     // private float timer = 0f;
     // private float interval = 10f;
-    
+
     public void SaveLandArea(string filePath, Stack<Savedata> stack)
     {
         landArea = PlantManager.landArea;
@@ -20,13 +20,13 @@ public class LandAreaSaver : MonoBehaviour
             Debug.LogError("LandArea is null!");
             return;
         }
-        SerializeStackToJSON(stack, Application.persistentDataPath+filePath);
+        SerializeStackToJSON(stack, Application.persistentDataPath + filePath);
     }
 
 
     public LandArea LoadLandArea(string filePath, Stack<Savedata> undostack, Stack<Savedata> redostack)
     {
-        string undo_filePath=Application.persistentDataPath+filePath+"_undo.json";
+        string undo_filePath = Application.persistentDataPath + filePath + "_undo.json";
         if (!File.Exists(undo_filePath))
         {
             return new LandArea();
@@ -39,7 +39,8 @@ public class LandAreaSaver : MonoBehaviour
             return new LandArea(); // Or handle the error as appropriate
         }
         undostack.Clear();
-        foreach (var serializableArray in un_wrapper.data){
+        foreach (var serializableArray in un_wrapper.data)
+        {
             Savedata savedata = ConvertToSavedata(serializableArray);
             undostack.Push(savedata);
         }
@@ -51,7 +52,7 @@ public class LandAreaSaver : MonoBehaviour
         UIManager.Instance.instructionText.text = GameManager.Instance.humanInstructions;
 
 
-        string redo_filePath=Application.persistentDataPath+filePath+"_redo.json";
+        string redo_filePath = Application.persistentDataPath + filePath + "_redo.json";
         if (!File.Exists(redo_filePath))
         {
             return new LandArea();
@@ -64,11 +65,12 @@ public class LandAreaSaver : MonoBehaviour
             return new LandArea(); // Or handle the error as appropriate
         }
         redostack.Clear();
-        foreach (var serializableArray in re_wrapper.data){
+        foreach (var serializableArray in re_wrapper.data)
+        {
             Savedata savedata = ConvertToSavedata(serializableArray);
             redostack.Push(savedata);
         }
-        
+
         Savedata latest = undostack.Pop();
         LandArea landArea = latest.landArea;
         GameManager.Instance.currentTurn = latest.currentTurn;
@@ -81,8 +83,8 @@ public class LandAreaSaver : MonoBehaviour
     private Savedata ConvertToSavedata(SerializableLandCellArray serializableArray)
     {
         LandArea landArea = ConvertToLandArea(serializableArray.cells);
-        return new Savedata(landArea, serializableArray.currentTurn, 
-                            serializableArray.numOfCarrot, serializableArray.numOfCabbage, 
+        return new Savedata(landArea, serializableArray.currentTurn,
+                            serializableArray.numOfCarrot, serializableArray.numOfCabbage,
                             serializableArray.numOfOnion);
     }
 
@@ -93,7 +95,7 @@ public class LandAreaSaver : MonoBehaviour
         for (int i = 0; i < serializableCells.Length; i++)
         {
             var serializableCell = serializableCells[i];
-            
+
             landArea.addCell(new LandCell(buffer, i * LandCell.NumBytes)
             {
                 isPanted = serializableCell.isPanted,
@@ -101,7 +103,7 @@ public class LandAreaSaver : MonoBehaviour
                 currentStage = serializableCell.currentStage,
                 water = serializableCell.water
             });
-            
+
         }
         return landArea;
     }
@@ -109,17 +111,17 @@ public class LandAreaSaver : MonoBehaviour
 
     public void SerializeStackToJSON(Stack<Savedata> stack, string filePath)
     {
-        int count=0;
+        int count = 0;
         if (stack == null || stack.Count == 0)
         {
             File.WriteAllText(filePath, "{}");
             return;
         }
-        
+
         List<SerializableLandCellArray> serializedDataList = new List<SerializableLandCellArray>();
         foreach (Savedata savedata in stack)
         {
-            count+=1;
+            count += 1;
             if (savedata == null || savedata.landArea == null || savedata.landArea.landCells == null)
             {
                 //Debug.Log("Found null or invalid data in the stack. Skipping an item.");
@@ -185,17 +187,19 @@ public class LandAreaSaver : MonoBehaviour
 
     public void SavedataAuto()
     {
-        if(GameManager.Instance.currentTurn <= GameManager.Instance.maxTurns){
+        if (GameManager.Instance.currentTurn <= GameManager.Instance.maxTurns)
+        {
             GameManager.Instance.SaveCureentSituations();
             SaveLandArea("/landAreaSaveAuto_undo.json", GameManager.undoStack);
             SaveLandArea("/landAreaSaveAuto_redo.json", GameManager.redoStack);
         }
-        
+
     }
 
     public void Savedata1()
     {
-        if(GameManager.Instance.currentTurn <= GameManager.Instance.maxTurns){
+        if (GameManager.Instance.currentTurn <= GameManager.Instance.maxTurns)
+        {
             GameManager.Instance.SaveCureentSituations();
             SaveLandArea("/landAreaSave1_undo.json", GameManager.undoStack);
             SaveLandArea("/landAreaSave1_redo.json", GameManager.redoStack);
@@ -203,8 +207,9 @@ public class LandAreaSaver : MonoBehaviour
     }
 
     public void Savedata2()
-    { 
-        if(GameManager.Instance.currentTurn <= GameManager.Instance.maxTurns){
+    {
+        if (GameManager.Instance.currentTurn <= GameManager.Instance.maxTurns)
+        {
             GameManager.Instance.SaveCureentSituations();
             SaveLandArea("/landAreaSave2_undo.json", GameManager.undoStack);
             SaveLandArea("/landAreaSave2_redo.json", GameManager.redoStack);

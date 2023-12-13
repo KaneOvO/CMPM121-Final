@@ -180,7 +180,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: sow
+  m_text: Gather
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -207,12 +207,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
+  m_fontSize: 13.4
   m_fontSizeBase: 12
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 0
-  m_fontSizeMax: 14.8
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 1
+  m_fontSizeMax: 57.3
   m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
@@ -7364,6 +7364,70 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 601235227042398608, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (28)
+      objectReference: {fileID: 0}
+    - target: {fileID: 935182551232723808, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (21)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140600016877615223, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1272177033243780240, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (20)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1544356977026944267, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (22)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1623600924325500976, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2076057672262661389, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (34)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2150165719204387761, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2154462585122471536, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (32)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245914006055375313, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (35)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2715784670727325517, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (31)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736412195902379671, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (33)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3566382761996136223, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3942511678236507179, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (18)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4075301767929156266, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (16)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4353061859447876211, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (25)
+      objectReference: {fileID: 0}
     - target: {fileID: 4390314734821944690, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7404,9 +7468,49 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4732153116507628521, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (19)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5430559634846255980, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (24)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5658326226274164380, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (23)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6014086828447272942, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (29)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074906091368778311, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (26)
+      objectReference: {fileID: 0}
     - target: {fileID: 6174101184933781185, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
       propertyPath: m_Name
       value: Land Area
+      objectReference: {fileID: 0}
+    - target: {fileID: 6926457631782640843, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7310364505438424609, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (12)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7354294081738924606, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (30)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8398737171719178493, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (17)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8738230276834947556, guid: bbfe5dc67c0484d4d90b442b3c1ea94e, type: 3}
+      propertyPath: m_Name
+      value: Land (27)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
