@@ -15,6 +15,11 @@ public class GameManager : MonoBehaviour
     public static Savedata redoData;
     public static Savedata currentData;
 
+    public int carrotNeeded;
+    public int cabbageNeeded;
+    public int onionNeeded;
+
+
     public static GameManager Instance
     {
         get
@@ -64,7 +69,7 @@ public class GameManager : MonoBehaviour
         redoStack.Push(redoData);
         undoData = undoStack.Pop();
         redoData = new Savedata(undoData);
-        
+
 
         return true;
     }
@@ -77,7 +82,7 @@ public class GameManager : MonoBehaviour
         undoStack.Push(undoData);
         redoData = redoStack.Pop();
         undoData = new Savedata(redoData);
-        
+
 
         return true;
     }

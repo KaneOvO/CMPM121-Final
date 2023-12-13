@@ -79,6 +79,43 @@ public class LandArea
         };
     }
 
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
+        }
+
+        LandArea other = (LandArea)obj;
+
+        if (index != other.index)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < GlobalValue.LAND_NUM; i++)
+        {
+            if (landCells[i] == null)
+            {
+                if (other.landCells[i] != null)
+                {
+                    return false;
+                }
+            }
+            else if (!landCells[i].Equals(other.landCells[i]))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
+
 }
 
 [System.Serializable]

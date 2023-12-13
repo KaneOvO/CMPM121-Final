@@ -72,7 +72,7 @@ public class Land : MonoBehaviour
             int totalColumns = GlobalValue.COLUMN;
             int index = FindID();
             int row = index / totalColumns;
-            int column = index % totalColumns; 
+            int column = index % totalColumns;
 
             LandCell currentCell = PlantManager.landArea.GetLandCell(index);
             PlantType plantType = currentCell.landPlantedType;
@@ -111,9 +111,10 @@ public class Land : MonoBehaviour
                 }
             }
 
-            PlantManager.landArea.GetLandCell(index).water += RandomResources.GetRandom();
-            sun = GetSun();
+
         }
+        PlantManager.landArea.GetLandCell(FindID()).water += RandomResources.GetRandom();
+        sun = GetSun();
     }
 
     public void undoThisLand()

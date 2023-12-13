@@ -9,10 +9,7 @@ public class LandAreaSaver : MonoBehaviour
 {
     public LandArea landArea;
 
-    // private float timer = 0f;
-    // private float interval = 10f;
-
-    public void SaveLandArea(string filePath, Stack<Savedata> stack)
+    public void SaveUndo(string filePath, Stack<Savedata> stack)
     {
         landArea = PlantManager.landArea;
         if (landArea == null)
@@ -20,7 +17,60 @@ public class LandAreaSaver : MonoBehaviour
             Debug.LogError("LandArea is null!");
             return;
         }
+
+        // SerializeStackToJSON(stack, Application.persistentDataPath + filePath);
+        // Debug.Log("Saved Undo");
+
+        // Get undo file path
+        string undo_filePath = Application.persistentDataPath + filePath;
+
+        // if undo file does not exist, then save data
+        if (!File.Exists(undo_filePath))
+        {
+            SerializeStackToJSON(stack, Application.persistentDataPath + filePath);
+            Debug.Log("Saved Undo");
+            return;
+        }
+
+        // Read JSON from undo file
+        string un_json = File.ReadAllText(undo_filePath);
+
+        // Deserialize JSON to SerializableDataWrapper object
+        SerializableDataWrapper un_wrapper = JsonUtility.FromJson<SerializableDataWrapper>(un_json);
+
+        // if deserialization failed or no data present, then save data
+        if (un_wrapper == null || un_wrapper.data == null || un_wrapper.data.Count == 0)
+        {
+            SerializeStackToJSON(stack, Application.persistentDataPath + filePath);
+            Debug.Log("Saved Undo");
+            return;
+        }
+
+        // Convert the last peek of undo stack to Savedata object
+        Savedata undoPeek = ConvertToSavedata(un_wrapper.data[un_wrapper.data.Count - 1]);
+
+        // Compare the last peek of undo stack with the current game state
+        bool isSame = IsGameStateSame(undoPeek, new Savedata(landArea, GameManager.Instance.currentTurn, PlantManager.Instance.numOfCarrot, PlantManager.Instance.numOfCabbage, PlantManager.Instance.numOfOnion));
+        if (!isSame)
+        {
+            SerializeStackToJSON(stack, Application.persistentDataPath + filePath);
+            Debug.Log("Saved Undo");
+        }
+
+    }
+
+    public void SaveRedo(string filePath, Stack<Savedata> stack)
+    {
+        landArea = PlantManager.landArea;
+        if (landArea == null)
+        {
+            Debug.LogError("LandArea is null!");
+            return;
+        }
+
         SerializeStackToJSON(stack, Application.persistentDataPath + filePath);
+        Debug.Log("Saved Redo");
+
     }
 
 
@@ -44,9 +94,9 @@ public class LandAreaSaver : MonoBehaviour
             Savedata savedata = ConvertToSavedata(serializableArray);
             undostack.Push(savedata);
         }
-        UIManager.Instance.carrotNeeded = un_wrapper.carrotNeeded;
-        UIManager.Instance.cabbageNeeded = un_wrapper.cabbageNeeded;
-        UIManager.Instance.onionNeeded = un_wrapper.onionNeeded;
+        GameManager.Instance.carrotNeeded = un_wrapper.carrotNeeded;
+        GameManager.Instance.cabbageNeeded = un_wrapper.cabbageNeeded;
+        GameManager.Instance.onionNeeded = un_wrapper.onionNeeded;
         GameManager.Instance.maxTurns = un_wrapper.maxTurns;
         GameManager.Instance.humanInstructions = un_wrapper.humanInstructions;
         UIManager.Instance.instructionText.text = GameManager.Instance.humanInstructions;
@@ -153,9 +203,9 @@ public class LandAreaSaver : MonoBehaviour
         serializedDataList.Reverse();
         SerializableDataWrapper wrapper = new SerializableDataWrapper
         {
-            carrotNeeded = UIManager.Instance.carrotNeeded,
-            cabbageNeeded = UIManager.Instance.cabbageNeeded,
-            onionNeeded = UIManager.Instance.onionNeeded,
+            carrotNeeded = GameManager.Instance.carrotNeeded,
+            cabbageNeeded = GameManager.Instance.cabbageNeeded,
+            onionNeeded = GameManager.Instance.onionNeeded,
             maxTurns = GameManager.Instance.maxTurns,
             humanInstructions = GameManager.Instance.humanInstructions,
             data = serializedDataList
@@ -185,13 +235,21 @@ public class LandAreaSaver : MonoBehaviour
         SavedataAuto();
     }
 
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            SavedataAuto();
+        }
+    }
+
     public void SavedataAuto()
     {
         if (GameManager.Instance.currentTurn <= GameManager.Instance.maxTurns)
         {
             GameManager.Instance.SaveCureentSituations();
-            SaveLandArea("/landAreaSaveAuto_undo.json", GameManager.undoStack);
-            SaveLandArea("/landAreaSaveAuto_redo.json", GameManager.redoStack);
+            SaveUndo("/landAreaSaveAuto_undo.json", GameManager.undoStack);
+            SaveRedo("/landAreaSaveAuto_redo.json", GameManager.redoStack);
         }
 
     }
@@ -201,8 +259,8 @@ public class LandAreaSaver : MonoBehaviour
         if (GameManager.Instance.currentTurn <= GameManager.Instance.maxTurns)
         {
             GameManager.Instance.SaveCureentSituations();
-            SaveLandArea("/landAreaSave1_undo.json", GameManager.undoStack);
-            SaveLandArea("/landAreaSave1_redo.json", GameManager.redoStack);
+            SaveUndo("/landAreaSave1_undo.json", GameManager.undoStack);
+            SaveRedo("/landAreaSave1_redo.json", GameManager.redoStack);
         }
     }
 
@@ -211,8 +269,8 @@ public class LandAreaSaver : MonoBehaviour
         if (GameManager.Instance.currentTurn <= GameManager.Instance.maxTurns)
         {
             GameManager.Instance.SaveCureentSituations();
-            SaveLandArea("/landAreaSave2_undo.json", GameManager.undoStack);
-            SaveLandArea("/landAreaSave2_redo.json", GameManager.redoStack);
+            SaveUndo("/landAreaSave2_undo.json", GameManager.undoStack);
+            SaveRedo("/landAreaSave2_redo.json", GameManager.redoStack);
         }
     }
 
@@ -231,6 +289,17 @@ public class LandAreaSaver : MonoBehaviour
     public void Loaddata2()
     {
         PlantManager.landArea = LoadLandArea("/landAreaSave2", GameManager.undoStack, GameManager.redoStack);
+    }
+
+    private bool IsGameStateSame(Savedata savedata1, Savedata savedata2)
+    {
+        if (savedata1.currentTurn != savedata2.currentTurn) return false;
+        if (savedata1.numberOfCarrot != savedata2.numberOfCarrot) return false;
+        if (savedata1.numberOfCabbage != savedata2.numberOfCabbage) return false;
+        if (savedata1.numberOfOnion != savedata2.numberOfOnion) return false;
+        if (!savedata1.landArea.Equals(savedata2.landArea)) return false;
+
+        return true;
     }
 
     [System.Serializable]

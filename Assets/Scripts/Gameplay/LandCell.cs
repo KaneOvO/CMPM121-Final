@@ -21,14 +21,14 @@ public class LandCell
 
     public LandCell()
     {
-        
+
     }
 
     public LandCell(LandCell other)
     {
         offset = other.offset;
         buffer = new byte[other.buffer.Length];
-        Array.Copy(other.buffer, buffer, buffer.Length);  
+        Array.Copy(other.buffer, buffer, buffer.Length);
     }
 
     public bool isPanted
@@ -53,5 +53,40 @@ public class LandCell
     {
         get => BitConverter.ToSingle(buffer, offset + GlobalValue.BOOL_BYTE_SIZE + GlobalValue.ENUM_BYTE_SIZE + GlobalValue.FLOAT_BYTE_SIZE);
         set => Array.Copy(BitConverter.GetBytes(value), GlobalValue.FIRST_INDEX, buffer, offset + GlobalValue.BOOL_BYTE_SIZE + GlobalValue.ENUM_BYTE_SIZE + GlobalValue.FLOAT_BYTE_SIZE, GlobalValue.FLOAT_BYTE_SIZE);
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
+        }
+
+        LandCell other = (LandCell)obj;
+
+        if (offset != other.offset)
+        {
+            return false;
+        }
+
+        if (buffer.Length != other.buffer.Length)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < buffer.Length; i++)
+        {
+            if (buffer[i] != other.buffer[i])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
 }

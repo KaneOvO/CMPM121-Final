@@ -1,9 +1,8 @@
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.IO;
-using System.Linq;
-using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
 
 [System.Serializable]
 public class GameSettings
@@ -36,59 +35,65 @@ public class WinCondition
 
 public class testReadScenario : MonoBehaviour
 {
-    public static GameSettings ReadJsonFile(string filePath)
-    {
-        try
-        {
-            string jsonContent = File.ReadAllText(filePath);
-            return JsonUtility.FromJson<GameSettings>(jsonContent);
-        }
-        catch (Exception ex)
-        {
-            throw new Exception($"Error reading JSON file: {ex.Message}", ex);
-        }
-    }
-
-
+    public event Action<GameSettings> OnJsonLoaded;
     void Start()
     {
-        try
+        string filePath = Path.Combine(Application.streamingAssetsPath, "example.json");
+        StartCoroutine(ReadJsonFile(filePath));
+    }
+
+    IEnumerator ReadJsonFile(string uri)
+    {
+        UnityWebRequest uwr = UnityWebRequest.Get(uri);
+        yield return uwr.SendWebRequest();
+
+        if (uwr.result != UnityWebRequest.Result.Success)
         {
-            string filePath = "Assets/example.json";
-            GameSettings gameSettings = ReadJsonFile(filePath);
-
-            foreach (Scenario scenario in gameSettings.scenarios)
-            {
-                
-                GameManager.Instance.maxTurns = scenario.settings.maxTurns;
-                GameManager.Instance.humanInstructions = scenario.settings.humanInstructions;
-                foreach (WinCondition winCondition in scenario.settings.winConditions)
-                {
-                    ;
-                    switch (winCondition.condition)
-                    {
-                        case "Carrot":
-                            UIManager.Instance.carrotNeeded = winCondition.number;
-                            break;
-                        case "Cabbage":
-                            UIManager.Instance.cabbageNeeded = winCondition.number;
-                            break;
-                        case "Onion":
-                            UIManager.Instance.onionNeeded = winCondition.number;
-                            break;
-                        default:
-                            Debug.LogError($"No match found for condition: {winCondition.condition}");
-                            break;
-                    }
-                }
-
-            }
+            Debug.LogError($"Failed to load file: {uwr.error}");
         }
-        catch (Exception ex)
+        else
         {
-            Debug.LogError(ex.Message);
+            try
+            {
+                string jsonContent = uwr.downloadHandler.text;
+                GameSettings gameSettings = JsonUtility.FromJson<GameSettings>(jsonContent);
+                ProcessGameSettings(gameSettings);
+                OnJsonLoaded?.Invoke(gameSettings);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Error processing JSON file: {ex.Message}");
+            }
         }
     }
 
-
+    private void ProcessGameSettings(GameSettings gameSettings)
+    {
+        foreach (Scenario scenario in gameSettings.scenarios)
+        {
+            GameManager.Instance.maxTurns = scenario.settings.maxTurns;
+            GameManager.Instance.humanInstructions = scenario.settings.humanInstructions;
+            foreach (WinCondition winCondition in scenario.settings.winConditions)
+            {
+                switch (winCondition.condition)
+                {
+                    case "Carrot":
+                        GameManager.Instance.carrotNeeded = winCondition.number;
+                        break;
+                    case "Cabbage":
+                        GameManager.Instance.cabbageNeeded = winCondition.number;
+                        break;
+                    case "Onion":
+                        GameManager.Instance.onionNeeded = winCondition.number;
+                        break;
+                    default:
+                        Debug.LogError($"No match found for condition: {winCondition.condition}");
+                        break;
+                }
+            }
+            // Debug.Log(GameManager.Instance.maxTurns);
+            // Debug.Log(GameManager.Instance.humanInstructions);
+            // Debug.Log(GameManager.Instance.carrotNeeded);
+        }
+    }
 }

@@ -26,10 +26,8 @@ public class UIManager : MonoBehaviour
     public GameObject loseText;
     private GameObject land;
     public GameObject saveDataPanal;
-    public int carrotNeeded;
-    public int cabbageNeeded;
-    public int onionNeeded;
-
+    private bool isInitialized = false;
+    private bool isShowInstruction = false;
     private void Awake()
     {
         if (Instance == null)
@@ -45,30 +43,44 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        if(File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") && File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))
+        if (File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") && File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))
         {
             saveDataPanal.SetActive(true);
         }
 
-        instructionText.text = GameManager.Instance.humanInstructions;
+        FindObjectOfType<testReadScenario>().OnJsonLoaded += OnJsonLoaded;
+
+
     }
 
     private void Update()
     {
+
         if (land != null)
         {
             ChangeWaterText();
             ChangeSunText();
         }
 
-        if (PlantManager.Instance.numOfCarrot >= carrotNeeded &&
-         PlantManager.Instance.numOfCabbage >= cabbageNeeded &&
-          PlantManager.Instance.numOfOnion >= onionNeeded)
+        if (isInitialized)
         {
-            winText.SetActive(true);
+            if (PlantManager.Instance.numOfCarrot >= GameManager.Instance.carrotNeeded &&
+         PlantManager.Instance.numOfCabbage >= GameManager.Instance.cabbageNeeded &&
+          PlantManager.Instance.numOfOnion >= GameManager.Instance.onionNeeded)
+            {
+                winText.SetActive(true);
+            }
+
+            if (!isShowInstruction)
+            {
+                instructionText.text = GameManager.Instance.humanInstructions;
+                isShowInstruction = true;
+            }
+
         }
 
-        if(File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") || File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))
+
+        if (File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") || File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))
         {
             SaveDataAutoText.text = "Auto Save Data";
         }
@@ -78,13 +90,13 @@ public class UIManager : MonoBehaviour
         {
             SaveData1Text.text = "Save Data 1";
         }
-        
+
 
         if (File.Exists(Application.persistentDataPath + "/landAreaSave2_undo.json") || File.Exists(Application.persistentDataPath + "/landAreaSave2_undo.json"))
         {
             SaveData2Text.text = "Save Data 2";
         }
-        
+
 
     }
 
@@ -113,32 +125,42 @@ public class UIManager : MonoBehaviour
         OnionText.text = "= " + PlantManager.Instance.numOfOnion.ToString();
     }
 
-    
+
 
     public void setLand(GameObject land)
     {
         this.land = land;
     }
 
-    public void ChangeText(){
+    public void ChangeText()
+    {
         ChangeCabbageText();
         ChangeCarrotText();
         ChangeOnionText();
     }
-    public void TurnOnSaveDataPanal(){
+    public void TurnOnSaveDataPanal()
+    {
         saveDataPanal.SetActive(true);
     }
-    public void LoadSaveDataClick(){
+    public void LoadSaveDataClick()
+    {
         //SavaDataManager.Instance.LoadSaveData();
         saveDataPanal.SetActive(false);
     }
 
-    public void QuitSaveDataClick(){
+    public void QuitSaveDataClick()
+    {
         saveDataPanal.SetActive(false);
     }
-    public void SaveSaveDataClick(){
+    public void SaveSaveDataClick()
+    {
         //SaveDataManager.Instance.SaveSaveData();
         saveDataPanal.SetActive(false);
+    }
+
+    private void OnJsonLoaded(GameSettings settings)
+    {
+        isInitialized = true;
     }
 
 

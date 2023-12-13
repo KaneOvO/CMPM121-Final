@@ -94,8 +94,7 @@ public static class PlantDefinition
         PlantType.CABBAGE,
         1,
         30,
-        // ctx => ctx.water >= 30 && ctx.sunlight >= 40
-        ctx => ctx.leftPlantedSame && ctx.rightPlantedSame
+        ctx => ctx.water >= 30 && ctx.sunlight >= 40
     );
 
 
