@@ -6,21 +6,43 @@ using UnityEngine.UI;
 using System.IO;
 using TMPro;
 using System.Reflection;
+using UnityEngine.Networking;
 
 public class SetLanguage : MonoBehaviour
 {
-
+    public event Action<SetLanguage> OnJsonLoaded;
     public LocalizationData loadedData;
     TMP_FontAsset textAsset;
     public int currentLanguage = GlobalValue.ENGLISH_LANGUAGE_INDEX;
-    void Start()
+    // void Start()
+    // {
+    //     string filePath = Path.Combine(Application.streamingAssetsPath, "language_setting.json");
+    //     if (File.Exists(filePath))
+    //     {
+    //         string dataAsJson = File.ReadAllText(filePath);
+    //         loadedData = JsonUtility.FromJson<LocalizationData>(dataAsJson);
+
+    //     }
+    // }
+
+    IEnumerator Start()
     {
         string filePath = Path.Combine(Application.streamingAssetsPath, "language_setting.json");
-        if (File.Exists(filePath))
-        {
-            string dataAsJson = File.ReadAllText(filePath);
-            loadedData = JsonUtility.FromJson<LocalizationData>(dataAsJson);
 
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(filePath))
+        {
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError("Error: " + webRequest.error);
+            }
+            else
+            {
+                string dataAsJson = webRequest.downloadHandler.text;
+                loadedData = JsonUtility.FromJson<LocalizationData>(dataAsJson);
+                OnJsonLoaded?.Invoke(this);
+            }
         }
     }
     void FindAndChangeAllText()

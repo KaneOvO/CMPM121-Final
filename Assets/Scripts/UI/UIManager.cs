@@ -26,8 +26,11 @@ public class UIManager : MonoBehaviour
     public GameObject loseText;
     private GameObject land;
     public GameObject saveDataPanal;
-    private bool isInitialized = false;
+    private bool isInitializedExternalDSL = false;
     private bool isShowInstruction = false;
+
+    private bool isInitializedLanguage = false;
+    private bool isShowSavedataPanel = false;
     private void Awake()
     {
         if (Instance == null)
@@ -43,23 +46,42 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        if (File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") && File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))
-        {
-            string un_json = File.ReadAllText(Application.persistentDataPath + "/landAreaSaveAuto_undo.json");
-            SerializableDataWrapper un_wrapper = JsonUtility.FromJson<SerializableDataWrapper>(un_json);
-            if(un_wrapper.language != FindObjectOfType<SetLanguage>().currentLanguage){
-                FindObjectOfType<SetLanguage>().updateLanguage(un_wrapper.language);
-            }
-            saveDataPanal.SetActive(true);
-        }
+        // if (File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") && File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))
+        // {
+        //     string un_json = File.ReadAllText(Application.persistentDataPath + "/landAreaSaveAuto_undo.json");
+        //     SerializableDataWrapper un_wrapper = JsonUtility.FromJson<SerializableDataWrapper>(un_json);
+        //     if (un_wrapper.language != FindObjectOfType<SetLanguage>().currentLanguage)
+        //     {
+        //         FindObjectOfType<SetLanguage>().updateLanguage(un_wrapper.language);
+        //     }
+        //     saveDataPanal.SetActive(true);
+        // }
 
         FindObjectOfType<testReadScenario>().OnJsonLoaded += OnJsonLoaded;
+        FindObjectOfType<SetLanguage>().OnJsonLoaded += OnJsonLoaded;
 
 
     }
 
     private void Update()
     {
+        if (!isShowSavedataPanel)
+        {
+            if (File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") && File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))
+            {
+                if (isInitializedLanguage)
+                {
+                    string un_json = File.ReadAllText(Application.persistentDataPath + "/landAreaSaveAuto_undo.json");
+                    SerializableDataWrapper un_wrapper = JsonUtility.FromJson<SerializableDataWrapper>(un_json);
+                    if (un_wrapper.language != FindObjectOfType<SetLanguage>().currentLanguage)
+                    {
+                        FindObjectOfType<SetLanguage>().updateLanguage(un_wrapper.language);
+                    }
+                    saveDataPanal.SetActive(true);
+                    isShowSavedataPanel = true;
+                }
+            }
+        }
 
         if (land != null)
         {
@@ -67,7 +89,7 @@ public class UIManager : MonoBehaviour
             ChangeSunText();
         }
 
-        if (isInitialized)
+        if (isInitializedExternalDSL)
         {
             if (PlantManager.Instance.numOfCarrot >= GameManager.Instance.carrotNeeded &&
          PlantManager.Instance.numOfCabbage >= GameManager.Instance.cabbageNeeded &&
@@ -87,19 +109,28 @@ public class UIManager : MonoBehaviour
 
         if (File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") || File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))
         {
-            SaveDataAutoText.text = FindObjectOfType<SetLanguage>().loadedData.SavedataAuto_on[FindObjectOfType<SetLanguage>().currentLanguage];
+            if (isInitializedLanguage)
+            {
+                SaveDataAutoText.text = FindObjectOfType<SetLanguage>().loadedData.SavedataAuto_on[FindObjectOfType<SetLanguage>().currentLanguage];
+            }
         }
 
 
         if (File.Exists(Application.persistentDataPath + "/landAreaSave1_undo.json") || File.Exists(Application.persistentDataPath + "/landAreaSave1_redo.json"))
         {
-            SaveData1Text.text = FindObjectOfType<SetLanguage>().loadedData.Savedata1_on[FindObjectOfType<SetLanguage>().currentLanguage];
+            if (isInitializedLanguage)
+            {
+                SaveData1Text.text = FindObjectOfType<SetLanguage>().loadedData.Savedata1_on[FindObjectOfType<SetLanguage>().currentLanguage];
+            }
         }
 
 
         if (File.Exists(Application.persistentDataPath + "/landAreaSave2_undo.json") || File.Exists(Application.persistentDataPath + "/landAreaSave2_undo.json"))
         {
-            SaveData2Text.text = FindObjectOfType<SetLanguage>().loadedData.Savedata2_on[FindObjectOfType<SetLanguage>().currentLanguage];
+            if (isInitializedLanguage)
+            {
+                SaveData2Text.text = FindObjectOfType<SetLanguage>().loadedData.Savedata2_on[FindObjectOfType<SetLanguage>().currentLanguage];
+            }
         }
 
 
@@ -150,7 +181,7 @@ public class UIManager : MonoBehaviour
     public void LoadSaveDataClick()
     {
         //SavaDataManager.Instance.LoadSaveData();
-        
+
         saveDataPanal.SetActive(false);
     }
 
@@ -166,7 +197,12 @@ public class UIManager : MonoBehaviour
 
     private void OnJsonLoaded(GameSettings settings)
     {
-        isInitialized = true;
+        isInitializedExternalDSL = true;
+    }
+
+    private void OnJsonLoaded(SetLanguage language)
+    {
+        isInitializedLanguage = true;
     }
 
 
