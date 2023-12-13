@@ -20,16 +20,17 @@ public class SetLanguage : MonoBehaviour
         {
             string dataAsJson = File.ReadAllText(filePath);
             loadedData = JsonUtility.FromJson<LocalizationData>(dataAsJson);
-            
+
         }
     }
     void FindAndChangeAllText()
     {
         GameObject parentObject = GameObject.Find("UICanvas");
-        
+
         if (parentObject != null)
         {
             updateDate();
+            updateInstruction();
             FindAndChangeAllTextChildren(parentObject.transform);
         }
         else
@@ -50,19 +51,20 @@ public class SetLanguage : MonoBehaviour
     }
     void FindAndChangeAllTextChildren(Transform parent)
     {
-        
+
         foreach (Transform child in parent)
         {
-            if(child.parent.name == "SettingsPanel" && child.parent.name == "Bg") continue;
+            if (child.parent.name == "SettingsPanel" || child.parent.name == "Bg" || child.parent.name == "Instruction") continue;
             if (child.name == "Text (TMP)")
             {
                 TextMeshProUGUI tmpComponent = child.GetComponent<TextMeshProUGUI>();
                 if (tmpComponent != null)
                 {
-                    
+
                     tmpComponent.GetComponent<TextMeshProUGUI>().font = textAsset;
                     List<string> languageList = GetListByName(loadedData, child.parent.name);
-                    if(languageList != null){
+                    if (languageList != null)
+                    {
                         tmpComponent.text = GetListByName(loadedData, child.parent.name)[currentLanguage];
                     }
                 }
@@ -70,7 +72,9 @@ public class SetLanguage : MonoBehaviour
             FindAndChangeAllTextChildren(child);
         }
     }
-    public void updateLanguage(int languageIndex){
+    public void updateLanguage(int languageIndex)
+    {
+        updateInstruction();
         if (currentLanguage != languageIndex)
         {
             currentLanguage = languageIndex;
@@ -89,7 +93,8 @@ public class SetLanguage : MonoBehaviour
             }
         }
     }
-    public void updateDate(){
+    public void updateDate()
+    {
         GameObject.Find("Bg").transform.GetChild(0).GetComponent<TextMeshProUGUI>().font = textAsset;
         switch (currentLanguage)
         {
@@ -100,9 +105,26 @@ public class SetLanguage : MonoBehaviour
                 GameObject.Find("Bg").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = loadedData.Day[currentLanguage] + GameManager.Instance.currentTurn;
                 break;
         }
-        
+
     }
-    public void setArabic(){
+    public void updateInstruction()
+    {
+        GameObject.Find("Instruction").transform.GetChild(0).GetComponent<TextMeshProUGUI>().font = textAsset;
+        switch (currentLanguage)
+        {
+            case GlobalValue.ENGLISH_LANGUAGE_INDEX:
+                GameObject.Find("Instruction").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Grow at least:" + (GameManager.Instance.carrotNeeded > 0 ? $" {GameManager.Instance.carrotNeeded} carrots " : "") + (GameManager.Instance.cabbageNeeded > 0 ? $" {GameManager.Instance.cabbageNeeded} cabbage " : "") + (GameManager.Instance.onionNeeded > 0 ? $" {GameManager.Instance.onionNeeded} onion," : "") + $" in {GameManager.Instance.maxTurns} turns";
+                break;
+            case GlobalValue.CHINESE_LANGUAGE_INDEX:
+                GameObject.Find("Instruction").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"在 {GameManager.Instance.maxTurns} 轮内种植至少:" + (GameManager.Instance.carrotNeeded > 0 ? $" {GameManager.Instance.carrotNeeded} 个胡萝卜 " : "") + (GameManager.Instance.cabbageNeeded > 0 ? $" {GameManager.Instance.cabbageNeeded} 个卷心菜 " : "") + (GameManager.Instance.onionNeeded > 0 ? $" {GameManager.Instance.onionNeeded} 个洋葱 " : "");
+                break;
+            case GlobalValue.ARABIC_LANGUAGE_INDEX:
+                GameObject.Find("Instruction").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "قم بزراعة ما لا يقل عن:" + (GameManager.Instance.carrotNeeded > 0 ? $" {GameManager.Instance.carrotNeeded} جزرات " : "") + (GameManager.Instance.cabbageNeeded > 0 ? $" {GameManager.Instance.cabbageNeeded} حبات ملفوف " : "") + (GameManager.Instance.onionNeeded > 0 ? $" {GameManager.Instance.onionNeeded} بصلة، " : "") + $" في {GameManager.Instance.maxTurns} دورات";
+                break;
+        }
+    }
+    public void setArabic()
+    {
         textAsset = Resources.Load<TMP_FontAsset>("Font/Tajawal-Light SDF");
         currentLanguage = GlobalValue.ARABIC_LANGUAGE_INDEX;
         FindAndChangeAllText();
@@ -113,17 +135,18 @@ public class SetLanguage : MonoBehaviour
         currentLanguage = GlobalValue.CHINESE_LANGUAGE_INDEX;
         FindAndChangeAllText();
     }
-    public void setEnglish(){
+    public void setEnglish()
+    {
         textAsset = Resources.Load<TMP_FontAsset>("Font/LiberationSans SDF");
         currentLanguage = GlobalValue.ENGLISH_LANGUAGE_INDEX;
         FindAndChangeAllText();
     }
 
-    
+
 
     void Update()
     {
-        
+
     }
 }
 

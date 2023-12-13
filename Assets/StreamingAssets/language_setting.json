@@ -20,6 +20,5 @@
   "GameWin": ["You Win!", "你赢了！", "فزت!"],
   "Yes": ["Yes", "是", "نعم"],
   "No": ["No", "否", "لا"],
-  "StartSavePanel": ["Found your last play record, do you want to start from the record?", "存在您最近的游玩记录，要从该记录开始吗？", "وجدت سجل اللعب الأخير الخاص بك، هل تريد البدء من السجل؟"],
-  "Instruction": ["Grow at least 5 carrots, 8 cabbage, and 1 onion in 10 turns", "在 10 轮内种植至少 5 个胡萝卜、8 个卷心菜和 1 个洋葱", "قم بزراعة ما لا يقل عن 5 جزرات و8 حبات ملفوف وبصلة واحدة في 10 دورات"]
+  "StartSavePanel": ["Found your last play record, do you want to start from the record?", "存在您最近的游玩记录，要从该记录开始吗？", "وجدت سجل اللعب الأخير الخاص بك، هل تريد البدء من السجل؟"]
 }

@@ -76,11 +76,11 @@ public class UIManager : MonoBehaviour
                 winText.SetActive(true);
             }
 
-            // if (!isShowInstruction)
-            // {
-            //     Debug.Log(InstructionText);
-            //     isShowInstruction = true;
-            // }
+            if (!isShowInstruction)
+            {
+                FindObjectOfType<SetLanguage>().updateInstruction();
+                isShowInstruction = true;
+            }
 
         }
 

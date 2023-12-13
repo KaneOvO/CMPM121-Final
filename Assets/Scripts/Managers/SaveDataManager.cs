@@ -98,7 +98,7 @@ public class LandAreaSaver : MonoBehaviour
         GameManager.Instance.cabbageNeeded = un_wrapper.cabbageNeeded;
         GameManager.Instance.onionNeeded = un_wrapper.onionNeeded;
         GameManager.Instance.maxTurns = un_wrapper.maxTurns;
-        GameManager.Instance.humanInstructions = un_wrapper.humanInstructions;
+        
         FindObjectOfType<SetLanguage>().updateLanguage(un_wrapper.language);
 
 
@@ -207,7 +207,6 @@ public class LandAreaSaver : MonoBehaviour
             cabbageNeeded = GameManager.Instance.cabbageNeeded,
             onionNeeded = GameManager.Instance.onionNeeded,
             maxTurns = GameManager.Instance.maxTurns,
-            humanInstructions = GameManager.Instance.humanInstructions,
             language = FindObjectOfType<SetLanguage>().currentLanguage,
             data = serializedDataList
         };
