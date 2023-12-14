@@ -138,17 +138,19 @@ public class SetLanguage : MonoBehaviour
     }
     public void updateInstruction()
     {
+        ArabicFixerTMPRO arabicFixerTMPRO = GameObject.Find("Instruction").transform.GetChild(0).GetComponent<ArabicFixerTMPRO>() ?? GameObject.Find("Instruction").transform.GetChild(0).gameObject.AddComponent<ArabicFixerTMPRO>();
         GameObject.Find("Instruction").transform.GetChild(0).GetComponent<TextMeshProUGUI>().font = textAsset;
         switch (currentLanguage)
         {
             case GlobalValue.ENGLISH_LANGUAGE_INDEX:
+                arabicFixerTMPRO.enabled = false;
                 GameObject.Find("Instruction").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Grow at least:" + (GameManager.Instance.carrotNeeded > 0 ? $" {GameManager.Instance.carrotNeeded} carrots " : "") + (GameManager.Instance.cabbageNeeded > 0 ? $" {GameManager.Instance.cabbageNeeded} cabbage " : "") + (GameManager.Instance.onionNeeded > 0 ? $" {GameManager.Instance.onionNeeded} onion," : "") + $" in {GameManager.Instance.maxTurns} turns";
                 break;
             case GlobalValue.CHINESE_LANGUAGE_INDEX:
+                arabicFixerTMPRO.enabled = false;
                 GameObject.Find("Instruction").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"在 {GameManager.Instance.maxTurns} 轮内种植至少:" + (GameManager.Instance.carrotNeeded > 0 ? $" {GameManager.Instance.carrotNeeded} 个胡萝卜 " : "") + (GameManager.Instance.cabbageNeeded > 0 ? $" {GameManager.Instance.cabbageNeeded} 个卷心菜 " : "") + (GameManager.Instance.onionNeeded > 0 ? $" {GameManager.Instance.onionNeeded} 个洋葱 " : "");
                 break;
             case GlobalValue.ARABIC_LANGUAGE_INDEX:
-                ArabicFixerTMPRO arabicFixerTMPRO = GameObject.Find("Instruction").transform.GetChild(0).GetComponent<ArabicFixerTMPRO>() ?? GameObject.Find("Instruction").transform.GetChild(0).gameObject.AddComponent<ArabicFixerTMPRO>();
                 string arabicInstruction = "قم بزراعة ما لا يقل عن:" + (GameManager.Instance.carrotNeeded > 0 ? $" {GameManager.Instance.carrotNeeded} جزرات " : "") + (GameManager.Instance.cabbageNeeded > 0 ? $" {GameManager.Instance.cabbageNeeded} حبات ملفوف " : "") + (GameManager.Instance.onionNeeded > 0 ? $" {GameManager.Instance.onionNeeded} بصلة، " : "") + $" في {GameManager.Instance.maxTurns} دورات";
                 GameObject.Find("Instruction").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = arabicInstruction;
                 arabicFixerTMPRO.fixedText = arabicInstruction;
