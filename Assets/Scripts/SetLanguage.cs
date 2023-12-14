@@ -71,21 +71,14 @@ public class SetLanguage : MonoBehaviour
             if (child.name == "Text (TMP)")
             {
                 TextMeshProUGUI tmpComponent = child.GetComponent<TextMeshProUGUI>();
-                ArabicFixerTMPRO arabicFixerTMPRO = child.GetComponent<ArabicFixerTMPRO>() ?? child.gameObject.AddComponent<ArabicFixerTMPRO>();
-                arabicFixerTMPRO.enabled = currentLanguage == GlobalValue.ARABIC_LANGUAGE_INDEX ? true : false;
                 if (tmpComponent != null)
                 {
-
                     tmpComponent.GetComponent<TextMeshProUGUI>().font = textAsset;
                     List<string> languageList = GetListByName(loadedData, child.parent.name);
                     if (languageList != null)
                     {
                         tmpComponent.text = GetListByName(loadedData, child.parent.name)[currentLanguage];
-                        if (currentLanguage == GlobalValue.ARABIC_LANGUAGE_INDEX)
-                        {
-                            arabicFixerTMPRO.fixedText = GetListByName(loadedData, child.parent.name)[currentLanguage];
-                        }
-
+                        tmpComponent.isRightToLeftText = currentLanguage == GlobalValue.ARABIC_LANGUAGE_INDEX ? true : false;
                     }
                 }
             }
@@ -117,41 +110,38 @@ public class SetLanguage : MonoBehaviour
     public void updateDate()
     {
         GameObject.Find("Bg").transform.GetChild(0).GetComponent<TextMeshProUGUI>().font = textAsset;
-        switch (currentLanguage)
-        {
-            case GlobalValue.ARABIC_LANGUAGE_INDEX:
-                GameObject.Find("Bg").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = GameManager.Instance.currentTurn + loadedData.Day[currentLanguage];
-                break;
-            default:
-                GameObject.Find("Bg").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = loadedData.Day[currentLanguage] + GameManager.Instance.currentTurn;
-                break;
-        }
+        GameObject.Find("Bg").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = loadedData.Day[currentLanguage] + GameManager.Instance.currentTurn;
+        GameObject.Find("Bg").transform.GetChild(0).GetComponent<TextMeshProUGUI>().isRightToLeftText = currentLanguage == GlobalValue.ARABIC_LANGUAGE_INDEX ? true : false;
+        // switch (currentLanguage)
+        // {
+        //     case GlobalValue.ARABIC_LANGUAGE_INDEX:
+        //         GameObject.Find("Bg").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = GameManager.Instance.currentTurn + loadedData.Day[currentLanguage];
+        //         break;
+        //     default:
+                
+        //         break;
+        // }
 
     }
     public void updateInstruction()
     {
-        ArabicFixerTMPRO arabicFixerTMPRO = GameObject.Find("Instruction").transform.GetChild(0).GetComponent<ArabicFixerTMPRO>() ?? GameObject.Find("Instruction").transform.GetChild(0).gameObject.AddComponent<ArabicFixerTMPRO>();
         GameObject.Find("Instruction").transform.GetChild(0).GetComponent<TextMeshProUGUI>().font = textAsset;
         switch (currentLanguage)
         {
             case GlobalValue.ENGLISH_LANGUAGE_INDEX:
-                arabicFixerTMPRO.enabled = false;
                 GameObject.Find("Instruction").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Grow at least:" + (GameManager.Instance.carrotNeeded > 0 ? $" {GameManager.Instance.carrotNeeded} carrots " : "") + (GameManager.Instance.cabbageNeeded > 0 ? $" {GameManager.Instance.cabbageNeeded} cabbage " : "") + (GameManager.Instance.onionNeeded > 0 ? $" {GameManager.Instance.onionNeeded} onion," : "") + $" in {GameManager.Instance.maxTurns} turns";
                 break;
             case GlobalValue.CHINESE_LANGUAGE_INDEX:
-                arabicFixerTMPRO.enabled = false;
                 GameObject.Find("Instruction").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = $"在 {GameManager.Instance.maxTurns} 轮内种植至少:" + (GameManager.Instance.carrotNeeded > 0 ? $" {GameManager.Instance.carrotNeeded} 个胡萝卜 " : "") + (GameManager.Instance.cabbageNeeded > 0 ? $" {GameManager.Instance.cabbageNeeded} 个卷心菜 " : "") + (GameManager.Instance.onionNeeded > 0 ? $" {GameManager.Instance.onionNeeded} 个洋葱 " : "");
                 break;
             case GlobalValue.ARABIC_LANGUAGE_INDEX:
-                string arabicInstruction = "قم بزراعة ما لا يقل عن:" + (GameManager.Instance.carrotNeeded > 0 ? $" {GameManager.Instance.carrotNeeded} جزرات " : "") + (GameManager.Instance.cabbageNeeded > 0 ? $" {GameManager.Instance.cabbageNeeded} حبات ملفوف " : "") + (GameManager.Instance.onionNeeded > 0 ? $" {GameManager.Instance.onionNeeded} بصلة، " : "") + $" في {GameManager.Instance.maxTurns} دورات";
-                GameObject.Find("Instruction").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = arabicInstruction;
-                arabicFixerTMPRO.fixedText = arabicInstruction;
+                GameObject.Find("Instruction").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "قم بزراعة ما لا يقل عن:" + (GameManager.Instance.carrotNeeded > 0 ? $" {GameManager.Instance.carrotNeeded} جزرات " : "") + (GameManager.Instance.cabbageNeeded > 0 ? $" {GameManager.Instance.cabbageNeeded} حبات ملفوف " : "") + (GameManager.Instance.onionNeeded > 0 ? $" {GameManager.Instance.onionNeeded} بصلة، " : "") + $" في {GameManager.Instance.maxTurns} دورات";
                 break;
         }
     }
     public void setArabic()
     {
-        
+
         textAsset = Resources.Load<TMP_FontAsset>("Font/Tajawal-Light SDF");
         currentLanguage = GlobalValue.ARABIC_LANGUAGE_INDEX;
         FindAndChangeAllText();

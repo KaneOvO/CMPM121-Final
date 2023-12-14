@@ -71,6 +71,7 @@ public class UIManager : MonoBehaviour
             {
                 if (isInitializedLanguage)
                 {
+                    isShowSavedataPanel = true;
                     string un_json = File.ReadAllText(Application.persistentDataPath + "/landAreaSaveAuto_undo.json");
                     SerializableDataWrapper un_wrapper = JsonUtility.FromJson<SerializableDataWrapper>(un_json);
                     if (un_wrapper.language != FindObjectOfType<SetLanguage>().currentLanguage)
@@ -78,7 +79,7 @@ public class UIManager : MonoBehaviour
                         FindObjectOfType<SetLanguage>().updateLanguage(un_wrapper.language);
                     }
                     saveDataPanal.SetActive(true);
-                    isShowSavedataPanel = true;
+                    
                 }
             }
         }
