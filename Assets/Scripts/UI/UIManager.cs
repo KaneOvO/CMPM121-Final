@@ -30,7 +30,9 @@ public class UIManager : MonoBehaviour
     private bool isShowInstruction = false;
 
     private bool isInitializedLanguage = false;
-    private bool isShowSavedataPanel = false;
+    private bool isLoadSetting = false;
+    private bool isTimeShowPanal = true;
+
     private void Awake()
     {
         if (Instance == null)
@@ -46,40 +48,31 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        // if (File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") && File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))
-        // {
-        //     string un_json = File.ReadAllText(Application.persistentDataPath + "/landAreaSaveAuto_undo.json");
-        //     SerializableDataWrapper un_wrapper = JsonUtility.FromJson<SerializableDataWrapper>(un_json);
-        //     if (un_wrapper.language != FindObjectOfType<SetLanguage>().currentLanguage)
-        //     {
-        //         FindObjectOfType<SetLanguage>().updateLanguage(un_wrapper.language);
-        //     }
-        //     saveDataPanal.SetActive(true);
-        // }
-
         FindObjectOfType<testReadScenario>().OnJsonLoaded += OnJsonLoaded;
         FindObjectOfType<SetLanguage>().OnJsonLoaded += OnJsonLoaded;
-
-
+        Invoke("SetIsTimeShowPanel", 1f);
     }
 
     private void Update()
     {
-        if (!isShowSavedataPanel)
+        if (!isLoadSetting)
         {
             if (File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_undo.json") && File.Exists(Application.persistentDataPath + "/landAreaSaveAuto_redo.json"))
             {
                 if (isInitializedLanguage)
                 {
-                    isShowSavedataPanel = true;
+                    isLoadSetting = true;
                     string un_json = File.ReadAllText(Application.persistentDataPath + "/landAreaSaveAuto_undo.json");
                     SerializableDataWrapper un_wrapper = JsonUtility.FromJson<SerializableDataWrapper>(un_json);
                     if (un_wrapper.language != FindObjectOfType<SetLanguage>().currentLanguage)
                     {
                         FindObjectOfType<SetLanguage>().updateLanguage(un_wrapper.language);
                     }
-                    saveDataPanal.SetActive(true);
                     
+                }
+                if(isTimeShowPanal)
+                {
+                    saveDataPanal.SetActive(true);
                 }
             }
         }
@@ -192,7 +185,6 @@ public class UIManager : MonoBehaviour
     }
     public void SaveSaveDataClick()
     {
-        //SaveDataManager.Instance.SaveSaveData();
         saveDataPanal.SetActive(false);
     }
 
@@ -204,6 +196,11 @@ public class UIManager : MonoBehaviour
     private void OnJsonLoaded(SetLanguage language)
     {
         isInitializedLanguage = true;
+    }
+
+    private void SetIsTimeShowPanel()
+    {
+        this.isTimeShowPanal = false;
     }
 
 

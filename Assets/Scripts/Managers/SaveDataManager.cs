@@ -18,9 +18,6 @@ public class LandAreaSaver : MonoBehaviour
             return;
         }
 
-        // SerializeStackToJSON(stack, Application.persistentDataPath + filePath);
-        // Debug.Log("Saved Undo");
-
         // Get undo file path
         string undo_filePath = Application.persistentDataPath + filePath;
 
@@ -85,7 +82,6 @@ public class LandAreaSaver : MonoBehaviour
         SerializableDataWrapper un_wrapper = JsonUtility.FromJson<SerializableDataWrapper>(un_json);
         if (un_wrapper == null || un_wrapper.data == null)
         {
-            // Debug.LogError("Failed to deserialize JSON or no data present.");
             return new LandArea(); // Or handle the error as appropriate
         }
         undostack.Clear();
@@ -111,7 +107,6 @@ public class LandAreaSaver : MonoBehaviour
         SerializableDataWrapper re_wrapper = JsonUtility.FromJson<SerializableDataWrapper>(re_json);
         if (re_wrapper == null || re_wrapper.data == null)
         {
-            // Debug.LogError("Failed to deserialize JSON or no data present.");
             return new LandArea(); // Or handle the error as appropriate
         }
         redostack.Clear();
@@ -174,7 +169,6 @@ public class LandAreaSaver : MonoBehaviour
             count += 1;
             if (savedata == null || savedata.landArea == null || savedata.landArea.landCells == null)
             {
-                //Debug.Log("Found null or invalid data in the stack. Skipping an item.");
                 continue; // Skip this item
             }
 
@@ -223,11 +217,6 @@ public class LandAreaSaver : MonoBehaviour
             currentStage = landCell.currentStage,
             water = landCell.water
         };
-    }
-
-    private void Update()
-    {
-
     }
 
     private void OnApplicationQuit()

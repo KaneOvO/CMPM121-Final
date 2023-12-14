@@ -42,11 +42,6 @@ public class PlantManager : MonoBehaviour
         GameManager.Instance.SaveCureentSituations();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void setLand(GameObject land)
     {

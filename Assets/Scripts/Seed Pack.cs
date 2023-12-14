@@ -6,7 +6,7 @@ using UnityEngine;
 public class SeedPack : MonoBehaviour
 {
     public bool isSelected = false;
-    public PlantType seedType; //0 = none; 1 = carrot; 2 = cabbage; 3 = onion;
+    public PlantType seedType; 
     private Vector3 originPos;
     private Navigate navigateScript;
 
@@ -25,7 +25,7 @@ public class SeedPack : MonoBehaviour
 
     private void OnMouseDown()
     {
-        //Debug.Log("Seed Selected");
+        
         isSelected = true;
 
         PlantManager.Instance.packSelected = isSelected;
@@ -36,7 +36,7 @@ public class SeedPack : MonoBehaviour
 
     private void OnMouseUp()
     {
-        //Debug.Log("Seed Deselected");
+       
         isSelected = false;
 
         PlantManager.Instance.packSelected = isSelected;
@@ -51,7 +51,6 @@ public class SeedPack : MonoBehaviour
 
         if (isSelected)
         {
-            //Debug.Log("Seed Moving");
             var target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             target.z = 0;
             transform.position = target;

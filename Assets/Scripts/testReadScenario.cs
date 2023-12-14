@@ -72,7 +72,6 @@ public class testReadScenario : MonoBehaviour
         foreach (Scenario scenario in gameSettings.scenarios)
         {
             GameManager.Instance.maxTurns = scenario.settings.maxTurns;
-            // GameManager.Instance.humanInstructions = scenario.settings.humanInstructions;
             foreach (WinCondition winCondition in scenario.settings.winConditions)
             {
                 switch (winCondition.condition)
@@ -91,9 +90,6 @@ public class testReadScenario : MonoBehaviour
                         break;
                 }
             }
-            // Debug.Log(GameManager.Instance.maxTurns);
-            // Debug.Log(GameManager.Instance.humanInstructions);
-            // Debug.Log(GameManager.Instance.carrotNeeded);
         }
     }
 }

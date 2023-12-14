@@ -4,18 +4,6 @@ using UnityEngine;
 
 public class LandAreaOperation : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void CallNextTurnOnChildren()
     {
         foreach (Transform child in transform)
@@ -28,7 +16,7 @@ public class LandAreaOperation : MonoBehaviour
         }
         if(GameManager.Instance.currentTurn > GameManager.Instance.maxTurns){
             UIManager.Instance.loseText.SetActive(true);
-            return;//需要结束画面
+            return;
         }
     }
 

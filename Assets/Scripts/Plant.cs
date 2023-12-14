@@ -44,7 +44,6 @@ public class GrowthContext
     public bool leftPlantedSame { get; set; }
     public bool rightPlantedSame { get; set; }
 
-    // public GrowthContext(float water, float sunlight, bool leftIsPlanted, bool rightIsPlanted)
     public GrowthContext(float water, float sunlight, bool leftIsPlanted, bool rightIsPlanted, bool leftPlantedSame, bool rightPlantedSame)
     {
         this.water = water;

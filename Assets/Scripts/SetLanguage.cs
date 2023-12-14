@@ -112,15 +112,6 @@ public class SetLanguage : MonoBehaviour
         GameObject.Find("Bg").transform.GetChild(0).GetComponent<TextMeshProUGUI>().font = textAsset;
         GameObject.Find("Bg").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = loadedData.Day[currentLanguage] + GameManager.Instance.currentTurn;
         GameObject.Find("Bg").transform.GetChild(0).GetComponent<TextMeshProUGUI>().isRightToLeftText = currentLanguage == GlobalValue.ARABIC_LANGUAGE_INDEX ? true : false;
-        // switch (currentLanguage)
-        // {
-        //     case GlobalValue.ARABIC_LANGUAGE_INDEX:
-        //         GameObject.Find("Bg").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = GameManager.Instance.currentTurn + loadedData.Day[currentLanguage];
-        //         break;
-        //     default:
-                
-        //         break;
-        // }
 
     }
     public void updateInstruction()

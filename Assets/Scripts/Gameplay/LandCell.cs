@@ -4,11 +4,6 @@ using UnityEngine;
 using System;
 public class LandCell
 {
-    // public bool isPanted = false;
-    // public int landPlantedType;
-    // public float water;
-    // public float sun;
-    // public float currentStage = 0;
     public static readonly int NumBytes = GlobalValue.BYTE_NUM;
     private byte[] buffer;
     private int offset;

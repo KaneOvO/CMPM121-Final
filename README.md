@@ -290,7 +290,7 @@ Let say if I want to add a special condition that check if left and right land p
             this.rightPlantedSame = rightPlantedSame;
         }
     }
-    ``` 
+    ```
 
 - 2nd: Change the defination of the plant I want to apply:
 -- 
@@ -359,4 +359,200 @@ During the development process, we noticed that a benefit of using an internal D
 
 During the development of F2, we encountered some troubles. The first is that during the development of the internal DSL, because we used enum when initially defining plant types, this forced us to define the definition of plants separately from the growth conditions. In addition, we found that if we want to write an automated growth code, we need to put the plant's growth conditions in a dictionary, but this dictionary must be added manually by the developer, which does not meet the original idea of our DSL. Finally we found the method of automatic registration, through which the growth conditions will be automatically added to the dictionary after being defined.
 
-During the development of the external DSL, we initially used YAML, but later discovered that C# could not natively support reading YAML files and had to import a third-party library. This forces us to return our attention to JSON. Additionally, new parameters such as victory conditions and turn limits are defined due to external DSLs. We had to reconstruct the parts of our archive again. This is to avoid the bug of using old saves but using new victory conditions.
+During the development of the external DSL, we initially used YAML, but later discovered that C# could not natively support reading YAML files and had to import a third-party library. This forces us to return our attention to JSON. Additionally, new parameters such as victory conditions and turn limits are defined due to external DSLs. We had to reconstruct the parts of our archive again. This is to avoid the bug of using old saves but using new victory conditions.、
+
+
+
+# Devlog Entry - [F3]
+
+## How we satisfied the software requirements
+
+### **F0+F1+F2**
+
+- [F0.a] You control a character moving on a 2D grid.
+  - same as last week.
+- [F0.b] You advance time in the turn-based simulation manually.
+  - same as last weeks.
+- [F0.c] You can reap (gather) or sow (plant) plants on the grid when your character is near them.
+  - same as last week.
+- [F0.d] Grid cells have sun and water levels. The incoming sun and water for each cell is somehow randomly generated each turn. Sun energy cannot be stored in a cell (it is used immediately or lost) while water moisture can be slowly accumulated over several turns.
+  - same as last week.
+- [F0.e] Each plant on the grid has a type (e.g. one of 3 species) and a growth level (e.g. “level 1”, “level 2”, “level 3”).
+  - same as last week.
+- [F0.f] Simple spatial rules govern plant growth based on sun, water, and nearby plants (growth is unlocked by satisfying conditions).
+  - same as last week.
+- [F0.g] A play scenario is completed when some condition is satisfied (e.g. at least X plants at growth level Y or above).
+  - same as last week.
+- [F1.a] The important state of each cell of your game’s grid must be backed by a single contiguous byte array in AoS or SoA format. Your team must statically allocate memory usage for the whole grid.
+  - same as last week.
+- [F1.b] The player must be able to undo every major choice (all the way back to the start of play), even from a saved game. They should be able to redo (undo of undo operations) multiple times.
+  - same as last week.
+- [F1.c] The player must be able to manually save their progress in the game in a way that allows them to load that save and continue play another day. The player must be able to manage multiple save files (allowing save scumming).
+  - Saved content has been modified so that the player's language settings are now saved. In addition, the reading method has been modified and now uses unitywebrequest to ensure that the program can be read on Android.
+- [F1.d] Grid cells have sun and water levels. The incoming sun and water for each cell is somehow randomly generated each turn. Sun energy cannot be stored in a cell (it is used immediately or lost) while water moisture can be slowly accumulated over several turns.
+  - Added logic for automatic saving when the player temporarily leaves the game, because the Android system often directly kills the game process when closing the game, causing the saving to fail when closing.
+- [F2.a] External DSL for Scenario Design
+  - same as last week.
+- [F2.b] Internal DSL for Plants and Growth Conditions
+  - same as last week.
+
+### **Internationalization**
+
+
+
+### **Localization**
+
+To meet our requirements, we used English, Chinese, and Arabic as the three localized texts for our game. Among these, Chinese is a pictographic script, while Arabic is displayed from right to left.
+
+In the game, when players click the "setting" button, a panel pops up that includes buttons for the three languages. After a selection is made, all the UI in the game updates to the chosen language.
+
+We have based our text for all three languages on the Unity TextMeshPro system, and we have sourced fonts for each language to ensure proper display in the game. The English font comes from Unity's built-in library, the Chinese font is from the https://github.com/wy-luke/Unity-TextMeshPro-Chinese-Characters-Set project, and the Arabic font is from the https://fonts.google.com/?subset=arabic&noto.script=Arab project.
+
+While creating the English and Chinese UI, our team, being familiar with these two languages and their similar structures, did not rely on external help. However, for the Arabic UI, we had to use Google Translate for assistance, as no one in our team is proficient in Arabic. Additionally, due to the different display order of Arabic compared to the other two languages, we dynamically adjust the text's display direction based on the player's current language setting each time we set the text.
+
+```
+tmpComponent.text = GetListByName(loadedData, child.parent.name)[currentLanguage];
+tmpComponent.isRightToLeftText = currentLanguage == GlobalValue.ARABIC_LANGUAGE_INDEX ? true : false;
+```
+
+Regarding the storage of our UI text, we have employed a JSON file to store all the UI texts in our game. We defined a LocalizationData class that corresponds to the type of the stored text. At the start of the game, we deserialize the JSON text and initialize the data into this class. Additionally, we load the text as needed, based on the language selected by the player.
+
+```
+public class LocalizationData
+{
+    public List<string> Day;
+    public List<string> SaveButton;
+    public List<string> RedoButton;
+    public List<string> UndoButton;
+    public List<string> NextTurn;
+    public List<string> Gather;
+    public List<string> Close;
+    public List<string> SavedataAuto;
+    public List<string> SavedataAuto_on;
+    public List<string> Savedata1;
+    public List<string> Savedata1_on;
+    public List<string> Savedata2;
+    public List<string> Savedata2_on;
+    public List<string> Load;
+    public List<string> Save;
+    public List<string> Exit;
+    public List<string> GameOver;
+    public List<string> GameWin;
+    public List<string> StartSavePanel;
+    public List<string> SettingButton;
+    public List<string> Yes;
+    public List<string> No;
+    public List<string> Instruction;
+
+}
+```
+
+
+
+### **Mobile Installation**
+
+Due to Unity's multi-platform support, we initially expected that porting our game to mobile would be straightforward. However, the complexity of the task far exceeded our expectations. The first issue we encountered was when packaging the game as an Android project, we discovered that our original method of reading external DSLs became ineffective. After some research, we found that this was because external DSLs were not treated as in-game files by Unity during packaging. After consulting documentation, we had no choice but to store our external DSL and subsequent UI text files in the StreamingAssets folder, which is a folder designated by Unity to be included in packaging.
+
+Furthermore, after successful packaging, we encountered another issue: the game was unable to read from this folder on Android. This is because Unity requires the use of a method called UnityWebRequest for reading local files on Android, instead of the standard JSON parse. This method uses coroutines, which necessitated a redesign of our program's execution order. Eventually, we set up a callback function that would only be triggered after the file was read. We then subscribed to this callback function in areas that depended on these files, ensuring the correct execution order of the program. Below is a simple example.
+
+```
+public class testReadScenario : MonoBehaviour
+{
+    public event Action<GameSettings> OnJsonLoaded;
+    void Start()
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, "example.json");
+        StartCoroutine(ReadJsonFile(filePath));
+    }
+
+    IEnumerator ReadJsonFile(string uri)
+    {
+        UnityWebRequest uwr = UnityWebRequest.Get(uri);
+        yield return uwr.SendWebRequest();
+
+        if (uwr.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError($"Failed to load file: {uwr.error}");
+        }
+        else
+        {
+            try
+            {
+                string jsonContent = uwr.downloadHandler.text;
+                GameSettings gameSettings = JsonUtility.FromJson<GameSettings>(jsonContent);
+                ProcessGameSettings(gameSettings);
+                OnJsonLoaded?.Invoke(gameSettings);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Error processing JSON file: {ex.Message}");
+            }
+        }
+    }
+    
+  private void ProcessGameSettings(GameSettings gameSettings)
+  {
+  .....
+  }
+ 
+}
+
+public class UIManager : MonoBehaviour
+{
+	....
+	private bool isInitializedExternalDSL = false;
+
+	private void Start()
+    {
+        FindObjectOfType<testReadScenario>().OnJsonLoaded += OnJsonLoaded;
+        ....
+    }
+    
+    private void Update()
+    {
+    	if (isInitializedExternalDSL)
+        {
+            if (PlantManager.Instance.numOfCarrot >= GameManager.Instance.carrotNeeded &&
+         PlantManager.Instance.numOfCabbage >= GameManager.Instance.cabbageNeeded &&
+          PlantManager.Instance.numOfOnion >= GameManager.Instance.onionNeeded)
+            {
+                winText.SetActive(true);
+            }
+
+            if (!isShowInstruction)
+            {
+                FindObjectOfType<SetLanguage>().updateInstruction();
+                isShowInstruction = true;
+            }
+
+        }
+    }
+    
+    private void OnJsonLoaded(GameSettings settings)
+    {
+        isInitializedExternalDSL = true;
+    }
+  
+}
+```
+
+Additionally, we encountered a problem where, in Windows, our program could distinguish between player clicks on the UI and the game scene. This allowed us to disable the pathfinding algorithm when players clicked on the UI. However, upon testing in Android, we found that this method was ineffective. We had to refactor the approach, and the current logic involves using a Raycast to determine the location of the player's click. If it's on the UI, the pathfinding algorithm is disabled; otherwise, the pathfinding algorithm is enabled. Below is a simple example.
+
+```
+private bool IsOverUI()
+    {
+        if (EventSystem.current == null)
+            return false;
+
+        PointerEventData eventData = new PointerEventData(EventSystem.current) { position = Input.mousePosition };
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+        return results.Count > 0;
+    }
+```
+
+
+
+### **Mobile Play (Offline)**
+
+Since our game is packaged as an APK and runs on Android devices, after resolving the aforementioned issues related to running on Android devices, it can operate offline. Therefore, we did not spend much time on this aspect.
