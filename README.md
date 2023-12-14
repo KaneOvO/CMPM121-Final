@@ -398,7 +398,9 @@ During the development of the external DSL, we initially used YAML, but later di
 
 ### **Internationalization**
 
+We store translatable strings for various languages using the LocalizationData class. This class contains a list of strings for each UI element, indexed by language index. Then our SetLanguage class dynamically loads the appropriate strings based on the player's language choice and updates all UI texts by iterating through all UI elements.
 
+To add support for a new language, it simply involves including the new strings for each UI element in the JSON file for the new language, adding an option for the new language, and ensuring that there are font resources suitable for any unique characters in the new language.
 
 ### **Localization**
 
