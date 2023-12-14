@@ -61,8 +61,9 @@ public class ArabicFixerTMPRO : MonoBehaviour
     public void Update()
     {
         if (!isInitilized)
+        {
             return;
-
+        }
 
         // if No Need to Refresh
         if (OldText == fixedText &&
@@ -74,6 +75,7 @@ public class ArabicFixerTMPRO : MonoBehaviour
             return;
 
         FixTextForUI();
+
         OldText = fixedText;
         OldFontSize = (int)tmpTextComponent.fontSize;
         OldDeltaSize = rectTransform.sizeDelta;
@@ -113,4 +115,5 @@ public class ArabicFixerTMPRO : MonoBehaviour
             tmpTextComponent.text = finalText.TrimEnd('\n');
         }
     }
+    
 }

@@ -14,16 +14,6 @@ public class SetLanguage : MonoBehaviour
     public LocalizationData loadedData;
     TMP_FontAsset textAsset;
     public int currentLanguage = GlobalValue.ENGLISH_LANGUAGE_INDEX;
-    // void Start()
-    // {
-    //     string filePath = Path.Combine(Application.streamingAssetsPath, "language_setting.json");
-    //     if (File.Exists(filePath))
-    //     {
-    //         string dataAsJson = File.ReadAllText(filePath);
-    //         loadedData = JsonUtility.FromJson<LocalizationData>(dataAsJson);
-
-    //     }
-    // }
 
     IEnumerator Start()
     {
@@ -71,6 +61,7 @@ public class SetLanguage : MonoBehaviour
         }
         return null;
     }
+
     void FindAndChangeAllTextChildren(Transform parent)
     {
 
@@ -101,6 +92,7 @@ public class SetLanguage : MonoBehaviour
             FindAndChangeAllTextChildren(child);
         }
     }
+
     public void updateLanguage(int languageIndex)
     {
         updateInstruction();
@@ -159,6 +151,7 @@ public class SetLanguage : MonoBehaviour
     }
     public void setArabic()
     {
+        
         textAsset = Resources.Load<TMP_FontAsset>("Font/Tajawal-Light SDF");
         currentLanguage = GlobalValue.ARABIC_LANGUAGE_INDEX;
         FindAndChangeAllText();
