@@ -35,6 +35,7 @@ public class SetLanguage : MonoBehaviour
             }
         }
     }
+
     void FindAndChangeAllText()
     {
         GameObject parentObject = GameObject.Find("UICanvas");
@@ -154,7 +155,11 @@ public class SetLanguage : MonoBehaviour
 
     void Update()
     {
-
+        if(loadedData.Day.Count > GlobalValue.INITIAL_STAGE)
+        {
+            GameObject.Find("Bg").transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = loadedData.Day[currentLanguage] + GameManager.Instance.currentTurn;
+        }
+        
     }
 }
 
