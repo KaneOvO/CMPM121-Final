@@ -403,6 +403,7 @@ During the development of the external DSL, we initially used YAML, but later di
 ### **Localization**
 
 To meet our requirements, we used English, Chinese, and Arabic as the three localized texts for our game. Among these, Chinese is a pictographic script, while Arabic is displayed from right to left.
+![2](https://github.com/KaneOvO/CMPM121-Final/assets/121581341/b7e6a49d-66be-4788-887a-c07f3dfa7c3f)
 
 In the game, when players click the "setting" button, a panel pops up that includes buttons for the three languages. After a selection is made, all the UI in the game updates to the chosen language.
 
