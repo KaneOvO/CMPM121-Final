@@ -573,15 +573,31 @@ The biggest issue we faced during localization was adapting the game for Arabic.
 In conclusion, although we faced some setbacks in this development process, we found ways to overcome them, just as we have done in the past. I'm grateful for the efforts of the other team members; without them, we couldn't have completed this project. I'm proud to work alongside them.
 
 
-Credit:
-Art Assets:
+
+
+
+# Credit:
+
+## Art Assets:
+
 https://josie-makes-stuff.itch.io/pixel-art-farming-assets
 
-Font:
-Chinese: 
+
+
+## Font:
+
+### Chinese: 
+
 https://github.com/wy-luke/Unity-TextMeshPro-Chinese-Characters-Set
-Arabic:
+
+
+
+### Arabic:
+
 https://fonts.google.com/?subset=arabic&noto.script=Arab
 
-Navmesh:
+
+
+## Navmesh:
+
 https://github.com/h8man/NavMeshPlus
