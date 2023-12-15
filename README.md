@@ -571,3 +571,17 @@ Additionally, adapting the UI was a significant challenge. We discovered that th
 The biggest issue we faced during localization was adapting the game for Arabic. Due to its reverse order, even correct translations appeared oddly on the UI. We initially wrote a program for conversion, but it didn’t function as well as we expected. It was only after consulting Unity's documentation that we realized Unity natively supports setting the text direction from right to left. This API solved our problem efficiently, but it also rendered our hours of work on the conversion program meaningless. This experience reminded us once again of the importance of reading official documentation during development.
 
 In conclusion, although we faced some setbacks in this development process, we found ways to overcome them, just as we have done in the past. I'm grateful for the efforts of the other team members; without them, we couldn't have completed this project. I'm proud to work alongside them.
+
+
+Credit:
+Art Assets:
+https://josie-makes-stuff.itch.io/pixel-art-farming-assets
+
+Font:
+Chinese: 
+https://github.com/wy-luke/Unity-TextMeshPro-Chinese-Characters-Set
+Arabic:
+https://fonts.google.com/?subset=arabic&noto.script=Arab
+
+Navmesh:
+https://github.com/h8man/NavMeshPlus
