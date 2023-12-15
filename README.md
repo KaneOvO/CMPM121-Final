@@ -559,3 +559,15 @@ private bool IsOverUI()
 ### **Mobile Play (Offline)**
 
 Since our game is packaged as an APK and runs on Android devices, after resolving the aforementioned issues related to running on Android devices, it can operate offline. Therefore, we did not spend much time on this aspect.
+
+
+
+## Reflection
+
+During the development of F3, we encountered some issues, but ultimately we found ways to resolve them. First, there was the problem of adapting to mobile platforms. Initially, we thought Unity would facilitate an easy transfer of our project to mobile devices. However, the reality differed from our expectations. Many APIs available on the PC were not usable on mobile platforms. As a result, we had to refactor parts of the game to employ a method that would be compatible with both PC and mobile devices.
+
+Additionally, adapting the UI was a significant challenge. We discovered that the camera placement varied across different Android devices, which sometimes obstructed our UI interface. We hoped to find an automated way to adapt the UI, but unfortunately, we didn't succeed. In the end, we had to adjust our UI so it would fit most Android devices.
+
+The biggest issue we faced during localization was adapting the game for Arabic. Due to its reverse order, even correct translations appeared oddly on the UI. We initially wrote a program for conversion, but it didn’t function as well as we expected. It was only after consulting Unity's documentation that we realized Unity natively supports setting the text direction from right to left. This API solved our problem efficiently, but it also rendered our hours of work on the conversion program meaningless. This experience reminded us once again of the importance of reading official documentation during development.
+
+In conclusion, although we faced some setbacks in this development process, we found ways to overcome them, just as we have done in the past. I'm grateful for the efforts of the other team members; without them, we couldn't have completed this project. I'm proud to work alongside them.
